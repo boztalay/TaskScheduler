@@ -11,6 +11,7 @@ import JSQCoreDataKit
 
 class TasksViewController: UITableViewController {
     
+    var coreDataStack: CoreDataStack?
     var tasks: [Task] = []
 
     override func viewDidLoad() {
@@ -19,31 +20,33 @@ class TasksViewController: UITableViewController {
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         
         let model = CoreDataModel(name: "TaskScheduler", bundle: NSBundle(identifier: "com.boztalay.TaskScheduler")!)
-        let stack = CoreDataStack(model: model)
+        self.coreDataStack = CoreDataStack(model: model)
         
-        let taskEntity = entity(name: "Task", context: stack.managedObjectContext)
-        let taskRequest = FetchRequest<Task>(entity: taskEntity)
-        let result = fetch(request: taskRequest, inContext: stack.managedObjectContext)
-        
-        if result.success && result.objects.count > 0 {
-            self.tasks = result.objects
-        } else {
-            let task1: Task = Task(context: stack.managedObjectContext, title: "388 Homework 2", dueDate: NSDate(), priority: try! Priority.fromLevel(2), type: "Homework")
-            let task2: Task = Task(context: stack.managedObjectContext, title: "473 Project Proposal Draft", dueDate: NSDate(), priority: try! Priority.fromLevel(3), type: "Project")
-            let task3: Task = Task(context: stack.managedObjectContext, title: "Grocery Shopping", dueDate: NSDate(), priority: try! Priority.fromLevel(1), type: "Chore")
-            let task4: Task = Task(context: stack.managedObjectContext, title: "Clean Desk", dueDate: NSDate(), priority: try! Priority.fromLevel(0), type: "Chore")
-            let task5: Task = Task(context: stack.managedObjectContext, title: "Cancel Comcast", dueDate: NSDate(), priority: try! Priority.fromLevel(4), type: "Chore")
+        if let context = self.coreDataStack?.managedObjectContext {
+            let taskEntity = entity(name: "Task", context: context)
+            let taskRequest = FetchRequest<Task>(entity: taskEntity)
+            let result = fetch(request: taskRequest, inContext: context)
             
-            self.tasks.append(task1)
-            self.tasks.append(task2)
-            self.tasks.append(task3)
-            self.tasks.append(task4)
-            self.tasks.append(task5)
-            
-            let saveResult = saveContextAndWait(stack.managedObjectContext)
-            if !saveResult.success {
-                print("Shit, couldn't save the context: \(result.error)")
-            }
+            if result.success && result.objects.count > 0 {
+                self.tasks = result.objects
+            } else {
+                let task1: Task = Task(context: context, title: "388 Homework 2", dueDate: NSDate(), priority: try! Priority.fromLevel(.Medium), type: .Homework)
+                let task2: Task = Task(context: context, title: "473 Project Proposal Draft", dueDate: NSDate(), priority: try! Priority.fromLevel(.Highest), type: .Project)
+                let task3: Task = Task(context: context, title: "Grocery Shopping", dueDate: NSDate(), priority: try! Priority.fromLevel(.Low), type: .Chore)
+                let task4: Task = Task(context: context, title: "Clean Desk", dueDate: NSDate(), priority: try! Priority.fromLevel(.Lowest), type: .Chore)
+                let task5: Task = Task(context: context, title: "Cancel Comcast", dueDate: NSDate(), priority: try! Priority.fromLevel(.High), type: .Chore)
+                
+                self.tasks.append(task1)
+                self.tasks.append(task2)
+                self.tasks.append(task3)
+                self.tasks.append(task4)
+                self.tasks.append(task5)
+                
+                let saveResult = saveContextAndWait(context)
+                if !saveResult.success {
+                    print("Couldn't save the context: \(result.error)")
+                }
+        }
         }
     }
     
@@ -59,6 +62,31 @@ class TasksViewController: UITableViewController {
         cell.setTask(task)
         
         return cell
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("TasksToEditTask", sender: self.tasks[indexPath.row])
+    }
+
+    @IBAction func addButtonPressed(sender: AnyObject) {
+        self.performSegueWithIdentifier("TasksToNewTask", sender: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let navigationController = segue.destinationViewController as? UINavigationController
+        let editTaskViewController: EditTaskViewController
+        
+        if let navigationController = navigationController {
+            editTaskViewController = navigationController.viewControllers.first as! EditTaskViewController
+        } else {
+            editTaskViewController = segue.destinationViewController as! EditTaskViewController
+        }
+        
+        if segue.identifier == "TasksToEditTask" {
+            editTaskViewController.task = sender as? Task!
+        }
+        
+        editTaskViewController.coreDataStack = coreDataStack
     }
 
     override func didReceiveMemoryWarning() {

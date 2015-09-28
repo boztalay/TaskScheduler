@@ -11,26 +11,32 @@ import CoreData
 
 class Task: NSManagedObject {
     
-    @NSManaged var dueDate: NSDate
-    @NSManaged var rawPriority: Int16
     @NSManaged var title: String?
-    @NSManaged var type: String?
+    @NSManaged var dueDate: NSDate
+    @NSManaged private var rawPriority: Int16
+    @NSManaged private var rawType: String?
 
     var priority: Priority {
         set {
-            self.rawPriority = newValue.level
+            self.rawPriority = newValue.level.rawValue
         }
         get {
-            return try! Priority.fromLevel(self.rawPriority)
+            return try! Priority.fromLevel(PriorityLevel(rawValue: self.rawPriority)!)
         }
     }
     
-    convenience init(context: NSManagedObjectContext, title: String, dueDate: NSDate, priority: Priority, type: String) {
+    var type: TaskType {
+        set {
+            self.rawType = newValue.rawValue
+        }
+        get {
+            return TaskType(rawValue: self.rawType!)!
+        }
+    }
+    
+    convenience init(context: NSManagedObjectContext, title: String, dueDate: NSDate, priority: Priority, type: TaskType) {
         let entity = NSEntityDescription.entityForName("Task", inManagedObjectContext: context)!
         self.init(entity: entity, insertIntoManagedObjectContext: context)
-
-        // This needs to be set explicitly (even though it's set by self.priority)
-        self.rawPriority = Int16(0)
 
         self.title = title
         self.dueDate = dueDate

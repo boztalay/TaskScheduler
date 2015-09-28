@@ -11,6 +11,8 @@
 		FB14C1831BB98F84000A16EE /* JSQCoreDataKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB14C1801BB98F61000A16EE /* JSQCoreDataKit.framework */; };
 		FB14C1851BB98FB0000A16EE /* JSQCoreDataKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FB14C1801BB98F61000A16EE /* JSQCoreDataKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FBAEE8021BB9A92200E87679 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8001BB9A92200E87679 /* Task.swift */; settings = {ASSET_TAGS = (); }; };
+		FBAEE8041BB9AE2300E87679 /* TaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8031BB9AE2300E87679 /* TaskType.swift */; settings = {ASSET_TAGS = (); }; };
+		FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE361BAC7EF00055ACF2 /* AppDelegate.swift */; };
 		FBD1BE391BAC7EF00055ACF2 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE381BAC7EF00055ACF2 /* TasksViewController.swift */; };
 		FBD1BE3B1BAC7EF00055ACF2 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE3A1BAC7EF00055ACF2 /* OverviewViewController.swift */; };
@@ -71,6 +73,8 @@
 		FB14C1751BB97E8C000A16EE /* TaskScheduler.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskScheduler.xcdatamodel; sourceTree = "<group>"; };
 		FB14C17A1BB98F61000A16EE /* JSQCoreDataKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JSQCoreDataKit.xcodeproj; path = JSQCoreDataKit/JSQCoreDataKit.xcodeproj; sourceTree = "<group>"; };
 		FBAEE8001BB9A92200E87679 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Task.swift; path = ../Task.swift; sourceTree = "<group>"; };
+		FBAEE8031BB9AE2300E87679 /* TaskType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskType.swift; sourceTree = "<group>"; };
+		FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
 		FBD1BE331BAC7EF00055ACF2 /* TaskScheduler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskScheduler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD1BE361BAC7EF00055ACF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBD1BE381BAC7EF00055ACF2 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
@@ -190,6 +194,7 @@
 			children = (
 				FBAEE8001BB9A92200E87679 /* Task.swift */,
 				FBD1BE6F1BAC8CD70055ACF2 /* Priority.swift */,
+				FBAEE8031BB9AE2300E87679 /* TaskType.swift */,
 				FB14C1741BB97E8C000A16EE /* TaskScheduler.xcdatamodeld */,
 			);
 			name = Model;
@@ -208,6 +213,7 @@
 			children = (
 				FBD1BE381BAC7EF00055ACF2 /* TasksViewController.swift */,
 				FBD1BE3A1BAC7EF00055ACF2 /* OverviewViewController.swift */,
+				FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -386,11 +392,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBAEE8021BB9A92200E87679 /* Task.swift in Sources */,
+				FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */,
 				FB14C1761BB97E8C000A16EE /* TaskScheduler.xcdatamodeld in Sources */,
 				FBD1BE6C1BAC87450055ACF2 /* TaskTableViewCell.swift in Sources */,
 				FBD1BE3B1BAC7EF00055ACF2 /* OverviewViewController.swift in Sources */,
 				FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */,
 				FBD1BE391BAC7EF00055ACF2 /* TasksViewController.swift in Sources */,
+				FBAEE8041BB9AE2300E87679 /* TaskType.swift in Sources */,
 				FBD1BE701BAC8CD70055ACF2 /* Priority.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

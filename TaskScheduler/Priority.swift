@@ -8,56 +8,36 @@
 
 import UIKit
 
-enum PriorityConversionError: ErrorType {
-    case UnknownLevel
+enum PriorityLevel: Int16 {
+    case Lowest = 0, Low, Medium, High, Highest
+    
+    static var count: Int {
+        return Int(PriorityLevel.Highest.rawValue) + 1
+    }
 }
 
 class Priority: NSObject {
     
     let name: String
-    let level: Int16
+    let level: PriorityLevel
     
-    init(name: String, level: Int16) {
+    init(name: String, level: PriorityLevel) {
         self.name = name
         self.level = level
     }
     
-    static func fromLevel(level: Int16) throws -> Priority {
+    static func fromLevel(level: PriorityLevel) throws -> Priority {
         switch level {
-            case 0:
+            case .Lowest:
                 return Priority(name: "Lowest", level: level)
-            case 1:
+            case .Low:
                 return Priority(name: "Low", level: level)
-            case 2:
+            case .Medium:
                 return Priority(name: "Medium", level: level)
-            case 3:
+            case .High:
                 return Priority(name: "High", level: level)
-            case 4:
+            case .Highest:
                 return Priority(name: "Highest", level: level)
-            default:
-                throw PriorityConversionError.UnknownLevel
         }
     }
 }
-//
-//var priority: Priority {
-//set {
-//    self.rawPriority = newValue.level
-//}
-//get {
-//    return try! Priority.fromLevel(self.rawPriority)
-//}
-//}
-//
-//init?(context: NSManagedObjectContext, title: String, dueDate: NSDate, priority: Priority, type: String) {
-//    let entity = NSEntityDescription.entityForName("Task", inManagedObjectContext: context)!
-//    super.init(entity: entity, insertIntoManagedObjectContext: context)
-//    
-//    print("Stupid: \(priority.name)")
-//    
-//    self.title = title
-//    self.dueDate = dueDate
-//    self.type = type
-//    self.rawPriority = Int16(3)
-//    self.priority = priority
-//}
