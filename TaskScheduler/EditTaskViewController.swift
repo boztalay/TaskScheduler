@@ -13,6 +13,7 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
 
     var coreDataStack: CoreDataStack?
     var task: Task?
+    var isEditingTask: Bool = false
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var dueDatePicker: UIDatePicker!
@@ -23,10 +24,14 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let _ = self.task {
+            self.isEditingTask = true
+        }
 
         self.doCommonSetup()
         
-        if let _ = self.task {
+        if self.isEditingTask {
             self.setUpForExistingTask()
         } else {
             self.setUpForNewTask()
@@ -88,12 +93,52 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
     }
 
     @IBAction func doneButtonPressed(sender: AnyObject) {
+        // Validate everything
         
+        if self.titleTextField!.text == nil || self.titleTextField!.text!.isEmpty {
+            let alert = UIAlertController(title: "Empty Title", message: "Hey! Enter a title for this task!", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "Fine.", style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            return
+        }
+        
+        let date = self.dueDatePicker!.date
+        if date.compare(NSDate()) == NSComparisonResult.OrderedAscending {
+            let alert = UIAlertController(title: "Past Date", message: "Hey! This date is in the past!", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "Sorry", style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            return
+        }
+        
+        let priority = try! Priority.fromLevel(PriorityLevel(rawValue: Int16(self.priorityPicker!.selectedRowInComponent(0)))!)
+        let type = self.taskTypes[self.typePicker!.selectedRowInComponent(0)]
+        
+        // Make or set the task accordingly
+        
+        if !self.isEditingTask {
+            self.task = Task(context: self.coreDataStack!.managedObjectContext, title: self.titleTextField!.text!, dueDate: date, priority: priority, type: type)
+        } else {
+            self.task!.title = self.titleTextField!.text!
+            self.task!.dueDate = date
+            self.task!.priority = priority
+            self.task!.type = type
+        }
+        
+        // Save the context
+        
+        let saveResult = saveContextAndWait(self.coreDataStack!.managedObjectContext)
+        if !saveResult.success {
+            print("Couldn't save the context: \(saveResult.error)")
+        }
+        
+        // Peace out (in two different ways)
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController!.popViewControllerAnimated(true)
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 }

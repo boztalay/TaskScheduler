@@ -7,65 +7,60 @@
 //
 
 import UIKit
+import CoreData
 import JSQCoreDataKit
 
-class TasksViewController: UITableViewController {
+class TasksViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     var coreDataStack: CoreDataStack?
-    var tasks: [Task] = []
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController = {
+        let model = CoreDataModel(name: "TaskScheduler", bundle: NSBundle(identifier: "com.boztalay.TaskScheduler")!)
+        self.coreDataStack = CoreDataStack(model: model)
+        
+        let fetchRequest = NSFetchRequest(entityName: "Task")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: false)]
+        
+        let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.coreDataStack!.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
+        controller.delegate = self
+        
+        return controller
+    }()
+    
+    func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        self.tableView.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         
-        let model = CoreDataModel(name: "TaskScheduler", bundle: NSBundle(identifier: "com.boztalay.TaskScheduler")!)
-        self.coreDataStack = CoreDataStack(model: model)
+        try! fetchedResultsController.performFetch()
         
-        if let context = self.coreDataStack?.managedObjectContext {
-            let taskEntity = entity(name: "Task", context: context)
-            let taskRequest = FetchRequest<Task>(entity: taskEntity)
-            let result = fetch(request: taskRequest, inContext: context)
-            
-            if result.success && result.objects.count > 0 {
-                self.tasks = result.objects
-            } else {
-                let task1: Task = Task(context: context, title: "388 Homework 2", dueDate: NSDate(), priority: try! Priority.fromLevel(.Medium), type: .Homework)
-                let task2: Task = Task(context: context, title: "473 Project Proposal Draft", dueDate: NSDate(), priority: try! Priority.fromLevel(.Highest), type: .Project)
-                let task3: Task = Task(context: context, title: "Grocery Shopping", dueDate: NSDate(), priority: try! Priority.fromLevel(.Low), type: .Chore)
-                let task4: Task = Task(context: context, title: "Clean Desk", dueDate: NSDate(), priority: try! Priority.fromLevel(.Lowest), type: .Chore)
-                let task5: Task = Task(context: context, title: "Cancel Comcast", dueDate: NSDate(), priority: try! Priority.fromLevel(.High), type: .Chore)
-                
-                self.tasks.append(task1)
-                self.tasks.append(task2)
-                self.tasks.append(task3)
-                self.tasks.append(task4)
-                self.tasks.append(task5)
-                
-                let saveResult = saveContextAndWait(context)
-                if !saveResult.success {
-                    print("Couldn't save the context: \(result.error)")
-                }
-        }
-        }
+        self.tableView.reloadData()
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.tasks.count
+        if let fetchedObjects = self.fetchedResultsController.fetchedObjects {
+            return fetchedObjects.count
+        } else {
+            return 0
+        }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("Task Cell", forIndexPath: indexPath) as! TaskTableViewCell
         
-        let task = self.tasks[indexPath.row]
+        let task = self.fetchedResultsController.fetchedObjects![indexPath.row] as! Task
         cell.setTask(task)
         
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("TasksToEditTask", sender: self.tasks[indexPath.row])
+        self.performSegueWithIdentifier("TasksToEditTask", sender: self.fetchedResultsController.fetchedObjects![indexPath.row])
     }
 
     @IBAction func addButtonPressed(sender: AnyObject) {
@@ -93,6 +88,4 @@ class TasksViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
 }
-
