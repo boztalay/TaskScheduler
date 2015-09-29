@@ -28,7 +28,6 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
     }()
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-//        self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade) // Need to experiment with this
         self.tableView.reloadData()
     }
 
