@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import JSQCoreDataKit
 
-class TasksViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class TasksViewController: UITableViewController, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate {
     
     var coreDataStack: CoreDataStack?
     
@@ -28,6 +28,7 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
     }()
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
+//        self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Fade) // Need to experiment with this
         self.tableView.reloadData()
     }
 
@@ -35,6 +36,9 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
         super.viewDidLoad()
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
+        self.tableView.allowsMultipleSelectionDuringEditing = false
+        
+        self.tabBarController?.delegate = self
         
         try! fetchedResultsController.performFetch()
         
@@ -62,9 +66,30 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         self.performSegueWithIdentifier("TasksToEditTask", sender: self.fetchedResultsController.fetchedObjects![indexPath.row])
     }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if editingStyle == .Delete {
+            // Delete the task
+            
+            let taskToDelete = [self.fetchedResultsController.fetchedObjects![indexPath.row] as! Task]
+            deleteObjects(taskToDelete, inContext: self.coreDataStack!.managedObjectContext)
+            
+            // Save the context
+            
+            let saveResult = saveContextAndWait(self.coreDataStack!.managedObjectContext)
+            if !saveResult.success {
+                print("Couldn't save the context: \(saveResult.error)")
+            }
+        }
+    }
+    
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+        self.tableView.setEditing(false, animated: true)
+    }
 
     @IBAction func addButtonPressed(sender: AnyObject) {
         self.performSegueWithIdentifier("TasksToNewTask", sender: nil)
+        self.tableView.setEditing(false, animated: true)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
