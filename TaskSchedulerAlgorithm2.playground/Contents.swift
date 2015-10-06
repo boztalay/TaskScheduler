@@ -10,188 +10,227 @@ import UIKit
 //      Dropping lower-priority tasks in favor of higher priority ones (if it comes down to that)
 //      Not dropping tasks that don't need to be dropped
 
-// Schedule working time
+// Make a date formatter for easy date creation later
 
-let workTime: [Float] = [
-    4.0,    // Hours available on Sunday
-    9.0,    // Hours available on Monday
-    7.0,    // Hours available on Tuesday
-    9.0,    // Hours available on Wednesday
-    4.0,    // Hours available on Thursday
-    5.5,    // Hours available on Friday
-    4.0,    // Hours available on Saturday
-]
+let dateFormatter = NSDateFormatter()
+dateFormatter.dateFormat = "yyyy-MM-dd"
 
-// Task classes
+// Artificial "today", just for testing
+
+let now = dateFormatter.dateFromString("2015-09-28")!
+
+// Data structures
+// TODO make a "Schedule" class to handle all the day/date stuff?
+
+class User {
+    private var availableWorkTime: [Float]
+    var tasks: [Task]
+    var workDays: [WorkDay]
+    
+    init() {
+        self.availableWorkTime = []
+        self.tasks = []
+        self.workDays = []
+    }
+    
+    func scheduleWorkTime(sun sun: Float, mon: Float, tue: Float, wed: Float, thu: Float, fri: Float, sat: Float) {
+        self.availableWorkTime = []
+        self.availableWorkTime.append(sun);
+        self.availableWorkTime.append(mon);
+        self.availableWorkTime.append(tue);
+        self.availableWorkTime.append(wed);
+        self.availableWorkTime.append(thu);
+        self.availableWorkTime.append(fri);
+        self.availableWorkTime.append(sat);
+    }
+    
+    private func workAvailableOnDate(date: NSDate) -> Float {
+        if self.availableWorkTime.count < 7 {
+            return 0
+        }
+        
+        let dayOfWeek = NSCalendar.currentCalendar().components(NSCalendarUnit.Weekday, fromDate: date).weekday - 1
+        return self.availableWorkTime[dayOfWeek]
+    }
+    
+    func workDayForDate(date: NSDate) -> WorkDay {
+        if let workDayIndex = self.workDays.indexOf({ $0.date.compare(date) == .OrderedSame }) {
+            return self.workDays[workDayIndex]
+        } else {
+            let newWorkDay = WorkDay(date: date, totalAvailableWork: self.workAvailableOnDate(date))
+            self.workDays.append(newWorkDay)
+            self.workDays.sortInPlace({ $0.date.compare($1.date) == .OrderedAscending })
+            
+            return newWorkDay
+        }
+    }
+    
+    func workDayBeforeDay(day: WorkDay) -> WorkDay {
+        return self.workDayForDate(day.date.dateByAddingTimeInterval(-24 * 60 * 60))
+    }
+    
+    func workDayAfterDay(day: WorkDay) -> WorkDay {
+        return self.workDayForDate(day.date.dateByAddingTimeInterval(24 * 60 * 60))
+    }
+    
+    func availableWorkTimeBetweenNowAnd(date date: NSDate) -> Float {
+        var currentDay: NSDate? = now.copy() as? NSDate
+        var totalAvailableWorkTime: Float = 0.0
+        
+        while currentDay!.compare(date) == .OrderedAscending {
+            let workDay = self.workDayForDate(currentDay!)
+            totalAvailableWorkTime += workDay.totalAvailableWork
+            currentDay = currentDay!.dateByAddingTimeInterval(24 * 60 * 60)
+        }
+        
+        return totalAvailableWorkTime
+    }
+    
+    func workToDoBetweenNowAnd(date date: NSDate) -> Float {
+        return self.notDroppedTasks.filter({ $0.dueDate.compare(date) != .OrderedDescending }).map({ $0.workLeftToDo }).reduce(0.0, combine: +)
+    }
+    
+    var droppedTasks: [Task] {
+        return tasks.filter({ $0.dropped })
+    }
+    
+    var notDroppedTasks: [Task] {
+        return tasks.filter({ !$0.dropped })
+    }
+}
 
 class Task {
     var title: String
     var dueDate: NSDate
     var priority: Int
     var workEstimate: Float
-    var subTasks: [SubTask]
+    var workSessions: [TaskWorkSession]
+    var dropped: Bool
     
     init(title: String, dueDate: NSDate, priority: Int, workEstimate: Float) {
         self.title = title
         self.dueDate = dueDate
         self.priority = priority
         self.workEstimate = workEstimate
-        self.subTasks = []
+        self.workSessions = []
+        self.dropped = false
     }
     
-    func addSubtaskWithWork(workEstimate: Float) -> SubTask {
-        let subTask = SubTask(self, workEstimate: workEstimate)
-        self.subTasks.append(subTask)
-        return subTask
+    func addWorkSession(dayScheduledOn: WorkDay, amountOfWork: Float) {
+        let workSession = TaskWorkSession(self, dayScheduledOn: dayScheduledOn, amountOfWork: amountOfWork)
+        self.workSessions.append(workSession)
+        dayScheduledOn.workSessions.append(workSession)
     }
     
-    var totalSubtaskWork: Float {
-        return self.subTasks.map({ $0.workEstimate }).reduce(0.0, combine: +)
+    var totalWorkScheduled: Float {
+        return self.workSessions.map({ $0.amountOfWork }).reduce(0.0, combine: +)
     }
     
-    var workNotInSubtasks: Float {
-        return self.workEstimate - self.totalSubtaskWork
+    var workNotScheduled: Float {
+        return self.workEstimate - self.totalWorkScheduled
+    }
+    
+    var workCompleted: Float {
+        return self.workSessions.filter({ $0.hasBeenCompleted }).map({ $0.amountOfWork }).reduce(0.0, combine: +)
+    }
+    
+    var workLeftToDo: Float {
+        return self.workEstimate - self.workCompleted
     }
 }
 
-class SubTask: Task {
+class TaskWorkSession {
     var parentTask: Task
+    var dayScheduledOn: WorkDay
+    var amountOfWork: Float
+    var hasBeenCompleted: Bool
     
-    init(_ parentTask: Task, workEstimate: Float) {
+    init(_ parentTask: Task, dayScheduledOn: WorkDay, amountOfWork: Float) {
         self.parentTask = parentTask
-        
-        let title = self.parentTask.title + " - \(workEstimate) hours"
-        super.init(title: title, dueDate: self.parentTask.dueDate, priority: self.parentTask.priority, workEstimate: workEstimate)
+        self.dayScheduledOn = dayScheduledOn
+        self.amountOfWork = amountOfWork
+        self.hasBeenCompleted = false
     }
 }
 
-// Class to keep track of tasks scheduled on certain days
-
-class DayTasks {
+class WorkDay {
     var date: NSDate
-    var tasks: [Task]
+    var totalAvailableWork: Float
+    var workSessions: [TaskWorkSession]
     
-    var estimatedWork: Float {
-        return self.tasks.map({ $0.workEstimate }).reduce(0.0, combine: +)
-    }
-    
-    var availableWork: Float {
-        return (self.totalAvailableWork - estimatedWork)
-    }
-    
-    var totalAvailableWork: Float {
-        let dayOfWeek = NSCalendar.currentCalendar().components(NSCalendarUnit.Weekday, fromDate: self.date).weekday - 1
-        return workTime[dayOfWeek]
-    }
-    
-    init(date: NSDate) {
+    init(date: NSDate, totalAvailableWork: Float) {
         self.date = date
-        self.tasks = []
+        self.totalAvailableWork = totalAvailableWork
+        self.workSessions = []
     }
     
-    func addTask(task: Task) {
-        self.tasks.append(task)
+    var workScheduled: Float {
+        return self.workSessions.map({ $0.amountOfWork }).reduce(0.0, combine: +)
     }
     
-    func getTasks() -> [Task] {
-        return self.tasks
+    var workLeftToBeScheduled: Float {
+        return (self.totalAvailableWork - self.workScheduled)
     }
 }
 
-// Global list of tasks
+// Make a user and schedule work time
 
-var tasks: [Task] = []
-
-// Make a date formatter for easy date creation
-
-let dateFormatter = NSDateFormatter()
-dateFormatter.dateFormat = "yyyy-MM-dd"
+var user = User()
+user.scheduleWorkTime(sun: 4, mon: 9, tue: 7, wed: 9, thu: 4, fri: 5.5, sat: 4)
 
 // Add a bunch of short tasks (mixed priority) to the list
 
-tasks.append(Task(title: "Short Task 0", dueDate: dateFormatter.dateFromString("2015-10-01")!, priority: 0, workEstimate: 0.5))
-tasks.append(Task(title: "Short Task 1", dueDate: dateFormatter.dateFromString("2015-10-01")!, priority: 1, workEstimate: 1.0))
-tasks.append(Task(title: "Short Task 2", dueDate: dateFormatter.dateFromString("2015-10-01")!, priority: 2, workEstimate: 0.25))
-tasks.append(Task(title: "Short Task 3", dueDate: dateFormatter.dateFromString("2015-10-02")!, priority: 3, workEstimate: 1.5))
-tasks.append(Task(title: "Short Task 4", dueDate: dateFormatter.dateFromString("2015-10-02")!, priority: 4, workEstimate: 0.75))
-tasks.append(Task(title: "Short Task 5", dueDate: dateFormatter.dateFromString("2015-10-03")!, priority: 3, workEstimate: 0.5))
-tasks.append(Task(title: "Short Task 6", dueDate: dateFormatter.dateFromString("2015-10-03")!, priority: 0, workEstimate: 1.0))
-tasks.append(Task(title: "Short Task 7", dueDate: dateFormatter.dateFromString("2015-10-05")!, priority: 1, workEstimate: 1.0))
-tasks.append(Task(title: "Short Task 8", dueDate: dateFormatter.dateFromString("2015-10-06")!, priority: 2, workEstimate: 0.25))
-tasks.append(Task(title: "Short Task 9", dueDate: dateFormatter.dateFromString("2015-10-06")!, priority: 4, workEstimate: 0.5))
+user.tasks.append(Task(title: "Short Task 0", dueDate: dateFormatter.dateFromString("2015-10-01")!, priority: 0, workEstimate: 0.5))
+user.tasks.append(Task(title: "Short Task 1", dueDate: dateFormatter.dateFromString("2015-10-01")!, priority: 1, workEstimate: 1.0))
+user.tasks.append(Task(title: "Short Task 2", dueDate: dateFormatter.dateFromString("2015-10-01")!, priority: 2, workEstimate: 0.25))
+user.tasks.append(Task(title: "Short Task 3", dueDate: dateFormatter.dateFromString("2015-10-02")!, priority: 3, workEstimate: 1.5))
+user.tasks.append(Task(title: "Short Task 4", dueDate: dateFormatter.dateFromString("2015-10-02")!, priority: 4, workEstimate: 0.75))
+user.tasks.append(Task(title: "Short Task 5", dueDate: dateFormatter.dateFromString("2015-10-03")!, priority: 3, workEstimate: 0.5))
+user.tasks.append(Task(title: "Short Task 6", dueDate: dateFormatter.dateFromString("2015-10-03")!, priority: 0, workEstimate: 1.0))
+user.tasks.append(Task(title: "Short Task 7", dueDate: dateFormatter.dateFromString("2015-10-05")!, priority: 1, workEstimate: 1.0))
+user.tasks.append(Task(title: "Short Task 8", dueDate: dateFormatter.dateFromString("2015-10-06")!, priority: 2, workEstimate: 0.25))
+user.tasks.append(Task(title: "Short Task 9", dueDate: dateFormatter.dateFromString("2015-10-06")!, priority: 4, workEstimate: 0.5))
 
 // Add some medium-length tasks (mixed priority) to the list
 
-tasks.append(Task(title: "Medium Task 0", dueDate: dateFormatter.dateFromString("2015-10-01")!, priority: 4, workEstimate: 3.0))
-tasks.append(Task(title: "Medium Task 1", dueDate: dateFormatter.dateFromString("2015-10-01")!, priority: 3, workEstimate: 4.0))
-tasks.append(Task(title: "Medium Task 2", dueDate: dateFormatter.dateFromString("2015-10-03")!, priority: 2, workEstimate: 2.5))
-tasks.append(Task(title: "Medium Task 3", dueDate: dateFormatter.dateFromString("2015-10-04")!, priority: 1, workEstimate: 3.5))
-tasks.append(Task(title: "Medium Task 4", dueDate: dateFormatter.dateFromString("2015-10-06")!, priority: 0, workEstimate: 4.0))
+user.tasks.append(Task(title: "Medium Task 0", dueDate: dateFormatter.dateFromString("2015-10-01")!, priority: 4, workEstimate: 3.0))
+user.tasks.append(Task(title: "Medium Task 1", dueDate: dateFormatter.dateFromString("2015-10-01")!, priority: 3, workEstimate: 4.0))
+user.tasks.append(Task(title: "Medium Task 2", dueDate: dateFormatter.dateFromString("2015-10-03")!, priority: 2, workEstimate: 2.5))
+user.tasks.append(Task(title: "Medium Task 3", dueDate: dateFormatter.dateFromString("2015-10-04")!, priority: 1, workEstimate: 3.5))
+user.tasks.append(Task(title: "Medium Task 4", dueDate: dateFormatter.dateFromString("2015-10-06")!, priority: 0, workEstimate: 4.0))
 
 // Add a few long tasks (mixed priority) to the list
 
-tasks.append(Task(title: "Long Task 0", dueDate: dateFormatter.dateFromString("2015-10-04")!, priority: 2, workEstimate: 8.0))
-tasks.append(Task(title: "Long Task 1", dueDate: dateFormatter.dateFromString("2015-10-05")!, priority: 3, workEstimate: 10.0))
-tasks.append(Task(title: "Long Task 2", dueDate: dateFormatter.dateFromString("2015-10-06")!, priority: 4, workEstimate: 12.0))
+user.tasks.append(Task(title: "Long Task 0", dueDate: dateFormatter.dateFromString("2015-10-04")!, priority: 2, workEstimate: 8.0))
+user.tasks.append(Task(title: "Long Task 1", dueDate: dateFormatter.dateFromString("2015-10-05")!, priority: 3, workEstimate: 10.0))
+user.tasks.append(Task(title: "Long Task 2", dueDate: dateFormatter.dateFromString("2015-10-06")!, priority: 4, workEstimate: 12.0))
 
 // -------------------------- //
 // ----- DROPPING TASKS ----- //
 // -------------------------- //
 
-// Artificial now
-
-let now = dateFormatter.dateFromString("2015-09-28")!
-
-// Some functions that will be helpful
-
-func workTimeBetweenNowAndDate(date: NSDate) -> Float {
-    // This calculates the work time available between today and the
-    // given date, exclusive.
-    
-    var currentDay: NSDate? = now.copy() as? NSDate
-    var totalAvailableWorkTime: Float = 0.0
-    
-    while currentDay!.compare(date) == .OrderedAscending {
-        let dayOfWeek = NSCalendar.currentCalendar().components(NSCalendarUnit.Weekday, fromDate: currentDay!).weekday - 1
-        totalAvailableWorkTime += workTime[dayOfWeek]
-        currentDay = currentDay!.dateByAddingTimeInterval(24 * 60 * 60)
-    }
-    
-    return totalAvailableWorkTime
-}
-
-func estimatedWorkBetweenNowAndDate(date: NSDate) -> Float {
-    // This calculates the amount of estimated work there is between
-    // now and the given date. In other words, how much work there
-    // is to do among all tasks due on or before that date.
-    
-    return tasks.filter({ $0.dueDate.compare(date) != .OrderedDescending }).map({ $0.workEstimate }).reduce(0.0, combine: +)
-}
-
 // Sort by due date
 
-tasks.sortInPlace() { $0.dueDate.compare($1.dueDate) == .OrderedAscending }
+var tasksSortedByDueDate = user.tasks.sort() { $0.dueDate.compare($1.dueDate) == .OrderedAscending }
 
 // Go through all of the due dates, seeing if all of the tasks due on or before
 // the given date is schedulable. If not, drop the longest, low priority tasks
 // in that interval until it is schedulable. This maximizes the number of tasks
 // that get done.
 
-let lastDueDate = tasks.last!.dueDate
+let lastDueDate = tasksSortedByDueDate.last!.dueDate
 var currentDueDate = now.dateByAddingTimeInterval(24 * 60 * 60) // Start with due date tomorrow
 
-var droppedTasks: [Task] = []
-
 while currentDueDate.compare(lastDueDate) != .OrderedDescending {
-    let workTimeAvailable = workTimeBetweenNowAndDate(currentDueDate)
-    let estimatedWork = estimatedWorkBetweenNowAndDate(currentDueDate)
+    let workTimeAvailable = user.availableWorkTimeBetweenNowAnd(date: currentDueDate)
+    let estimatedWork = user.workToDoBetweenNowAnd(date: currentDueDate)
     
     if estimatedWork > workTimeAvailable {
         // This due date isn't schedulable, drop tasks
         var workDropped: Float = 0.0
         
         // First get a list of tasks due on or before the current date
-        var tasksDue = tasks.filter({ $0.dueDate.compare(currentDueDate) != .OrderedDescending })
+        var tasksDue = user.tasks.filter({ $0.dueDate.compare(currentDueDate) != .OrderedDescending })
         tasksDue.count
         
         // Then sort that list of tasks by estimated work, then in reverse by priority
@@ -201,8 +240,7 @@ while currentDueDate.compare(lastDueDate) != .OrderedDescending {
         // Now go through the tasks and drop them until it's schedulable
         for task in tasksDue {
             workDropped += task.workEstimate
-            droppedTasks.append(task)
-            tasks.removeAtIndex(tasks.indexOf({ $0 === task })!)
+            task.dropped = true
             
             if (estimatedWork - workDropped) <= workTimeAvailable {
                 break
@@ -212,6 +250,8 @@ while currentDueDate.compare(lastDueDate) != .OrderedDescending {
     
     currentDueDate = currentDueDate.dateByAddingTimeInterval(24 * 60 * 60)
 }
+
+user.droppedTasks
 
 // ---------------------------- //
 // ----- SCHEDULING TASKS ----- //
@@ -223,44 +263,33 @@ while currentDueDate.compare(lastDueDate) != .OrderedDescending {
 //      Tasks are started as late as possible, with low priority tasks scheduled later than high priority tasks
 //      Long tasks can be split over several days
 
-// Start by making an array of days for each day between now and the last due date
-
-var days: [DayTasks] = []
-currentDueDate = now.copy() as! NSDate
-
-while currentDueDate.compare(lastDueDate) == .OrderedAscending {
-    days.append(DayTasks(date: currentDueDate))
-    currentDueDate = currentDueDate.dateByAddingTimeInterval(24 * 60 * 60)
-}
-
 // Sort the tasks so that the latest, shortest, lowest-priority tasks are first
 
-tasks.sortInPlace({ $0.workEstimate < $1.workEstimate })
-tasks.sortInPlace({ $0.priority < $1.priority })
-tasks.sortInPlace({ $0.dueDate.compare($1.dueDate) == .OrderedDescending })
+var sortedTasks = user.notDroppedTasks.sort({ $0.workEstimate < $1.workEstimate })
+sortedTasks.sortInPlace({ $0.priority < $1.priority })
+sortedTasks.sortInPlace({ $0.dueDate.compare($1.dueDate) == .OrderedDescending })
 
 // Schedule them tasks
 
-for task in tasks {
-    var dayToScheduleOn: DayTasks?
+for task in sortedTasks {
+    var dayToScheduleOn: WorkDay?
     
     // First try to find the latest day before the task's due date
     // that has available work
-    for day in days.reverse() {
-        if day.date.compare(task.dueDate) == .OrderedAscending {
-            if day.availableWork > 0.0 {
-                dayToScheduleOn = day
-                break
-            }
+    var currentDay = user.workDayBeforeDay(user.workDayForDate(task.dueDate))
+    while currentDay.date.compare(now) != .OrderedAscending {
+        if currentDay.workLeftToBeScheduled > 0.0 {
+            dayToScheduleOn = currentDay
+            break
         }
+        currentDay = user.workDayBeforeDay(currentDay)
     }
     
     // If that didn't work, check the task's due date
     if dayToScheduleOn == nil {
-        let dueDayIndex = days.indexOf({ $0.date.compare(task.dueDate) == .OrderedSame })!
-        let dueDay = days[dueDayIndex]
-        if dueDay.availableWork > 0.0 {
-            dayToScheduleOn = dueDay
+        let day = user.workDayForDate(task.dueDate)
+        if day.workLeftToBeScheduled > 0.0 {
+            dayToScheduleOn = day
         }
     }
     
@@ -268,35 +297,28 @@ for task in tasks {
     var confirmedDayToScheduleOn = dayToScheduleOn!
     
     // Otherwise, schedule the task, splitting it up as needed
+
+    currentDay = confirmedDayToScheduleOn
+    while task.workNotScheduled > 0.0 && currentDay.date.compare(now) != .OrderedAscending {
+        let workForNewWorkSession = min(currentDay.workLeftToBeScheduled, task.workNotScheduled)
+        if workForNewWorkSession > 0.0 {
+            task.addWorkSession(currentDay, amountOfWork: workForNewWorkSession)
+        }
+        
+        currentDay = user.workDayBeforeDay(currentDay)
+    }
     
-    if confirmedDayToScheduleOn.availableWork >= task.workEstimate {
-        // If there's enough work to cover the whole task, we're good
-        confirmedDayToScheduleOn.addTask(task)
-    } else {
-        // If not, get to splitting the task across days
-        
-        // While this task's subtasks don't cover it
-        var currentDayIndex = days.indexOf({ $0 === confirmedDayToScheduleOn })!
-        while task.workNotInSubtasks > 0.0 && currentDayIndex >= 0 {
-            let currentDay = days[currentDayIndex]
-            let newSubtask = task.addSubtaskWithWork(min(currentDay.availableWork, task.workNotInSubtasks))
-            currentDay.addTask(newSubtask)
-            
-            currentDayIndex -= 1
-        }
-        
-        // If we get here and the task still hasn't been totally scheduled, something is wrong
-        if task.workNotInSubtasks > 0.0 {
-            // Normally I would just throw something but that's acting funny in a playground
-            dateFormatter.dateFromString("garbage")!
-        }
+    // If we get here and the task still hasn't been totally scheduled, something is wrong
+    if task.workNotScheduled > 0.0 {
+        // Normally I would just throw something but that's acting funny in a playground
+        dateFormatter.dateFromString("garbage")!
     }
 }
 
-for day in days {
+for day in user.workDays {
     print("\(day.date) - \(day.totalAvailableWork)")
-    for task in day.tasks {
-        print(task.title)
+    for workSession in day.workSessions {
+        print("\(workSession.parentTask.title) - \(workSession.amountOfWork)")
     }
     print("")
 }
