@@ -82,6 +82,12 @@ class User {
     func workToDoBetweenNowAnd(date date: NSDate) -> Float {
         return self.notDroppedTasks.filter({ $0.dueDate.compare(date) != .OrderedDescending }).map({ $0.workLeftToDo }).reduce(0.0, combine: +)
     }
+    
+    func resetWorkDays() {
+        for workDay in self.workDays {
+            workDay.workSessions = []
+        }
+    }
 
     var droppedTasks: [Task] {
         return tasks.filter({ $0.dropped })
@@ -204,6 +210,9 @@ func scheduleTasksForUser(user: User) {
         task.dropped = false
         task.workSessions = task.workSessions.filter({ $0.hasBeenCompleted })
     }
+    
+    // Then, reset all of the workdays
+    user.resetWorkDays()
 
     // ----- DROPPING TASKS ----- //
 
@@ -319,15 +328,17 @@ func scheduleTasksForUser(user: User) {
 //      [x] Conforming to when the user says they can work on tasks
 //      [ ] Many tasks spread out over a long period of time (over a few months)
 //      [x] Dropping lower-priority tasks in favor of higher priority ones (if it comes down to that)
-//      [ ] Not dropping tasks that don't need to be dropped
-//      [ ] Rescheduling after modifying tasks (completing work sessions, changing the estimate, dropping tasks manually, etc)
-//      [ ] Rescheduling after modifying work days' available work times
+//      [x] Not dropping tasks that don't need to be dropped
+//      [x] Rescheduling after modifying tasks (completing work sessions, changing the estimate, etc)
+//      [x] Rescheduling after modifying work days' available work times
 //      [ ] Detecting when the user manually changed a work day's available work time outside of their schedule (when changing their schedule)
 //              -- May want to just save this for when it's in the app, need a UI to take care of that
 
 // Quick function for displaying the user's schedule
 
 func printScheduleForUser(user: User) {
+    print("\n----------\n")
+
     for day in user.workDays {
         if day.workScheduled == 0.0 {
             continue
@@ -372,7 +383,8 @@ user.tasks.append(medTask4)
 
 user.tasks.append(Task(title: "Long Task 0", dueDate: dateFormatter.dateFromString("2015-10-04")!, priority: 2, workEstimate: 8.0))
 user.tasks.append(Task(title: "Long Task 1", dueDate: dateFormatter.dateFromString("2015-10-05")!, priority: 3, workEstimate: 10.0))
-user.tasks.append(Task(title: "Long Task 2", dueDate: dateFormatter.dateFromString("2015-10-06")!, priority: 4, workEstimate: 12.0))
+var longTask2 = Task(title: "Long Task 2", dueDate: dateFormatter.dateFromString("2015-10-06")!, priority: 4, workEstimate: 12.0)
+user.tasks.append(longTask2)
 
 // Schedule these tasks and print the schedule
 
@@ -380,11 +392,32 @@ scheduleTasksForUser(user)
 user.droppedTasks
 printScheduleForUser(user)
 
-// Change the work estimate of Medium Tak 4 so it schedules
+// Change the work estimate of Medium Task 4 so it schedules
 
-//medTask4.workEstimate = 2.0
+medTask4.workEstimate = 1.25
+
 scheduleTasksForUser(user)
 user.droppedTasks
-print("\n----------\n")
 printScheduleForUser(user)
 
+// Now change the work estimate of Medium Task 4 so it won't schedule, but then complete a work session on Long Task 2 so it does schedule
+
+medTask4.workEstimate = 4.0
+
+scheduleTasksForUser(user)
+user.droppedTasks
+
+longTask2.workSessions[1].hasBeenCompleted = true
+
+scheduleTasksForUser(user)
+user.droppedTasks
+printScheduleForUser(user)
+
+// Finally, change how much work can be done on October 4 and 5 and see what happens
+
+user.workDayForDate(dateFormatter.dateFromString("2015-10-04")!).totalAvailableWork = 2.0
+user.workDayForDate(dateFormatter.dateFromString("2015-10-05")!).totalAvailableWork = 2.0
+
+scheduleTasksForUser(user)
+user.droppedTasks
+printScheduleForUser(user)
