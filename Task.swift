@@ -9,38 +9,67 @@
 import Foundation
 import CoreData
 
+enum TaskError: ErrorType {
+    case WorkSessionDoesntBelong
+}
+
 class Task: NSManagedObject {
+    static var entityName = "Task"
     
-    @NSManaged var title: String?
+    @NSManaged var title: String
     @NSManaged var dueDate: NSDate
-    @NSManaged private var rawPriority: Int16
-    @NSManaged private var rawType: String?
-
-    var priority: Priority {
-        set {
-            self.rawPriority = newValue.level.rawValue
-        }
-        get {
-            return try! Priority.fromLevel(PriorityLevel(rawValue: self.rawPriority)!)
-        }
+    @NSManaged var priority: Int
+    @NSManaged var workEstimate: Float
+    @NSManaged var workSessions: NSMutableSet
+    @NSManaged var dropped: Bool
+    @NSManaged var isComplete: Bool
+    
+    var workSessionsArray: [TaskWorkSession] {
+        return self.workSessions.allObjects as! [TaskWorkSession]
     }
     
-    var type: TaskType {
-        set {
-            self.rawType = newValue.rawValue
-        }
-        get {
-            return TaskType(rawValue: self.rawType!)!
-        }
+    var totalWorkScheduled: Float {
+        return self.workSessionsArray.map({ $0.amountOfWork }).reduce(0.0, combine: +)
     }
     
-    convenience init(context: NSManagedObjectContext, title: String, dueDate: NSDate, priority: Priority, type: TaskType) {
-        let entity = NSEntityDescription.entityForName("Task", inManagedObjectContext: context)!
-        self.init(entity: entity, insertIntoManagedObjectContext: context)
-
+    var workNotScheduled: Float {
+        return self.workEstimate - self.totalWorkScheduled
+    }
+    
+    var workCompleted: Float {
+        return self.workSessionsArray.filter({ $0.hasBeenCompleted }).map({ $0.amountOfWork }).reduce(0.0, combine: +)
+    }
+    
+    var workLeftToDo: Float {
+        return self.workEstimate - self.workCompleted
+    }
+    
+    init(context: NSManagedObjectContext, title: String, dueDate: NSDate, priority: Int, workEstimate: Float) {
+        let entity = NSEntityDescription.entityForName(Task.entityName, inManagedObjectContext: context)!
+        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        
         self.title = title
         self.dueDate = dueDate
-        self.type = type
         self.priority = priority
+        self.workEstimate = workEstimate
+        self.dropped = false
+        self.isComplete = false
+    }
+    
+    func addWorkSession(dayScheduledOn: WorkDay, amountOfWork: Float) {
+        let workSession = TaskWorkSession(context: self.managedObjectContext!, parentTask: self, dayScheduledOn: dayScheduledOn, amountOfWork: amountOfWork)
+        self.workSessions.addObject(workSession)
+        dayScheduledOn.workSessions.addObject(workSession)
+    }
+    
+    func completedWorkSession(workSession: TaskWorkSession) throws {
+        if workSession.parentTask === self {
+            workSession.hasBeenCompleted = true
+            if self.workCompleted >= self.workLeftToDo {
+                self.isComplete = true
+            }
+        } else {
+            throw TaskError.WorkSessionDoesntBelong
+        }
     }
 }

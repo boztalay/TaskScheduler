@@ -17,7 +17,6 @@ enum PriorityLevel: Int16 {
 }
 
 class Priority: NSObject {
-    
     let name: String
     let level: PriorityLevel
     
