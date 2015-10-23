@@ -186,10 +186,38 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="kBz-fD-4bT">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="WXu-E0-L0S">
+                                        <rect key="frame" x="0.0" y="179" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WXu-E0-L0S" id="wix-yo-UdK">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Hours of Work" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ivn-5b-zVZ">
+                                                    <rect key="frame" x="15" y="7" width="577" height="30"/>
+                                                    <animations/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                </textField>
+                                            </subviews>
+                                            <animations/>
+                                            <constraints>
+                                                <constraint firstItem="Ivn-5b-zVZ" firstAttribute="leading" secondItem="wix-yo-UdK" secondAttribute="leading" constant="15" id="6KP-rs-Kyy"/>
+                                                <constraint firstAttribute="bottom" secondItem="Ivn-5b-zVZ" secondAttribute="bottom" constant="7" id="KzD-fO-fbR"/>
+                                                <constraint firstItem="Ivn-5b-zVZ" firstAttribute="top" secondItem="wix-yo-UdK" secondAttribute="top" constant="7" id="jqi-Gg-4BC"/>
+                                                <constraint firstAttribute="trailing" secondItem="Ivn-5b-zVZ" secondAttribute="trailing" constant="8" id="vdi-W9-qDn"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <animations/>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection headerTitle="DUE DATE" id="FJI-HO-Iyg">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="216" id="66a-Ng-LYu">
-                                        <rect key="frame" x="0.0" y="193" width="600" height="216"/>
+                                        <rect key="frame" x="0.0" y="273" width="600" height="216"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="66a-Ng-LYu" id="zMK-SH-VOM">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
@@ -218,7 +246,7 @@
                             <tableViewSection headerTitle="Priority" id="m8C-1q-aho">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="216" id="Fxh-dI-OIn">
-                                        <rect key="frame" x="0.0" y="459" width="600" height="216"/>
+                                        <rect key="frame" x="0.0" y="539" width="600" height="216"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fxh-dI-OIn" id="fRU-Ih-9M7">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
@@ -244,7 +272,7 @@
                             <tableViewSection headerTitle="Type" id="r9U-eB-hRg">
                                 <cells>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="216" id="AUK-yB-L90">
-                                        <rect key="frame" x="0.0" y="725" width="600" height="216"/>
+                                        <rect key="frame" x="0.0" y="805" width="600" height="216"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AUK-yB-L90" id="lWv-mM-gCJ">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
@@ -292,6 +320,7 @@
                         <outlet property="priorityPicker" destination="CPN-fS-SXp" id="bFW-j9-SoA"/>
                         <outlet property="titleTextField" destination="OS3-6B-etg" id="r4y-lF-2Uh"/>
                         <outlet property="typePicker" destination="3Pc-gN-gWF" id="2B4-cn-Xkm"/>
+                        <outlet property="workEstimateTextField" destination="Ivn-5b-zVZ" id="ekj-Yg-B7M"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XOP-LH-zHe" userLabel="First Responder" sceneMemberID="firstResponder"/>

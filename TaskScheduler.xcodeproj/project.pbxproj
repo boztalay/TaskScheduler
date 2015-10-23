@@ -14,6 +14,7 @@
 		FB709EF11BCC3A890092B9D8 /* TaskWorkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */; settings = {ASSET_TAGS = (); }; };
 		FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */; settings = {ASSET_TAGS = (); }; };
 		FB709EF61BCC3E990092B9D8 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF51BCC3E990092B9D8 /* DateUtils.swift */; settings = {ASSET_TAGS = (); }; };
+		FB709EFA1BCEB3A70092B9D8 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */; settings = {ASSET_TAGS = (); }; };
 		FBAEE8021BB9A92200E87679 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8001BB9A92200E87679 /* Task.swift */; settings = {ASSET_TAGS = (); }; };
 		FBAEE8041BB9AE2300E87679 /* TaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8031BB9AE2300E87679 /* TaskType.swift */; settings = {ASSET_TAGS = (); }; };
 		FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -80,6 +81,7 @@
 		FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskWorkSession.swift; sourceTree = "<group>"; };
 		FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkDay.swift; sourceTree = "<group>"; };
 		FB709EF51BCC3E990092B9D8 /* DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
+		FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		FBAEE8001BB9A92200E87679 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Task.swift; path = ../Task.swift; sourceTree = "<group>"; };
 		FBAEE8031BB9AE2300E87679 /* TaskType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskType.swift; sourceTree = "<group>"; };
 		FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +154,34 @@
 			name = Misc;
 			sourceTree = "<group>";
 		};
+		FB709EF71BCEB3830092B9D8 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				FB709EEC1BCC3A4D0092B9D8 /* User.swift */,
+				FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */,
+				FBAEE8001BB9A92200E87679 /* Task.swift */,
+				FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		FB709EF81BCEB3970092B9D8 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				FBD1BE6F1BAC8CD70055ACF2 /* Priority.swift */,
+				FBAEE8031BB9AE2300E87679 /* TaskType.swift */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		FB709EFB1BCEB3B70092B9D8 /* Scheduler */ = {
+			isa = PBXGroup;
+			children = (
+				FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */,
+			);
+			name = Scheduler;
+			sourceTree = "<group>";
+		};
 		FBD1BE2A1BAC7EF00055ACF2 = {
 			isa = PBXGroup;
 			children = (
@@ -209,12 +239,9 @@
 		FBD1BE661BAC7EFE0055ACF2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				FB709EEC1BCC3A4D0092B9D8 /* User.swift */,
-				FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */,
-				FBAEE8001BB9A92200E87679 /* Task.swift */,
-				FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */,
-				FBD1BE6F1BAC8CD70055ACF2 /* Priority.swift */,
-				FBAEE8031BB9AE2300E87679 /* TaskType.swift */,
+				FB709EFB1BCEB3B70092B9D8 /* Scheduler */,
+				FB709EF71BCEB3830092B9D8 /* Classes */,
+				FB709EF81BCEB3970092B9D8 /* Helpers */,
 				FB14C1741BB97E8C000A16EE /* TaskScheduler.xcdatamodeld */,
 			);
 			name = Model;
@@ -412,6 +439,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FBAEE8021BB9A92200E87679 /* Task.swift in Sources */,
+				FB709EFA1BCEB3A70092B9D8 /* Scheduler.swift in Sources */,
 				FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */,
 				FB14C1761BB97E8C000A16EE /* TaskScheduler.xcdatamodeld in Sources */,
 				FB709EF61BCC3E990092B9D8 /* DateUtils.swift in Sources */,
@@ -515,6 +543,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -554,6 +583,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

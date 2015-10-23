@@ -6,6 +6,7 @@
         <attribute name="isDropped" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="workEstimate" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="workSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskWorkSession" inverseName="parentTask" inverseEntity="TaskWorkSession" syncable="YES"/>
     </entity>
@@ -34,7 +35,7 @@
     <elements>
         <element name="User" positionX="-63" positionY="-18" width="128" height="180"/>
         <element name="TaskWorkSession" positionX="-54" positionY="45" width="128" height="105"/>
-        <element name="Task" positionX="-36" positionY="54" width="128" height="150"/>
+        <element name="Task" positionX="-36" positionY="54" width="128" height="165"/>
         <element name="WorkDay" positionX="-18" positionY="63" width="128" height="90"/>
     </elements>
 </model>

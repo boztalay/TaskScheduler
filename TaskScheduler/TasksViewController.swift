@@ -10,16 +10,18 @@ import UIKit
 import CoreData
 import JSQCoreDataKit
 
-class TasksViewController: UITableViewController, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate {
+class TasksViewController: UITableViewController, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate, SchedulerDelegate {
     
     var coreDataStack: CoreDataStack?
+    var user: User?
+    var scheduler: Scheduler?
     
     private lazy var fetchedResultsController: NSFetchedResultsController = {
         let model = CoreDataModel(name: "TaskScheduler", bundle: NSBundle(identifier: "com.boztalay.TaskScheduler")!)
         self.coreDataStack = CoreDataStack(model: model)
         
-        let fetchRequest = NSFetchRequest(entityName: "Task")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "dueDate", ascending: false)]
+        let fetchRequest = NSFetchRequest(entityName: "User")
+        fetchRequest.includesSubentities = true
         
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.coreDataStack!.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         controller.delegate = self
@@ -39,9 +41,28 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
         
         self.tabBarController?.delegate = self
         
+        self.fetchOrCreateUser()
+    }
+    
+    func fetchOrCreateUser() {
         try! fetchedResultsController.performFetch()
         
-        self.tableView.reloadData()
+        if fetchedResultsController.fetchedObjects?.count <= 0 {
+            self.user = User(context: self.coreDataStack!.managedObjectContext)
+            saveContext(self.coreDataStack!.managedObjectContext) { (result) -> Void in
+                if !result.success {
+                    print("Couldn't save the context: \(result.error)")
+                }
+            }
+        }
+    }
+    
+    func scheduleStarted() {
+
+    }
+    
+    func scheduleCompleted(status: ScheduleStatus) {
+
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -106,10 +127,5 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
         }
         
         editTaskViewController.coreDataStack = coreDataStack
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }

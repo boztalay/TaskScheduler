@@ -16,11 +16,12 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
     var isEditingTask: Bool = false
     
     @IBOutlet weak var titleTextField: UITextField!
+    @IBOutlet weak var workEstimateTextField: UITextField!
     @IBOutlet weak var dueDatePicker: UIDatePicker!
     @IBOutlet weak var priorityPicker: UIPickerView!
     @IBOutlet weak var typePicker: UIPickerView!
     
-    var taskTypes: [TaskType] = [] // This is a silly hack
+    let taskTypes: [String] = ["Chore", "Homework", "Project", "Exercise"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,11 +44,6 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
         self.priorityPicker!.delegate = self
         self.typePicker!.dataSource = self
         self.typePicker!.delegate = self
-        
-        self.taskTypes.append(.Chore)
-        self.taskTypes.append(.Homework)
-        self.taskTypes.append(.Project)
-        self.taskTypes.append(.Exercise)
     }
     
     func setUpForNewTask() {
@@ -60,7 +56,7 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
         
         self.titleTextField.text = task!.title
         self.dueDatePicker.date = task!.dueDate
-        self.priorityPicker!.selectRow(Int(task!.priority.level.rawValue), inComponent: 0, animated: false)
+        self.priorityPicker!.selectRow(task!.priority, inComponent: 0, animated: false)
         self.typePicker!.selectRow(self.taskTypes.indexOf(self.task!.type)!, inComponent: 0, animated: false)
     }
     
@@ -80,9 +76,9 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
     
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == self.priorityPicker! {
-            return try! Priority.fromLevel(PriorityLevel(rawValue: Int16(row))!).name
+            return String(row)
         } else if pickerView == self.typePicker {
-            return self.taskTypes[row].rawValue
+            return self.taskTypes[row]
         } else {
             return ""
         }
@@ -102,6 +98,21 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
             return
         }
         
+        if self.workEstimateTextField!.text == nil || self.workEstimateTextField!.text!.isEmpty {
+            let alert = UIAlertController(title: "Empty Estimate", message: "Hey! Enter a work estimate for this task!", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "Ugh ok", style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            return
+        }
+        
+        let workEstimate = Float(self.workEstimateTextField!.text!)
+        if workEstimate == nil {
+            let alert = UIAlertController(title: "Bad Estimate", message: "Hey! That work estimate doesn't look like a number!", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "Ugh ok", style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            return
+        }
+        
         let date = self.dueDatePicker!.date
         if date.compare(NSDate()) == NSComparisonResult.OrderedAscending {
             let alert = UIAlertController(title: "Past Date", message: "Hey! This date is in the past!", preferredStyle: .Alert)
@@ -110,17 +121,18 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
             return
         }
         
-        let priority = try! Priority.fromLevel(PriorityLevel(rawValue: Int16(self.priorityPicker!.selectedRowInComponent(0)))!)
+        let priority = self.priorityPicker!.selectedRowInComponent(0)
         let type = self.taskTypes[self.typePicker!.selectedRowInComponent(0)]
         
         // Make or set the task accordingly
         
         if !self.isEditingTask {
-            self.task = Task(context: self.coreDataStack!.managedObjectContext, title: self.titleTextField!.text!, dueDate: date, priority: priority, type: type)
+            self.task = Task(context: self.coreDataStack!.managedObjectContext, title: self.titleTextField!.text!, dueDate: date, priority: priority, type: type, workEstimate: workEstimate!)
         } else {
             self.task!.title = self.titleTextField!.text!
             self.task!.dueDate = date
             self.task!.priority = priority
+            self.task!.workEstimate = workEstimate!
             self.task!.type = type
         }
         

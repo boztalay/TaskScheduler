@@ -32,8 +32,8 @@ class TaskTableViewCell: UITableViewCell {
     func setTask(task: Task) {
         self.titleLabel.text = task.title
         self.dueByLabel.text = "Due by " + TaskTableViewCell.dateFormatter.stringFromDate(task.dueDate)
-        self.priorityLabel.text = task.priority.name
-        self.typeLabel.text = task.type.rawValue
+        self.priorityLabel.text = String(task.priority)
+        self.typeLabel.text = task.type
     }
 
     override func setSelected(selected: Bool, animated: Bool) {
