@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import JSQCoreDataKit
 
-class TasksViewController: UITableViewController, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate, SchedulerDelegate {
+class TasksViewController: UITableViewController, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate, SchedulerDelegate, SetupViewControllerDelegate {
     
     var coreDataStack: CoreDataStack?
     var user: User?
@@ -21,6 +21,7 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
         self.coreDataStack = CoreDataStack(model: model)
         
         let fetchRequest = NSFetchRequest(entityName: "User")
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "sunAvailableWorkTime", ascending: true)]
         fetchRequest.includesSubentities = true
         
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.coreDataStack!.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
@@ -30,6 +31,8 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
     }()
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
+        let fetchedObjects = self.fetchedResultsController.fetchedObjects!
+        self.user = fetchedObjects[1] as? User
         self.tableView.reloadData()
     }
 
@@ -48,11 +51,16 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
         try! fetchedResultsController.performFetch()
         
         if fetchedResultsController.fetchedObjects?.count <= 0 {
-            self.user = User(context: self.coreDataStack!.managedObjectContext)
-            saveContext(self.coreDataStack!.managedObjectContext) { (result) -> Void in
-                if !result.success {
-                    print("Couldn't save the context: \(result.error)")
-                }
+            self.performSegueWithIdentifier("TasksToSetup", sender: nil)
+        }
+    }
+    
+    func setupComplete(workSchedule: AvailableWorkSchedule) {
+        self.user = User(context: self.coreDataStack!.managedObjectContext)
+        self.user!.scheduleWorkTime(workSchedule)
+        saveContext(self.coreDataStack!.managedObjectContext) { (result) -> Void in
+            if !result.success {
+                print("Couldn't save the context: \(result.error)")
             }
         }
     }
@@ -66,18 +74,17 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let fetchedObjects = self.fetchedResultsController.fetchedObjects {
-            return fetchedObjects.count
+        if let user = self.user {
+            return user.tasks.count
         } else {
             return 0
         }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("Task Cell", forIndexPath: indexPath) as! TaskTableViewCell
         
-        let task = self.fetchedResultsController.fetchedObjects![indexPath.row] as! Task
+        let task = self.user!.tasksArray[indexPath.row]
         cell.setTask(task)
         
         return cell
@@ -114,18 +121,20 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let navigationController = segue.destinationViewController as? UINavigationController
-        let editTaskViewController: EditTaskViewController
-        
-        if let navigationController = navigationController {
-            editTaskViewController = navigationController.viewControllers.first as! EditTaskViewController
-        } else {
-            editTaskViewController = segue.destinationViewController as! EditTaskViewController
-        }
         
         if segue.identifier == "TasksToEditTask" {
+            let editTaskViewController: EditTaskViewController
+            if let navigationController = navigationController {
+                editTaskViewController = navigationController.viewControllers.first as! EditTaskViewController
+            } else {
+                editTaskViewController = segue.destinationViewController as! EditTaskViewController
+            }
+            
             editTaskViewController.task = sender as? Task!
+            editTaskViewController.coreDataStack = coreDataStack
+        } else if segue.identifier == "TasksToSetup" {
+            let setupViewController = navigationController!.viewControllers.first as! SetupViewController
+            setupViewController.delegate = self
         }
-        
-        editTaskViewController.coreDataStack = coreDataStack
     }
 }

@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="8195" systemVersion="15B17c" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
     <entity name="Task" syncable="YES">
-        <attribute name="dueDate" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="isComplete" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="isDropped" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="priority" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="workEstimate" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="dueDate" attributeType="Date" syncable="YES"/>
+        <attribute name="isComplete" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isDropped" attributeType="Boolean" syncable="YES"/>
+        <attribute name="priority" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" attributeType="String" syncable="YES"/>
+        <attribute name="type" attributeType="String" syncable="YES"/>
+        <attribute name="workEstimate" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="workSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskWorkSession" inverseName="parentTask" inverseEntity="TaskWorkSession" syncable="YES"/>
     </entity>
     <entity name="TaskWorkSession" syncable="YES">
-        <attribute name="amountOfWork" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="hasBeenCompeted" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="amountOfWork" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="hasBeenCompeted" attributeType="Boolean" syncable="YES"/>
         <relationship name="dayScheduledOn" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkDay" inverseName="workSessions" inverseEntity="WorkDay" syncable="YES"/>
         <relationship name="parentTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="workSessions" inverseEntity="Task" syncable="YES"/>
     </entity>
-    <entity name="User" syncable="YES">
-        <attribute name="friAvailableWorkTime" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="monAvailableWorkTime" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="satAvailableWorkTime" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="sunAvailableWorkTime" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="thuAvailableWorkTime" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="tueAvailableWorkTime" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="wedAvailableWorkTime" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+    <entity name="User" representedClassName=".User" syncable="YES">
+        <attribute name="friAvailableWorkTime" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="monAvailableWorkTime" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="satAvailableWorkTime" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="sunAvailableWorkTime" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="thuAvailableWorkTime" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="tueAvailableWorkTime" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="wedAvailableWorkTime" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Task" syncable="YES"/>
         <relationship name="workDays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkDay" syncable="YES"/>
     </entity>
     <entity name="WorkDay" syncable="YES">
-        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="totalAvailableWork" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="date" attributeType="Date" syncable="YES"/>
+        <attribute name="totalAvailableWork" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="workSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskWorkSession" inverseName="dayScheduledOn" inverseEntity="TaskWorkSession" syncable="YES"/>
     </entity>
     <elements>
-        <element name="User" positionX="-63" positionY="-18" width="128" height="180"/>
-        <element name="TaskWorkSession" positionX="-54" positionY="45" width="128" height="105"/>
         <element name="Task" positionX="-36" positionY="54" width="128" height="165"/>
+        <element name="TaskWorkSession" positionX="-54" positionY="45" width="128" height="105"/>
+        <element name="User" positionX="-63" positionY="-18" width="128" height="180"/>
         <element name="WorkDay" positionX="-18" positionY="63" width="128" height="90"/>
     </elements>
 </model>

@@ -7,17 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FB14C1761BB97E8C000A16EE /* TaskScheduler.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FB14C1741BB97E8C000A16EE /* TaskScheduler.xcdatamodeld */; settings = {ASSET_TAGS = (); }; };
+		FB14C1761BB97E8C000A16EE /* TaskScheduler.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FB14C1741BB97E8C000A16EE /* TaskScheduler.xcdatamodeld */; };
 		FB14C1831BB98F84000A16EE /* JSQCoreDataKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB14C1801BB98F61000A16EE /* JSQCoreDataKit.framework */; };
 		FB14C1851BB98FB0000A16EE /* JSQCoreDataKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FB14C1801BB98F61000A16EE /* JSQCoreDataKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FB709EED1BCC3A4D0092B9D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EEC1BCC3A4D0092B9D8 /* User.swift */; settings = {ASSET_TAGS = (); }; };
-		FB709EF11BCC3A890092B9D8 /* TaskWorkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */; settings = {ASSET_TAGS = (); }; };
-		FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */; settings = {ASSET_TAGS = (); }; };
-		FB709EF61BCC3E990092B9D8 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF51BCC3E990092B9D8 /* DateUtils.swift */; settings = {ASSET_TAGS = (); }; };
-		FB709EFA1BCEB3A70092B9D8 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */; settings = {ASSET_TAGS = (); }; };
-		FBAEE8021BB9A92200E87679 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8001BB9A92200E87679 /* Task.swift */; settings = {ASSET_TAGS = (); }; };
-		FBAEE8041BB9AE2300E87679 /* TaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8031BB9AE2300E87679 /* TaskType.swift */; settings = {ASSET_TAGS = (); }; };
-		FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		FB709EED1BCC3A4D0092B9D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EEC1BCC3A4D0092B9D8 /* User.swift */; };
+		FB709EF11BCC3A890092B9D8 /* TaskWorkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */; };
+		FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */; };
+		FB709EF61BCC3E990092B9D8 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF51BCC3E990092B9D8 /* DateUtils.swift */; };
+		FB709EFA1BCEB3A70092B9D8 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */; };
+		FB80ABB91BDAB884002C28B2 /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB80ABB81BDAB884002C28B2 /* SetupViewController.swift */; };
+		FBAEE8021BB9A92200E87679 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8001BB9A92200E87679 /* Task.swift */; };
+		FBAEE8041BB9AE2300E87679 /* TaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8031BB9AE2300E87679 /* TaskType.swift */; };
+		FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */; };
 		FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE361BAC7EF00055ACF2 /* AppDelegate.swift */; };
 		FBD1BE391BAC7EF00055ACF2 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE381BAC7EF00055ACF2 /* TasksViewController.swift */; };
 		FBD1BE3B1BAC7EF00055ACF2 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE3A1BAC7EF00055ACF2 /* OverviewViewController.swift */; };
@@ -26,8 +27,8 @@
 		FBD1BE431BAC7EF00055ACF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD1BE411BAC7EF00055ACF2 /* LaunchScreen.storyboard */; };
 		FBD1BE4E1BAC7EF00055ACF2 /* TaskSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE4D1BAC7EF00055ACF2 /* TaskSchedulerTests.swift */; };
 		FBD1BE591BAC7EF00055ACF2 /* TaskSchedulerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE581BAC7EF00055ACF2 /* TaskSchedulerUITests.swift */; };
-		FBD1BE6C1BAC87450055ACF2 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE6B1BAC87450055ACF2 /* TaskTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		FBD1BE701BAC8CD70055ACF2 /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE6F1BAC8CD70055ACF2 /* Priority.swift */; settings = {ASSET_TAGS = (); }; };
+		FBD1BE6C1BAC87450055ACF2 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE6B1BAC87450055ACF2 /* TaskTableViewCell.swift */; };
+		FBD1BE701BAC8CD70055ACF2 /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE6F1BAC8CD70055ACF2 /* Priority.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkDay.swift; sourceTree = "<group>"; };
 		FB709EF51BCC3E990092B9D8 /* DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
+		FB80ABB81BDAB884002C28B2 /* SetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
 		FBAEE8001BB9A92200E87679 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Task.swift; path = ../Task.swift; sourceTree = "<group>"; };
 		FBAEE8031BB9AE2300E87679 /* TaskType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskType.swift; sourceTree = "<group>"; };
 		FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
@@ -261,6 +263,7 @@
 				FBD1BE381BAC7EF00055ACF2 /* TasksViewController.swift */,
 				FBD1BE3A1BAC7EF00055ACF2 /* OverviewViewController.swift */,
 				FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */,
+				FB80ABB81BDAB884002C28B2 /* SetupViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -442,6 +445,7 @@
 				FB709EFA1BCEB3A70092B9D8 /* Scheduler.swift in Sources */,
 				FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */,
 				FB14C1761BB97E8C000A16EE /* TaskScheduler.xcdatamodeld in Sources */,
+				FB80ABB91BDAB884002C28B2 /* SetupViewController.swift in Sources */,
 				FB709EF61BCC3E990092B9D8 /* DateUtils.swift in Sources */,
 				FBD1BE6C1BAC87450055ACF2 /* TaskTableViewCell.swift in Sources */,
 				FBD1BE3B1BAC7EF00055ACF2 /* OverviewViewController.swift in Sources */,
@@ -596,6 +600,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TaskScheduler/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boztalay.TaskScheduler;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -607,6 +612,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = TaskScheduler/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.boztalay.TaskScheduler;
 				PRODUCT_NAME = "$(TARGET_NAME)";

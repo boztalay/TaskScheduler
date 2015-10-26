@@ -13,30 +13,40 @@ enum UserError: ErrorType {
     case BadDayOfWeekError
 }
 
+struct AvailableWorkSchedule {
+    var sundayWork: Float = 0.0
+    var mondayWork: Float = 0.0
+    var tuesdayWork: Float = 0.0
+    var wednesdayWork: Float = 0.0
+    var thursdayWork: Float = 0.0
+    var fridayWork: Float = 0.0
+    var saturdayWork: Float = 0.0
+}
+
 class User: NSManagedObject {
     // The CoreData entity name to use for this class
     static var entityName = "User"
     
     // The number of hours of work available on Sundays
-    @NSManaged private var sunAvailableWorkTime: Float
+    @NSManaged private var sunAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Mondays
-    @NSManaged private var monAvailableWorkTime: Float
+    @NSManaged private var monAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Tuesdays
-    @NSManaged private var tueAvailableWorkTime: Float
+    @NSManaged private var tueAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Wednesdays
-    @NSManaged private var wedAvailableWorkTime: Float
+    @NSManaged private var wedAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Thursdays
-    @NSManaged private var thuAvailableWorkTime: Float
+    @NSManaged private var thuAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Fridays
-    @NSManaged private var friAvailableWorkTime: Float
+    @NSManaged private var friAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Saturdays
-    @NSManaged private var satAvailableWorkTime: Float
+    @NSManaged private var satAvailableWorkTime: NSNumber
     
     // A set of Tasks to be done
     @NSManaged var tasks: NSMutableSet
@@ -78,17 +88,18 @@ class User: NSManagedObject {
     init(context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entityForName(User.entityName, inManagedObjectContext: context)!
         super.init(entity: entity, insertIntoManagedObjectContext: context)
+        self.outstandingTasks
     }
     
     // Sets the amount of work available to be scheduled on all days of the week
-    func scheduleWorkTime(sun sun: Float, mon: Float, tue: Float, wed: Float, thu: Float, fri: Float, sat: Float) {
-        self.sunAvailableWorkTime = sun
-        self.monAvailableWorkTime = mon
-        self.tueAvailableWorkTime = tue
-        self.wedAvailableWorkTime = wed
-        self.thuAvailableWorkTime = thu
-        self.friAvailableWorkTime = fri
-        self.satAvailableWorkTime = sat
+    func scheduleWorkTime(workSchedule: AvailableWorkSchedule) {
+        self.sunAvailableWorkTime = NSNumber(float: workSchedule.sundayWork)
+        self.monAvailableWorkTime = NSNumber(float: workSchedule.mondayWork)
+        self.tueAvailableWorkTime = NSNumber(float: workSchedule.tuesdayWork)
+        self.wedAvailableWorkTime = NSNumber(float: workSchedule.wednesdayWork)
+        self.thuAvailableWorkTime = NSNumber(float: workSchedule.thursdayWork)
+        self.friAvailableWorkTime = NSNumber(float: workSchedule.fridayWork)
+        self.satAvailableWorkTime = NSNumber(float: workSchedule.saturdayWork)
     }
     
     // The amount of work available to be scheduled on a given date,
@@ -96,13 +107,13 @@ class User: NSManagedObject {
     func totalAvailableWorkOnDate(date: NSDate) throws -> Float {
         let dayOfWeek = NSCalendar.currentCalendar().components(NSCalendarUnit.Weekday, fromDate: date).weekday
         switch dayOfWeek {
-            case 1: return self.sunAvailableWorkTime
-            case 2: return self.monAvailableWorkTime
-            case 3: return self.tueAvailableWorkTime
-            case 4: return self.wedAvailableWorkTime
-            case 5: return self.thuAvailableWorkTime
-            case 6: return self.friAvailableWorkTime
-            case 7: return self.satAvailableWorkTime
+            case 1: return self.sunAvailableWorkTime.floatValue
+            case 2: return self.monAvailableWorkTime.floatValue
+            case 3: return self.tueAvailableWorkTime.floatValue
+            case 4: return self.wedAvailableWorkTime.floatValue
+            case 5: return self.thuAvailableWorkTime.floatValue
+            case 6: return self.friAvailableWorkTime.floatValue
+            case 7: return self.satAvailableWorkTime.floatValue
             default: throw UserError.BadDayOfWeekError
         }
     }
