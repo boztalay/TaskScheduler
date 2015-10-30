@@ -55,6 +55,11 @@ class Scheduler {
         // Then, reset all of the workdays
         user.resetWorkDays()
         
+        // If there aren't any outstanding tasks to schedule, bounce
+        if tasksToSchedule.count == 0 {
+            return
+        }
+        
         // And sort outstanding tasks by due date
         let tasksSortedByDueDate = tasksToSchedule.sort() { $0.dueDate.compare($1.dueDate) == .OrderedAscending }
         

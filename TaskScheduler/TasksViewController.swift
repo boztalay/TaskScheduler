@@ -31,9 +31,14 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
     }()
     
     func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        let fetchedObjects = self.fetchedResultsController.fetchedObjects!
-        self.user = fetchedObjects[1] as? User
-        self.tableView.reloadData()
+        if let fetchedObjects = self.fetchedResultsController.fetchedObjects {
+            if fetchedObjects.count > 0 {
+                self.user = fetchedObjects[0] as? User
+                self.scheduler = Scheduler(user: self.user!)
+                self.scheduler!.delegate = self
+                self.scheduler!.scheduleTasksForUser()
+            }
+        }
     }
 
     override func viewDidLoad() {
@@ -61,16 +66,23 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
         saveContext(self.coreDataStack!.managedObjectContext) { (result) -> Void in
             if !result.success {
                 print("Couldn't save the context: \(result.error)")
+            } else {
+                
             }
         }
     }
     
     func scheduleStarted() {
-
+        print("Schedule started")
     }
     
     func scheduleCompleted(status: ScheduleStatus) {
-
+        if status == ScheduleStatus.Failed {
+            print("Schedule failed")
+        } else {
+            print("Schedule success")
+            self.tableView.reloadData()
+        }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

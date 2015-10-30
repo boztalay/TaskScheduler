@@ -65,6 +65,7 @@ class User: NSManagedObject {
     }
     
     // An unordered array of all of the dropped tasks
+    
     var droppedTasks: [Task] {
         return self.tasksArray.filter({ $0.dropped })
     }
