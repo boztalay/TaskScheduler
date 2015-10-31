@@ -48,7 +48,7 @@ class Scheduler {
         
         let tasksToSchedule = user.outstandingTasks
         for task in tasksToSchedule {
-            task.dropped = false
+            task.isDropped = false
             task.resetWorkSessions()
         }
         
@@ -89,7 +89,7 @@ class Scheduler {
                 // Now go through the tasks and drop them until it's schedulable
                 for task in tasksDue {
                     workDropped += task.workEstimate
-                    task.dropped = true
+                    task.isDropped = true
                     
                     if (estimatedWork - workDropped) <= workTimeAvailable {
                         break

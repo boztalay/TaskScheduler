@@ -67,12 +67,12 @@ class User: NSManagedObject {
     // An unordered array of all of the dropped tasks
     
     var droppedTasks: [Task] {
-        return self.tasksArray.filter({ $0.dropped })
+        return self.tasksArray.filter({ $0.isDropped })
     }
     
     // An unordered array of all of the not dropped tasks
     var notDroppedTasks: [Task] {
-        return self.tasksArray.filter({ !$0.dropped })
+        return self.tasksArray.filter({ !$0.isDropped })
     }
     
     // An unordered array of all of the completed tasks
@@ -86,10 +86,9 @@ class User: NSManagedObject {
     }
     
     // Makes a new User and inserts it into the context
-    init(context: NSManagedObjectContext) {
+    convenience init(context: NSManagedObjectContext) {
         let entity = NSEntityDescription.entityForName(User.entityName, inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
-        self.outstandingTasks
+        self.init(entity: entity, insertIntoManagedObjectContext: context)
     }
     
     // Sets the amount of work available to be scheduled on all days of the week
@@ -101,6 +100,11 @@ class User: NSManagedObject {
         self.thuAvailableWorkTime = NSNumber(float: workSchedule.thursdayWork)
         self.friAvailableWorkTime = NSNumber(float: workSchedule.fridayWork)
         self.satAvailableWorkTime = NSNumber(float: workSchedule.saturdayWork)
+    }
+    
+    // Adds the given task to the set of tasks to do
+    func addTask(task: Task) {
+        self.tasks.addObject(task)
     }
     
     // The amount of work available to be scheduled on a given date,

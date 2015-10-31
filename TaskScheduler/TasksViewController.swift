@@ -134,15 +134,16 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let navigationController = segue.destinationViewController as? UINavigationController
         
-        if segue.identifier == "TasksToEditTask" {
+        if segue.identifier == "TasksToNewTask" || segue.identifier == "TasksToNewTask" {
             let editTaskViewController: EditTaskViewController
             if let navigationController = navigationController {
                 editTaskViewController = navigationController.viewControllers.first as! EditTaskViewController
             } else {
                 editTaskViewController = segue.destinationViewController as! EditTaskViewController
             }
-            
-            editTaskViewController.task = sender as? Task!
+        
+            editTaskViewController.task = sender as? Task
+            editTaskViewController.user = self.user
             editTaskViewController.coreDataStack = coreDataStack
         } else if segue.identifier == "TasksToSetup" {
             let setupViewController = navigationController!.viewControllers.first as! SetupViewController

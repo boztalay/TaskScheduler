@@ -18,12 +18,22 @@ class WorkDay: NSManagedObject {
     
     // The total number of hours of work available
     // to be scheduled on this work day
-    @NSManaged var totalAvailableWork: Float
+    @NSManaged var totalAvailableWorkNum: NSNumber
     
     // A set of TaskWorkSessions that are scheduled
     // to be done on this work day
     @NSManaged var workSessions: NSMutableSet
 
+    // A convenience accessor for totalAvailableWorkNum
+    var totalAvailableWork: Float {
+        set(newTotalAvailableWork) {
+            self.totalAvailableWorkNum = NSNumber(float: newTotalAvailableWork)
+        }
+        get {
+            return self.totalAvailableWorkNum.floatValue
+        }
+    }
+    
     // An unordered array of all of the TaskWorkSessions
     var workSessionsArray: [TaskWorkSession] {
         return self.workSessions.allObjects as! [TaskWorkSession]
@@ -42,9 +52,9 @@ class WorkDay: NSManagedObject {
     }
     
     // Makes a new WorkDay and inserts it into the context
-    init(context: NSManagedObjectContext, date: NSDate, totalAvailableWork: Float) {
+    convenience init(context: NSManagedObjectContext, date: NSDate, totalAvailableWork: Float) {
         let entity = NSEntityDescription.entityForName(WorkDay.entityName, inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        self.init(entity: entity, insertIntoManagedObjectContext: context)
         
         self.date = date
         self.totalAvailableWork = totalAvailableWork

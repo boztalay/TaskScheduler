@@ -24,25 +24,64 @@ class Task: NSManagedObject {
     @NSManaged var dueDate: NSDate
 
     // Higher integers are higher priority
-    @NSManaged var priority: Int
+    @NSManaged var priorityNum: NSNumber
 
     // A category for the task
     @NSManaged var type: String
 
     // The number of hours the task will take
-    @NSManaged var workEstimate: Float
+    @NSManaged var workEstimateNum: NSNumber
 
     // A set of TaskWorkSessions
     @NSManaged var workSessions: NSMutableSet
 
     // Whether or not the task has been dropped
     // This should only ever be set by the scheduler
-    @NSManaged var dropped: Bool
+    @NSManaged var isDroppedNum: NSNumber
 
     // If this is set, the task is done, regardless
-    // of how much work is left. Can be set
-    // by the user.
-    @NSManaged var isComplete: Bool
+    // of how much work is left. Can be set by the user.
+    @NSManaged var isCompleteNum: NSNumber
+    
+    // A convenience accessor for priorityNum
+    var priority: Int {
+        set(newPriority) {
+            self.priorityNum = NSNumber(integer: newPriority)
+        }
+        get {
+            return self.priorityNum.integerValue
+        }
+    }
+    
+    // A convenience accessor for workEstimateNum
+    var workEstimate: Float {
+        set(newEstimate) {
+            self.workEstimateNum = NSNumber(float: newEstimate)
+        }
+        get {
+            return self.workEstimateNum.floatValue
+        }
+    }
+    
+    // A convenience accessor for droppedNum
+    var isDropped: Bool {
+        set(newDropped) {
+            self.isDroppedNum = NSNumber(bool: newDropped)
+        }
+        get {
+            return self.isDroppedNum.boolValue
+        }
+    }
+    
+    // A convenience accessor for isCompleteNum
+    var isComplete: Bool {
+        set(newComplete) {
+            self.isCompleteNum = NSNumber(bool: newComplete)
+        }
+        get {
+            return self.isCompleteNum.boolValue
+        }
+    }
     
     // An unordered array of all of the TaskWorkSessions
     var workSessionsArray: [TaskWorkSession] {
@@ -79,16 +118,16 @@ class Task: NSManagedObject {
     }
     
     // Creates a new task and inserts it into the context
-    init(context: NSManagedObjectContext, title: String, dueDate: NSDate, priority: Int, type: String, workEstimate: Float) {
+    convenience init(context: NSManagedObjectContext, title: String, dueDate: NSDate, priority: Int, type: String, workEstimate: Float) {
         let entity = NSEntityDescription.entityForName(Task.entityName, inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        self.init(entity: entity, insertIntoManagedObjectContext: context)
         
         self.title = title
         self.dueDate = dueDate
         self.priority = priority
         self.type = type
         self.workEstimate = workEstimate
-        self.dropped = false
+        self.isDropped = false
         self.isComplete = false
     }
     

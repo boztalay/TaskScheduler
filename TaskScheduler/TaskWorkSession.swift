@@ -19,16 +19,35 @@ class TaskWorkSession: NSManagedObject {
     // The day that this work sessions is scheduled on
     @NSManaged var dayScheduledOn: WorkDay
     
-    // The number of hours of work to be done in
-    // this work session
-    @NSManaged var amountOfWork: Float
+    // The number of hours of work to be done in this work session
+    @NSManaged var amountOfWorkNum: NSNumber
     
     // Whether or not this work session has been completed
-    @NSManaged var hasBeenCompleted: Bool
+    @NSManaged var hasBeenCompletedNum: NSNumber
     
-    init(context: NSManagedObjectContext, parentTask: Task, dayScheduledOn: WorkDay, amountOfWork: Float) {
+    // A convenience accessor for amountOfWorkNum
+    var amountOfWork: Float {
+        set(newAmountOfWork) {
+            self.amountOfWorkNum = NSNumber(float: newAmountOfWork)
+        }
+        get {
+            return self.amountOfWorkNum.floatValue
+        }
+    }
+    
+    // A convenience accessor for hasBeenCompletedNum
+    var hasBeenCompleted: Bool {
+        set(newBeenCompleted) {
+            self.hasBeenCompletedNum = NSNumber(bool: newBeenCompleted)
+        }
+        get {
+            return self.hasBeenCompletedNum.boolValue
+        }
+    }
+    
+    convenience init(context: NSManagedObjectContext, parentTask: Task, dayScheduledOn: WorkDay, amountOfWork: Float) {
         let entity = NSEntityDescription.entityForName(TaskWorkSession.entityName, inManagedObjectContext: context)!
-        super.init(entity: entity, insertIntoManagedObjectContext: context)
+        self.init(entity: entity, insertIntoManagedObjectContext: context)
 
         self.parentTask = parentTask
         self.dayScheduledOn = dayScheduledOn

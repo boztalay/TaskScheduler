@@ -12,6 +12,7 @@ import JSQCoreDataKit
 class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate {
 
     var coreDataStack: CoreDataStack?
+    var user: User?
     var task: Task?
     var isEditingTask: Bool = false
     
@@ -56,7 +57,7 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
         
         self.titleTextField.text = task!.title
         self.dueDatePicker.date = task!.dueDate
-        self.priorityPicker!.selectRow(task!.priority, inComponent: 0, animated: false)
+        self.priorityPicker!.selectRow(Int(task!.priority), inComponent: 0, animated: false)
         self.typePicker!.selectRow(self.taskTypes.indexOf(self.task!.type)!, inComponent: 0, animated: false)
     }
     
@@ -135,6 +136,8 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
             self.task!.workEstimate = workEstimate!
             self.task!.type = type
         }
+        
+        self.user!.addTask(self.task!)
         
         // Save the context
         
