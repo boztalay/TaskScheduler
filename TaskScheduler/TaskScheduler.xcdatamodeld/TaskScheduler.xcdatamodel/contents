@@ -12,7 +12,7 @@
     </entity>
     <entity name="TaskWorkSession" representedClassName=".TaskWorkSession" syncable="YES">
         <attribute name="amountOfWorkNum" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <attribute name="hasBeenCompetedNum" attributeType="Boolean" syncable="YES"/>
+        <attribute name="hasBeenCompletedNum" attributeType="Boolean" syncable="YES"/>
         <relationship name="dayScheduledOn" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkDay" inverseName="workSessions" inverseEntity="WorkDay" syncable="YES"/>
         <relationship name="parentTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Task" inverseName="workSessions" inverseEntity="Task" syncable="YES"/>
     </entity>
