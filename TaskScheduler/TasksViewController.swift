@@ -26,13 +26,21 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
         
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.coreDataStack!.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleManagedObjectContextDidChange:"), name: NSManagedObjectContextObjectsDidChangeNotification, object: self.coreDataStack!.managedObjectContext)
+        self.subscribeToDataSaves()
         
         return controller
     }()
     
     func handleManagedObjectContextDidChange(notification: NSNotification) {
         self.refreshSchedule()
+    }
+    
+    func subscribeToDataSaves() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleManagedObjectContextDidChange:"), name: NSManagedObjectContextDidSaveNotification, object: self.coreDataStack!.managedObjectContext)
+    }
+    
+    func unsubscribeFromDataSaves() {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
 
     override func viewDidLoad() {
@@ -83,6 +91,7 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
     
     func scheduleStarted() {
         print("Schedule started")
+        self.unsubscribeFromDataSaves()
     }
     
     func scheduleCompleted(status: ScheduleStatus) {
@@ -92,6 +101,7 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
             print("Schedule success")
             self.tableView.reloadData()
         }
+        self.subscribeToDataSaves()
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
