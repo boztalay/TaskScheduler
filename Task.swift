@@ -33,7 +33,7 @@ class Task: NSManagedObject {
     @NSManaged var workEstimateNum: NSNumber
 
     // A set of TaskWorkSessions
-    @NSManaged var workSessions: NSMutableSet
+    @NSManaged var workSessions: NSSet
 
     // Whether or not the task has been dropped
     // This should only ever be set by the scheduler
@@ -85,7 +85,7 @@ class Task: NSManagedObject {
     
     // An unordered array of all of the TaskWorkSessions
     var workSessionsArray: [TaskWorkSession] {
-        return self.workSessions.allObjects as! [TaskWorkSession]
+        return Array(self.workSessions as! Set<TaskWorkSession>)
     }
     
     // The number of hours of work that have been scheduled
@@ -131,12 +131,17 @@ class Task: NSManagedObject {
         self.isComplete = false
     }
     
+    // Adds the given TaskWorkSession to this task
+    func addWorkSession(workSession: TaskWorkSession) {
+        self.workSessions = self.workSessions.setByAddingObject(workSession)
+    }
+    
     // Makes a new TaskWorkSession with the given amount of work
     // and adds it to this task and the given day to schedule it on
     func addWorkSession(dayScheduledOn: WorkDay, amountOfWork: Float) {
         let workSession = TaskWorkSession(context: self.managedObjectContext!, parentTask: self, dayScheduledOn: dayScheduledOn, amountOfWork: amountOfWork)
-        self.workSessions.addObject(workSession)
-        dayScheduledOn.workSessions.addObject(workSession)
+        self.addWorkSession(workSession)
+        dayScheduledOn.addWorkSession(workSession)
     }
     
     // Marks the given TaskWorkSession as complete, then checks

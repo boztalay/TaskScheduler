@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 import JSQCoreDataKit
 
-class TasksViewController: UITableViewController, NSFetchedResultsControllerDelegate, UITabBarControllerDelegate, SchedulerDelegate, SetupViewControllerDelegate {
+class TasksViewController: UITableViewController, UITabBarControllerDelegate, SchedulerDelegate, SetupViewControllerDelegate {
     
     var coreDataStack: CoreDataStack?
     var user: User?
@@ -25,20 +25,14 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
         fetchRequest.includesSubentities = true
         
         let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.coreDataStack!.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        controller.delegate = self
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleManagedObjectContextDidChange:"), name: NSManagedObjectContextObjectsDidChangeNotification, object: self.coreDataStack!.managedObjectContext)
         
         return controller
     }()
     
-    func controllerDidChangeContent(controller: NSFetchedResultsController) {
-        if let fetchedObjects = self.fetchedResultsController.fetchedObjects {
-            if fetchedObjects.count > 0 {
-                self.user = fetchedObjects[0] as? User
-                self.scheduler = Scheduler(user: self.user!)
-                self.scheduler!.delegate = self
-                self.scheduler!.scheduleTasksForUser()
-            }
-        }
+    func handleManagedObjectContextDidChange(notification: NSNotification) {
+        self.refreshSchedule()
     }
 
     override func viewDidLoad() {
@@ -57,6 +51,21 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
         
         if fetchedResultsController.fetchedObjects?.count <= 0 {
             self.performSegueWithIdentifier("TasksToSetup", sender: nil)
+        } else {
+            // Need to do this manually on the first fetch because controllerDidChangeContent
+            // only gets called for subsequent changes
+            self.refreshSchedule()
+        }
+    }
+    
+    func refreshSchedule() {
+        if let fetchedObjects = self.fetchedResultsController.fetchedObjects {
+            if fetchedObjects.count > 0 {
+                self.user = fetchedObjects[0] as? User
+                self.scheduler = Scheduler(user: self.user!, coreDataStack: self.coreDataStack!)
+                self.scheduler!.delegate = self
+                self.scheduler!.scheduleTasksForUser()
+            }
         }
     }
     
@@ -87,7 +96,7 @@ class TasksViewController: UITableViewController, NSFetchedResultsControllerDele
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let user = self.user {
-            return user.tasks.count
+            return user.tasksArray.count
         } else {
             return 0
         }

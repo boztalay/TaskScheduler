@@ -22,7 +22,7 @@ class WorkDay: NSManagedObject {
     
     // A set of TaskWorkSessions that are scheduled
     // to be done on this work day
-    @NSManaged var workSessions: NSMutableSet
+    @NSManaged var workSessions: NSSet
 
     // A convenience accessor for totalAvailableWorkNum
     var totalAvailableWork: Float {
@@ -36,7 +36,7 @@ class WorkDay: NSManagedObject {
     
     // An unordered array of all of the TaskWorkSessions
     var workSessionsArray: [TaskWorkSession] {
-        return self.workSessions.allObjects as! [TaskWorkSession]
+        return Array(self.workSessions as! Set<TaskWorkSession>)
     }
     
     // The number of hours of work that have been
@@ -49,6 +49,11 @@ class WorkDay: NSManagedObject {
     // still available to be scheduled
     var workLeftToBeScheduled: Float {
         return (self.totalAvailableWork - self.workScheduled)
+    }
+    
+    // Adds the given TaskWorkSession to this work day
+    func addWorkSession(workSession: TaskWorkSession) {
+        self.workSessions = self.workSessions.setByAddingObject(workSession)
     }
     
     // Makes a new WorkDay and inserts it into the context

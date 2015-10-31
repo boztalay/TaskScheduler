@@ -10,7 +10,7 @@
         <attribute name="workEstimateNum" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="workSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskWorkSession" inverseName="parentTask" inverseEntity="TaskWorkSession" syncable="YES"/>
     </entity>
-    <entity name="TaskWorkSession" syncable="YES">
+    <entity name="TaskWorkSession" representedClassName=".TaskWorkSession" syncable="YES">
         <attribute name="amountOfWorkNum" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="hasBeenCompetedNum" attributeType="Boolean" syncable="YES"/>
         <relationship name="dayScheduledOn" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WorkDay" inverseName="workSessions" inverseEntity="WorkDay" syncable="YES"/>
@@ -27,7 +27,7 @@
         <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Task" syncable="YES"/>
         <relationship name="workDays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkDay" syncable="YES"/>
     </entity>
-    <entity name="WorkDay" syncable="YES">
+    <entity name="WorkDay" representedClassName=".WorkDay" syncable="YES">
         <attribute name="date" attributeType="Date" syncable="YES"/>
         <attribute name="totalAvailableWorkNum" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="workSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskWorkSession" inverseName="dayScheduledOn" inverseEntity="TaskWorkSession" syncable="YES"/>

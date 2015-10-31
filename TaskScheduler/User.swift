@@ -49,19 +49,19 @@ class User: NSManagedObject {
     @NSManaged private var satAvailableWorkTime: NSNumber
     
     // A set of Tasks to be done
-    @NSManaged var tasks: NSMutableSet
+    @NSManaged var tasks: NSSet
     
     // A set of WorkDays to schedule tasks on
-    @NSManaged var workDays: NSMutableSet
+    @NSManaged var workDays: NSSet
     
     // An unordered array of all of the tasks
     var tasksArray: [Task] {
-        return self.tasks.allObjects as! [Task]
+        return Array(self.tasks as! Set<Task>)
     }
     
     // An unordered array of all of the work days
     var workDaysArray: [WorkDay] {
-        return self.workDays.allObjects as! [WorkDay]
+        return Array(self.workDays as! Set<WorkDay>)
     }
     
     // An unordered array of all of the dropped tasks
@@ -102,9 +102,14 @@ class User: NSManagedObject {
         self.satAvailableWorkTime = NSNumber(float: workSchedule.saturdayWork)
     }
     
-    // Adds the given task to the set of tasks to do
+    // Adds the given Task to the set of tasks to do
     func addTask(task: Task) {
-        self.tasks.addObject(task)
+        self.tasks = self.tasks.setByAddingObject(task)
+    }
+    
+    // Adds the given WorkDay to the set of work days
+    func addWorkDay(workDay: WorkDay) {
+        self.workDays = self.workDays.setByAddingObject(workDay)
     }
     
     // The amount of work available to be scheduled on a given date,
@@ -135,7 +140,7 @@ class User: NSManagedObject {
         }
         
         let newWorkDay = WorkDay(context: self.managedObjectContext!, date: date, totalAvailableWork: try! self.totalAvailableWorkOnDate(date))
-        self.workDays.addObject(newWorkDay)
+        self.addWorkDay(newWorkDay)
         
         return newWorkDay
     }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import JSQCoreDataKit
 
 enum ScheduleStatus: ErrorType {
     case Succeeded, Failed
@@ -19,19 +20,19 @@ protocol SchedulerDelegate {
 
 class Scheduler {
     private var user: User
+    private var coreDataStack: CoreDataStack
+    
     var delegate: SchedulerDelegate?
     
-    private var queue: dispatch_queue_t
-    
-    init(user: User) {
+    init(user: User, coreDataStack: CoreDataStack) {
         self.user = user
-        self.queue = dispatch_queue_create("com.boztalay.TaskScheduler.Scheduler", DISPATCH_QUEUE_SERIAL)
+        self.coreDataStack = coreDataStack
     }
     
     func scheduleTasksForUser() {
         delegate?.scheduleStarted()
         
-        dispatch_async(self.queue) {
+        self.coreDataStack.managedObjectContext.performBlock() {
             do {
                 try self.actuallyScheduleTasksForUser()
                 self.delegate?.scheduleCompleted(ScheduleStatus.Succeeded)
