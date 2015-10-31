@@ -56,6 +56,7 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
         self.navigationItem.leftBarButtonItem = nil
         
         self.titleTextField.text = task!.title
+        self.workEstimateTextField.text = String(task!.workEstimate)
         self.dueDatePicker.date = task!.dueDate
         self.priorityPicker!.selectRow(Int(task!.priority), inComponent: 0, animated: false)
         self.typePicker!.selectRow(self.taskTypes.indexOf(self.task!.type)!, inComponent: 0, animated: false)

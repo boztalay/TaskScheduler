@@ -122,7 +122,7 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("TasksToEditTask", sender: self.fetchedResultsController.fetchedObjects![indexPath.row])
+        self.performSegueWithIdentifier("TasksToEditTask", sender: self.user!.tasksArray[indexPath.row])
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
@@ -153,7 +153,7 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let navigationController = segue.destinationViewController as? UINavigationController
         
-        if segue.identifier == "TasksToNewTask" || segue.identifier == "TasksToNewTask" {
+        if segue.identifier == "TasksToNewTask" || segue.identifier == "TasksToEditTask" {
             let editTaskViewController: EditTaskViewController
             if let navigationController = navigationController {
                 editTaskViewController = navigationController.viewControllers.first as! EditTaskViewController
