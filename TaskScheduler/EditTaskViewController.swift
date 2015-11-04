@@ -115,8 +115,8 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
             return
         }
         
-        let date = self.dueDatePicker!.date
-        if date.compare(NSDate()) == NSComparisonResult.OrderedAscending {
+        let date = DateUtils.removeTimeFromDate(self.dueDatePicker!.date)
+        if date.compare(DateUtils.todayDay()) == NSComparisonResult.OrderedAscending {
             let alert = UIAlertController(title: "Past Date", message: "Hey! This date is in the past!", preferredStyle: .Alert)
             alert.addAction(UIAlertAction(title: "Sorry", style: .Cancel, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
@@ -151,10 +151,5 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
         
         self.dismissViewControllerAnimated(true, completion: nil)
         self.navigationController!.popViewControllerAnimated(true)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 }

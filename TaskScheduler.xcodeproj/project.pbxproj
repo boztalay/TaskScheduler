@@ -26,7 +26,7 @@
 		FBD1BE431BAC7EF00055ACF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD1BE411BAC7EF00055ACF2 /* LaunchScreen.storyboard */; };
 		FBD1BE4E1BAC7EF00055ACF2 /* TaskSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE4D1BAC7EF00055ACF2 /* TaskSchedulerTests.swift */; };
 		FBD1BE591BAC7EF00055ACF2 /* TaskSchedulerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE581BAC7EF00055ACF2 /* TaskSchedulerUITests.swift */; };
-		FBD1BE6C1BAC87450055ACF2 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE6B1BAC87450055ACF2 /* TaskTableViewCell.swift */; };
+		FBD1BE6C1BAC87450055ACF2 /* WorkSessionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE6B1BAC87450055ACF2 /* WorkSessionTableViewCell.swift */; };
 		FBD1BE701BAC8CD70055ACF2 /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE6F1BAC8CD70055ACF2 /* Priority.swift */; };
 /* End PBXBuildFile section */
 
@@ -99,7 +99,7 @@
 		FBD1BE541BAC7EF00055ACF2 /* TaskSchedulerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskSchedulerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD1BE581BAC7EF00055ACF2 /* TaskSchedulerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSchedulerUITests.swift; sourceTree = "<group>"; };
 		FBD1BE5A1BAC7EF00055ACF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FBD1BE6B1BAC87450055ACF2 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
+		FBD1BE6B1BAC87450055ACF2 /* WorkSessionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkSessionTableViewCell.swift; sourceTree = "<group>"; };
 		FBD1BE6F1BAC8CD70055ACF2 /* Priority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -250,7 +250,7 @@
 		FBD1BE671BAC7F020055ACF2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FBD1BE6B1BAC87450055ACF2 /* TaskTableViewCell.swift */,
+				FBD1BE6B1BAC87450055ACF2 /* WorkSessionTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -444,7 +444,7 @@
 				FB14C1761BB97E8C000A16EE /* TaskScheduler.xcdatamodeld in Sources */,
 				FB80ABB91BDAB884002C28B2 /* SetupViewController.swift in Sources */,
 				FB709EF61BCC3E990092B9D8 /* DateUtils.swift in Sources */,
-				FBD1BE6C1BAC87450055ACF2 /* TaskTableViewCell.swift in Sources */,
+				FBD1BE6C1BAC87450055ACF2 /* WorkSessionTableViewCell.swift in Sources */,
 				FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */,
 				FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */,
 				FBD1BE391BAC7EF00055ACF2 /* TasksViewController.swift in Sources */,

@@ -157,6 +157,11 @@ class User: NSManagedObject {
         return self.workDayForDate(DateUtils.dateByAddingDay(day.date))
     }
     
+    // Returns the WorkDay for today
+    func todayWorkDay() -> WorkDay {
+        return self.workDayForDate(DateUtils.todayDay())
+    }
+    
     // Calculates the amount of work time available to be scheduled 
     // between now and the given date
     func availableWorkTimeBetweenNowAnd(date date: NSDate) -> Float {

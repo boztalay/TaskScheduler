@@ -35,7 +35,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Task Cell" id="QwI-Ab-rAA" customClass="TaskTableViewCell" customModule="TaskScheduler" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Task Cell" id="QwI-Ab-rAA" customClass="WorkSessionTableViewCell" customModule="TaskScheduler" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QwI-Ab-rAA" id="iMe-hk-ys3">
@@ -103,10 +103,10 @@
                                 <animations/>
                                 <edgeInsets key="layoutMargins" top="8" left="15" bottom="8" right="8"/>
                                 <connections>
-                                    <outlet property="dueByLabel" destination="JJo-fT-5eq" id="tHO-GV-fWV"/>
-                                    <outlet property="priorityLabel" destination="wuT-3b-d8N" id="elv-hQ-TkP"/>
-                                    <outlet property="titleLabel" destination="aFg-Gt-IoR" id="GPx-j0-fpE"/>
-                                    <outlet property="typeLabel" destination="ZCr-iT-KGq" id="xXB-7s-lWf"/>
+                                    <outlet property="dueByLabel" destination="JJo-fT-5eq" id="bx1-TM-HwW"/>
+                                    <outlet property="priorityLabel" destination="wuT-3b-d8N" id="P7e-7G-ezL"/>
+                                    <outlet property="titleLabel" destination="aFg-Gt-IoR" id="5hZ-X0-3VH"/>
+                                    <outlet property="typeLabel" destination="ZCr-iT-KGq" id="RXJ-dh-QvB"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

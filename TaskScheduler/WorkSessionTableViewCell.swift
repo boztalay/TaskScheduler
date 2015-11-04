@@ -8,8 +8,7 @@
 
 import UIKit
 
-class TaskTableViewCell: UITableViewCell {
-    
+class WorkSessionTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dueByLabel: UILabel!
     @IBOutlet weak var priorityLabel: UILabel!
@@ -18,8 +17,8 @@ class TaskTableViewCell: UITableViewCell {
     private static var dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
         formatter.formattingContext = .MiddleOfSentence
-        formatter.dateStyle = .FullStyle
-        formatter.timeStyle = .ShortStyle
+        formatter.dateStyle = .MediumStyle
+        formatter.timeStyle = .NoStyle
         formatter.doesRelativeDateFormatting = true
         return formatter
     }()
@@ -29,9 +28,10 @@ class TaskTableViewCell: UITableViewCell {
         // Initialization code
     }
     
-    func setTask(task: Task) {
-        self.titleLabel.text = task.title
-        self.dueByLabel.text = "Due by " + TaskTableViewCell.dateFormatter.stringFromDate(task.dueDate)
+    func setWorkSession(workSession: TaskWorkSession) {
+        let task = workSession.parentTask
+        self.titleLabel.text = "\(task.title) for \(workSession.amountOfWork) hours"
+        self.dueByLabel.text = "Due " + WorkSessionTableViewCell.dateFormatter.stringFromDate(task.dueDate)
         self.priorityLabel.text = String(task.priority)
         self.typeLabel.text = task.type
     }

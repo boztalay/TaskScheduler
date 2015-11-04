@@ -31,12 +31,12 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
         return controller
     }()
     
-    func handleManagedObjectContextDidChange(notification: NSNotification) {
+    func handleManagedObjectContextDidSave(notification: NSNotification) {
         self.refreshSchedule()
     }
     
     func subscribeToDataSaves() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleManagedObjectContextDidChange:"), name: NSManagedObjectContextDidSaveNotification, object: self.coreDataStack!.managedObjectContext)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleManagedObjectContextDidSave:"), name: NSManagedObjectContextDidSaveNotification, object: self.coreDataStack!.managedObjectContext)
     }
     
     func unsubscribeFromDataSaves() {
@@ -60,13 +60,13 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
         if fetchedResultsController.fetchedObjects?.count <= 0 {
             self.performSegueWithIdentifier("TasksToSetup", sender: nil)
         } else {
-            // Need to do this manually on the first fetch because controllerDidChangeContent
-            // only gets called for subsequent changes
+            // Need to do this manually on the first fetch
             self.refreshSchedule()
         }
     }
     
     func refreshSchedule() {
+        try! fetchedResultsController.performFetch()
         if let fetchedObjects = self.fetchedResultsController.fetchedObjects {
             if fetchedObjects.count > 0 {
                 self.user = fetchedObjects[0] as? User
@@ -80,12 +80,10 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
     func setupComplete(workSchedule: AvailableWorkSchedule) {
         self.user = User(context: self.coreDataStack!.managedObjectContext)
         self.user!.scheduleWorkTime(workSchedule)
-        saveContext(self.coreDataStack!.managedObjectContext) { (result) -> Void in
-            if !result.success {
-                print("Couldn't save the context: \(result.error)")
-            } else {
-                
-            }
+        
+        let saveResult = saveContextAndWait(self.coreDataStack!.managedObjectContext)
+        if !saveResult.success {
+            print("Couldn't save the context: \(saveResult.error)")
         }
     }
     
@@ -99,37 +97,46 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
             print("Schedule failed")
         } else {
             print("Schedule success")
+            printTasks()
             self.tableView.reloadData()
         }
         self.subscribeToDataSaves()
     }
     
+    func printTasks() {
+        print("\(self.user!.todayWorkDay().date)")
+        for workSession in self.user!.todayWorkDay().workSessionsArray {
+            print("- \(workSession.parentTask.title) for \(workSession.amountOfWork) on \(workSession.dayScheduledOn.date)")
+        }
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if let user = self.user {
-            return user.tasksArray.count
+            return user.todayWorkDay().workSessionsArray.count
         } else {
             return 0
         }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Task Cell", forIndexPath: indexPath) as! TaskTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Task Cell", forIndexPath: indexPath) as! WorkSessionTableViewCell
         
-        let task = self.user!.tasksArray[indexPath.row]
-        cell.setTask(task)
+        let workSession = self.user!.todayWorkDay().workSessionsArray[indexPath.row]
+        cell.setWorkSession(workSession)
         
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("TasksToEditTask", sender: self.user!.tasksArray[indexPath.row])
+        self.performSegueWithIdentifier("TasksToEditTask", sender: self.user!.todayWorkDay().workSessionsArray[indexPath.row].parentTask)
     }
     
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
-            // Delete the task
+            // Delete the work session's task
             
-            let taskToDelete = [self.fetchedResultsController.fetchedObjects![indexPath.row] as! Task]
+            let workSession = self.user!.todayWorkDay().workSessionsArray[indexPath.row]
+            let taskToDelete = [workSession.parentTask]
             deleteObjects(taskToDelete, inContext: self.coreDataStack!.managedObjectContext)
             
             // Save the context
