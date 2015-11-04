@@ -21,7 +21,6 @@
 		FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */; };
 		FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE361BAC7EF00055ACF2 /* AppDelegate.swift */; };
 		FBD1BE391BAC7EF00055ACF2 /* TasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE381BAC7EF00055ACF2 /* TasksViewController.swift */; };
-		FBD1BE3B1BAC7EF00055ACF2 /* OverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE3A1BAC7EF00055ACF2 /* OverviewViewController.swift */; };
 		FBD1BE3E1BAC7EF00055ACF2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD1BE3C1BAC7EF00055ACF2 /* Main.storyboard */; };
 		FBD1BE401BAC7EF00055ACF2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBD1BE3F1BAC7EF00055ACF2 /* Assets.xcassets */; };
 		FBD1BE431BAC7EF00055ACF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD1BE411BAC7EF00055ACF2 /* LaunchScreen.storyboard */; };
@@ -90,7 +89,6 @@
 		FBD1BE331BAC7EF00055ACF2 /* TaskScheduler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskScheduler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD1BE361BAC7EF00055ACF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBD1BE381BAC7EF00055ACF2 /* TasksViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksViewController.swift; sourceTree = "<group>"; };
-		FBD1BE3A1BAC7EF00055ACF2 /* OverviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverviewViewController.swift; sourceTree = "<group>"; };
 		FBD1BE3D1BAC7EF00055ACF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FBD1BE3F1BAC7EF00055ACF2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FBD1BE421BAC7EF00055ACF2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -261,7 +259,6 @@
 			isa = PBXGroup;
 			children = (
 				FBD1BE381BAC7EF00055ACF2 /* TasksViewController.swift */,
-				FBD1BE3A1BAC7EF00055ACF2 /* OverviewViewController.swift */,
 				FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */,
 				FB80ABB81BDAB884002C28B2 /* SetupViewController.swift */,
 			);
@@ -448,7 +445,6 @@
 				FB80ABB91BDAB884002C28B2 /* SetupViewController.swift in Sources */,
 				FB709EF61BCC3E990092B9D8 /* DateUtils.swift in Sources */,
 				FBD1BE6C1BAC87450055ACF2 /* TaskTableViewCell.swift in Sources */,
-				FBD1BE3B1BAC7EF00055ACF2 /* OverviewViewController.swift in Sources */,
 				FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */,
 				FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */,
 				FBD1BE391BAC7EF00055ACF2 /* TasksViewController.swift in Sources */,
