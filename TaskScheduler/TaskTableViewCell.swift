@@ -2,13 +2,13 @@
 //  TaskTableViewCell.swift
 //  TaskScheduler
 //
-//  Created by Ben Oztalay on 9/18/15.
+//  Created by Ben Oztalay on 12/21/15.
 //  Copyright © 2015 Ben Oztalay. All rights reserved.
 //
 
 import UIKit
 
-class WorkSessionTableViewCell: UITableViewCell {
+class TaskTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dueByLabel: UILabel!
     @IBOutlet weak var priorityLabel: UILabel!
@@ -23,10 +23,9 @@ class WorkSessionTableViewCell: UITableViewCell {
         return formatter
     }()
     
-    func setWorkSession(workSession: TaskWorkSession) {
-        let task = workSession.parentTask
-        self.titleLabel.text = "\(task.title) for \(workSession.amountOfWork) hours"
-        self.dueByLabel.text = "Due " + WorkSessionTableViewCell.dateFormatter.stringFromDate(task.dueDate)
+    func setTask(task: Task) {
+        self.titleLabel.text = "\(task.title) (\(task.workEstimate) hours)"
+        self.dueByLabel.text = "Due " + TaskTableViewCell.dateFormatter.stringFromDate(task.dueDate)
         self.priorityLabel.text = String(task.priority)
         self.typeLabel.text = task.type
     }

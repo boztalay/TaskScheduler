@@ -131,6 +131,12 @@ class Task: NSManagedObject {
         self.isComplete = false
     }
     
+    
+    // Whether or not the task is due on or before the given date
+    func isDueOnOrBefore(date: NSDate) -> Bool {
+        return (self.dueDate.compare(date) != .OrderedDescending)
+    }
+    
     // Adds the given TaskWorkSession to this task
     func addWorkSession(workSession: TaskWorkSession) {
         self.workSessions = self.workSessions.setByAddingObject(workSession)

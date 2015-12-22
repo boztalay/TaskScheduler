@@ -16,6 +16,8 @@
 		FB709EF61BCC3E990092B9D8 /* DateUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF51BCC3E990092B9D8 /* DateUtils.swift */; };
 		FB709EFA1BCEB3A70092B9D8 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */; };
 		FB80ABB91BDAB884002C28B2 /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB80ABB81BDAB884002C28B2 /* SetupViewController.swift */; };
+		FBA05C601C28EE1B00498424 /* AllTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA05C5F1C28EE1B00498424 /* AllTasksViewController.swift */; };
+		FBA05C621C28F2C200498424 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA05C611C28F2C200498424 /* TaskTableViewCell.swift */; };
 		FBAEE8021BB9A92200E87679 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8001BB9A92200E87679 /* Task.swift */; };
 		FBAEE8041BB9AE2300E87679 /* TaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8031BB9AE2300E87679 /* TaskType.swift */; };
 		FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */; };
@@ -83,6 +85,8 @@
 		FB709EF51BCC3E990092B9D8 /* DateUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateUtils.swift; sourceTree = "<group>"; };
 		FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		FB80ABB81BDAB884002C28B2 /* SetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
+		FBA05C5F1C28EE1B00498424 /* AllTasksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllTasksViewController.swift; sourceTree = "<group>"; };
+		FBA05C611C28F2C200498424 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		FBAEE8001BB9A92200E87679 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		FBAEE8031BB9AE2300E87679 /* TaskType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskType.swift; sourceTree = "<group>"; };
 		FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
@@ -251,6 +255,7 @@
 			isa = PBXGroup;
 			children = (
 				FBD1BE6B1BAC87450055ACF2 /* WorkSessionTableViewCell.swift */,
+				FBA05C611C28F2C200498424 /* TaskTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -258,9 +263,10 @@
 		FBD1BE681BAC7F050055ACF2 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				FB80ABB81BDAB884002C28B2 /* SetupViewController.swift */,
 				FBD1BE381BAC7EF00055ACF2 /* TasksViewController.swift */,
 				FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */,
-				FB80ABB81BDAB884002C28B2 /* SetupViewController.swift */,
+				FBA05C5F1C28EE1B00498424 /* AllTasksViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -446,9 +452,11 @@
 				FB709EF61BCC3E990092B9D8 /* DateUtils.swift in Sources */,
 				FBD1BE6C1BAC87450055ACF2 /* WorkSessionTableViewCell.swift in Sources */,
 				FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */,
+				FBA05C621C28F2C200498424 /* TaskTableViewCell.swift in Sources */,
 				FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */,
 				FBD1BE391BAC7EF00055ACF2 /* TasksViewController.swift in Sources */,
 				FB709EF11BCC3A890092B9D8 /* TaskWorkSession.swift in Sources */,
+				FBA05C601C28EE1B00498424 /* AllTasksViewController.swift in Sources */,
 				FBAEE8041BB9AE2300E87679 /* TaskType.swift in Sources */,
 				FB709EED1BCC3A4D0092B9D8 /* User.swift in Sources */,
 				FBD1BE701BAC8CD70055ACF2 /* Priority.swift in Sources */,

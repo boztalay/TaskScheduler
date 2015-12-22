@@ -179,7 +179,7 @@ class User: NSManagedObject {
     
     // Calculates the amount of work to do between now and the given date
     func workToDoBetweenNowAnd(date date: NSDate) -> Float {
-        return self.notDroppedTasks.filter({ !$0.isDueInPast }).map({ $0.workLeftToDo }).reduce(0.0, combine: +)
+        return self.notDroppedTasks.filter({ $0.isDueOnOrBefore(date) && !$0.isDueInPast }).map({ $0.workLeftToDo }).reduce(0.0, combine: +)
     }
     
     // Removes all of the incomplete work sessions from all of

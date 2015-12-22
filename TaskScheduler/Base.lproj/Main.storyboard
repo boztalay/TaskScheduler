@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="YOb-oI-7jZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="yol-B8-F9u">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Tasks-->
+        <!--Tab Bar Controller-->
+        <scene sceneID="Xsu-Uq-GLn">
+            <objects>
+                <tabBarController id="yol-B8-F9u" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="Wra-9n-o67">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="YOb-oI-7jZ" kind="relationship" relationship="viewControllers" id="uxU-xP-uSX"/>
+                        <segue destination="60c-5L-epe" kind="relationship" relationship="viewControllers" id="e0R-rD-SjE"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jkY-qs-zqJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-84" y="-374"/>
+        </scene>
+        <!--Today-->
         <scene sceneID="59l-8P-ycG">
             <objects>
                 <navigationController id="YOb-oI-7jZ" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Tasks" image="first" id="eHG-8N-oku"/>
+                    <tabBarItem key="tabBarItem" title="Today" image="first" id="eHG-8N-oku"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="LoN-6M-ITl">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <connections>
                         <segue destination="u8q-WI-CfE" kind="relationship" relationship="rootViewController" id="Gud-l7-aSY"/>
@@ -22,7 +39,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Zj-uW-oks" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="750" y="-374"/>
+            <point key="canvasLocation" x="724" y="-374"/>
         </scene>
         <!--Today's Tasks-->
         <scene sceneID="wbi-Br-bql">
@@ -31,11 +48,10 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="6k5-2H-NBL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Task Cell" id="QwI-Ab-rAA" customClass="WorkSessionTableViewCell" customModule="TaskScheduler" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="WorkSessionCell" id="QwI-Ab-rAA" customClass="WorkSessionTableViewCell" customModule="TaskScheduler" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="600" height="60"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QwI-Ab-rAA" id="iMe-hk-ys3">
@@ -44,7 +60,6 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due by tomorrow at 2:30pm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JJo-fT-5eq">
                                             <rect key="frame" x="8" y="31" width="494" height="21"/>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="9eA-7O-dFw"/>
                                             </constraints>
@@ -54,7 +69,6 @@
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task type" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZCr-iT-KGq">
                                             <rect key="frame" x="517" y="31" width="75" height="21"/>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="75" id="nkS-ym-uCv"/>
                                                 <constraint firstAttribute="height" constant="21" id="zGT-n5-qt1"/>
@@ -65,7 +79,6 @@
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Priority" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wuT-3b-d8N">
                                             <rect key="frame" x="517" y="8" width="75" height="21"/>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="3gX-Tv-BFQ"/>
                                                 <constraint firstAttribute="width" constant="75" id="aaK-zd-rrk"/>
@@ -76,7 +89,6 @@
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aFg-Gt-IoR">
                                             <rect key="frame" x="8" y="8" width="494" height="21"/>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="21" id="keq-qd-qlv"/>
                                             </constraints>
@@ -85,7 +97,6 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <animations/>
                                     <constraints>
                                         <constraint firstAttribute="bottom" secondItem="ZCr-iT-KGq" secondAttribute="bottom" constant="7.5" id="0hb-3X-BeQ"/>
                                         <constraint firstAttribute="bottom" secondItem="JJo-fT-5eq" secondAttribute="bottom" constant="7.5" id="Bra-bP-nyd"/>
@@ -100,7 +111,6 @@
                                     </constraints>
                                     <edgeInsets key="layoutMargins" top="8" left="15" bottom="8" right="8"/>
                                 </tableViewCellContentView>
-                                <animations/>
                                 <edgeInsets key="layoutMargins" top="8" left="15" bottom="8" right="8"/>
                                 <connections>
                                     <outlet property="dueByLabel" destination="JJo-fT-5eq" id="bx1-TM-HwW"/>
@@ -133,6 +143,112 @@
             </objects>
             <point key="canvasLocation" x="1494" y="-374"/>
         </scene>
+        <!--Tasks-->
+        <scene sceneID="pLw-xX-o5s">
+            <objects>
+                <navigationController id="60c-5L-epe" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Tasks" image="second" id="3q5-72-DNF"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PjT-cb-Tb3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="60G-ka-S1T" kind="relationship" relationship="rootViewController" id="ui3-Kx-wFh"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="wfj-Vw-P86" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="724" y="358"/>
+        </scene>
+        <!--All Tasks-->
+        <scene sceneID="KPa-2O-jry">
+            <objects>
+                <tableViewController id="60G-ka-S1T" customClass="AllTasksViewController" customModule="TaskScheduler" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="6q5-2b-LEb">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TaskCell" id="Wja-2v-1xP" customClass="TaskTableViewCell" customModule="TaskScheduler" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="60"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Wja-2v-1xP" id="SFi-Nh-zDu">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Due by tomorrow at 2:30pm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p26-JW-RhV">
+                                            <rect key="frame" x="8" y="31" width="494" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="Va5-qe-ghh"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task type" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hte-cD-gkd">
+                                            <rect key="frame" x="517" y="31" width="75" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="75" id="8EB-gh-CbC"/>
+                                                <constraint firstAttribute="height" constant="21" id="bjE-ZO-cdM"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Priority" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n4b-97-Z5i">
+                                            <rect key="frame" x="517" y="8" width="75" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="Hns-Ss-kEv"/>
+                                                <constraint firstAttribute="width" constant="75" id="b6F-VD-ZuK"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Task Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gyc-68-t2Y">
+                                            <rect key="frame" x="8" y="8" width="494" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="jVb-rx-d5q"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="gyc-68-t2Y" firstAttribute="leading" secondItem="SFi-Nh-zDu" secondAttribute="leadingMargin" constant="-7" id="4ys-B6-MWt"/>
+                                        <constraint firstAttribute="trailing" secondItem="hte-cD-gkd" secondAttribute="trailing" constant="8" id="5z8-V1-G9Z"/>
+                                        <constraint firstItem="gyc-68-t2Y" firstAttribute="top" secondItem="SFi-Nh-zDu" secondAttribute="top" constant="8" id="62g-t2-zpV"/>
+                                        <constraint firstItem="hte-cD-gkd" firstAttribute="leading" secondItem="p26-JW-RhV" secondAttribute="trailing" constant="15" id="Gor-ja-8HH"/>
+                                        <constraint firstItem="p26-JW-RhV" firstAttribute="leading" secondItem="SFi-Nh-zDu" secondAttribute="leadingMargin" constant="-7" id="L57-ub-0jO"/>
+                                        <constraint firstItem="n4b-97-Z5i" firstAttribute="leading" secondItem="gyc-68-t2Y" secondAttribute="trailing" constant="15" id="SEU-PG-Zx4"/>
+                                        <constraint firstAttribute="trailing" secondItem="n4b-97-Z5i" secondAttribute="trailing" constant="8" id="iHc-r5-SQI"/>
+                                        <constraint firstAttribute="bottom" secondItem="hte-cD-gkd" secondAttribute="bottom" constant="7.5" id="nNH-Cg-w5O"/>
+                                        <constraint firstItem="n4b-97-Z5i" firstAttribute="top" secondItem="SFi-Nh-zDu" secondAttribute="top" constant="8" id="oWU-lh-xir"/>
+                                        <constraint firstAttribute="bottom" secondItem="p26-JW-RhV" secondAttribute="bottom" constant="7.5" id="zLd-3I-4Km"/>
+                                    </constraints>
+                                    <edgeInsets key="layoutMargins" top="8" left="15" bottom="8" right="8"/>
+                                </tableViewCellContentView>
+                                <edgeInsets key="layoutMargins" top="8" left="15" bottom="8" right="8"/>
+                                <connections>
+                                    <outlet property="dueByLabel" destination="p26-JW-RhV" id="W9S-Bx-LRW"/>
+                                    <outlet property="priorityLabel" destination="n4b-97-Z5i" id="T4d-kZ-fiM"/>
+                                    <outlet property="titleLabel" destination="gyc-68-t2Y" id="fgi-Sz-vcH"/>
+                                    <outlet property="typeLabel" destination="hte-cD-gkd" id="dRa-G7-9Oh"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="60G-ka-S1T" id="efq-4C-Gve"/>
+                            <outlet property="delegate" destination="60G-ka-S1T" id="lva-VY-bUF"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="All Tasks" id="AaT-5e-smN"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iCE-dP-anY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1494" y="358"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="uAO-lj-afM">
             <objects>
@@ -140,7 +256,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Gph-b1-oUu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <connections>
                         <segue destination="bY3-WC-BbD" kind="relationship" relationship="rootViewController" id="VWk-Re-ycy"/>
@@ -157,7 +272,6 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="v9O-Rc-9Rc">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection id="DMt-uK-nJS">
@@ -171,12 +285,10 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OS3-6B-etg">
                                                     <rect key="frame" x="15" y="7" width="577" height="30"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstItem="OS3-6B-etg" firstAttribute="leading" secondItem="ZPL-f0-gAb" secondAttribute="leading" constant="15" id="76s-A2-4i5"/>
                                                 <constraint firstAttribute="trailing" secondItem="OS3-6B-etg" secondAttribute="trailing" constant="8" id="YiW-oB-1Rk"/>
@@ -184,7 +296,6 @@
                                                 <constraint firstItem="OS3-6B-etg" firstAttribute="top" secondItem="ZPL-f0-gAb" secondAttribute="top" constant="7" id="yIE-Ge-MBf"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -199,12 +310,10 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Hours of Work" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ivn-5b-zVZ">
                                                     <rect key="frame" x="15" y="7" width="577" height="30"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                                 </textField>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstItem="Ivn-5b-zVZ" firstAttribute="leading" secondItem="wix-yo-UdK" secondAttribute="leading" constant="15" id="6KP-rs-Kyy"/>
                                                 <constraint firstAttribute="bottom" secondItem="Ivn-5b-zVZ" secondAttribute="bottom" constant="7" id="KzD-fO-fbR"/>
@@ -212,7 +321,6 @@
                                                 <constraint firstAttribute="trailing" secondItem="Ivn-5b-zVZ" secondAttribute="trailing" constant="8" id="vdi-W9-qDn"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -227,13 +335,11 @@
                                             <subviews>
                                                 <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="5" translatesAutoresizingMaskIntoConstraints="NO" id="YHj-Eg-gWo">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
-                                                    <animations/>
                                                     <date key="date" timeIntervalSinceReferenceDate="465162398.84888703">
                                                         <!--2015-09-28 19:46:38 +0000-->
                                                     </date>
                                                 </datePicker>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstItem="YHj-Eg-gWo" firstAttribute="top" secondItem="zMK-SH-VOM" secondAttribute="top" id="8Oc-6J-QdY"/>
                                                 <constraint firstAttribute="bottom" secondItem="YHj-Eg-gWo" secondAttribute="bottom" id="MYx-Cy-5T9"/>
@@ -241,7 +347,6 @@
                                                 <constraint firstItem="YHj-Eg-gWo" firstAttribute="leading" secondItem="zMK-SH-VOM" secondAttribute="leading" id="tp1-L4-4Wx"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -256,10 +361,8 @@
                                             <subviews>
                                                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CPN-fS-SXp">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
-                                                    <animations/>
                                                 </pickerView>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="CPN-fS-SXp" secondAttribute="trailing" id="978-2A-IEE"/>
                                                 <constraint firstItem="CPN-fS-SXp" firstAttribute="leading" secondItem="fRU-Ih-9M7" secondAttribute="leading" id="L0E-tg-sio"/>
@@ -267,7 +370,6 @@
                                                 <constraint firstAttribute="bottom" secondItem="CPN-fS-SXp" secondAttribute="bottom" id="vrb-1G-FM4"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -282,10 +384,8 @@
                                             <subviews>
                                                 <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3Pc-gN-gWF">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="216"/>
-                                                    <animations/>
                                                 </pickerView>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="3Pc-gN-gWF" secondAttribute="bottom" id="DsV-U4-zbh"/>
                                                 <constraint firstItem="3Pc-gN-gWF" firstAttribute="leading" secondItem="lWv-mM-gCJ" secondAttribute="leading" id="Rit-fS-tQ9"/>
@@ -293,7 +393,6 @@
                                                 <constraint firstItem="3Pc-gN-gWF" firstAttribute="top" secondItem="lWv-mM-gCJ" secondAttribute="top" id="myZ-8W-D5k"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -336,7 +435,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="tes-Wn-Bar">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <connections>
                         <segue destination="UPQ-ja-RSk" kind="relationship" relationship="rootViewController" id="C0t-4v-f8M"/>
@@ -353,7 +451,6 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="ArK-RD-mzn">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <sections>
                             <tableViewSection headerTitle="HOURS AVAILABLE" id="Hws-tv-HVc">
@@ -367,12 +464,10 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Sunday" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ari-AK-t36">
                                                     <rect key="frame" x="15" y="7" width="577" height="30"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                 </textField>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstItem="Ari-AK-t36" firstAttribute="top" secondItem="cu2-ox-2Hp" secondAttribute="top" constant="7" id="Iav-YE-Oi1"/>
                                                 <constraint firstItem="Ari-AK-t36" firstAttribute="leading" secondItem="cu2-ox-2Hp" secondAttribute="leading" constant="15" id="b6v-xs-IoT"/>
@@ -380,7 +475,6 @@
                                                 <constraint firstAttribute="bottom" secondItem="Ari-AK-t36" secondAttribute="bottom" constant="7" id="rce-qi-0x9"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="AuI-Is-FK8">
                                         <rect key="frame" x="0.0" y="158" width="600" height="44"/>
@@ -391,12 +485,10 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Monday" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DJZ-XW-W22">
                                                     <rect key="frame" x="15" y="7" width="577" height="30"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                 </textField>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstItem="DJZ-XW-W22" firstAttribute="top" secondItem="WGL-gH-tDi" secondAttribute="top" constant="7" id="4Vr-7B-6E0"/>
                                                 <constraint firstItem="DJZ-XW-W22" firstAttribute="leading" secondItem="WGL-gH-tDi" secondAttribute="leading" constant="15" id="YNO-Bf-BDE"/>
@@ -404,7 +496,6 @@
                                                 <constraint firstAttribute="trailing" secondItem="DJZ-XW-W22" secondAttribute="trailing" constant="8" id="gh6-TV-e1F"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="nSN-lK-RnD">
                                         <rect key="frame" x="0.0" y="202" width="600" height="44"/>
@@ -415,12 +506,10 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tuesday" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JoE-HT-yC2">
                                                     <rect key="frame" x="15" y="7" width="577" height="30"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                 </textField>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="JoE-HT-yC2" secondAttribute="trailing" constant="8" id="PRZ-9h-tRN"/>
                                                 <constraint firstItem="JoE-HT-yC2" firstAttribute="top" secondItem="LZb-fZ-d3i" secondAttribute="top" constant="7" id="caA-iD-KOi"/>
@@ -428,7 +517,6 @@
                                                 <constraint firstAttribute="bottom" secondItem="JoE-HT-yC2" secondAttribute="bottom" constant="7" id="rj6-ml-hQr"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="wYc-bE-eMy">
                                         <rect key="frame" x="0.0" y="246" width="600" height="44"/>
@@ -439,12 +527,10 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Wednesday" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v5v-16-cYc">
                                                     <rect key="frame" x="15" y="7" width="577" height="30"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                 </textField>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstItem="v5v-16-cYc" firstAttribute="leading" secondItem="XPq-f9-16y" secondAttribute="leading" constant="15" id="4OO-I8-JlY"/>
                                                 <constraint firstAttribute="bottom" secondItem="v5v-16-cYc" secondAttribute="bottom" constant="7" id="8c3-RR-TnP"/>
@@ -452,7 +538,6 @@
                                                 <constraint firstItem="v5v-16-cYc" firstAttribute="top" secondItem="XPq-f9-16y" secondAttribute="top" constant="7" id="DVf-xQ-KBR"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="YbP-OY-hrG">
                                         <rect key="frame" x="0.0" y="290" width="600" height="44"/>
@@ -463,12 +548,10 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Thursday" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="JH7-9r-Ux9">
                                                     <rect key="frame" x="15" y="7" width="577" height="30"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                 </textField>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="JH7-9r-Ux9" secondAttribute="trailing" constant="8" id="JJo-9K-5Wv"/>
                                                 <constraint firstAttribute="bottom" secondItem="JH7-9r-Ux9" secondAttribute="bottom" constant="7" id="NFl-A9-cpq"/>
@@ -476,7 +559,6 @@
                                                 <constraint firstItem="JH7-9r-Ux9" firstAttribute="top" secondItem="UuJ-2r-JBM" secondAttribute="top" constant="7" id="mt6-lm-8ph"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="QyM-Qv-pUu">
                                         <rect key="frame" x="0.0" y="334" width="600" height="44"/>
@@ -487,12 +569,10 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Friday" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6sa-h6-p0J">
                                                     <rect key="frame" x="15" y="7" width="577" height="30"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                 </textField>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstItem="6sa-h6-p0J" firstAttribute="top" secondItem="PTG-Eu-s0V" secondAttribute="top" constant="7" id="JtX-M2-bjB"/>
                                                 <constraint firstAttribute="bottom" secondItem="6sa-h6-p0J" secondAttribute="bottom" constant="7" id="UTy-tD-MbH"/>
@@ -500,7 +580,6 @@
                                                 <constraint firstItem="6sa-h6-p0J" firstAttribute="leading" secondItem="PTG-Eu-s0V" secondAttribute="leading" constant="15" id="set-vb-hne"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="f0J-1L-97X">
                                         <rect key="frame" x="0.0" y="378" width="600" height="44"/>
@@ -511,12 +590,10 @@
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Saturday" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="CsG-ML-udJ">
                                                     <rect key="frame" x="15" y="7" width="577" height="30"/>
-                                                    <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
                                                 </textField>
                                             </subviews>
-                                            <animations/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="CsG-ML-udJ" secondAttribute="trailing" constant="8" id="FGv-j1-Kqp"/>
                                                 <constraint firstAttribute="bottom" secondItem="CsG-ML-udJ" secondAttribute="bottom" constant="7" id="Kbd-Mb-eti"/>
@@ -524,7 +601,6 @@
                                                 <constraint firstItem="CsG-ML-udJ" firstAttribute="top" secondItem="8ns-pH-LsT" secondAttribute="top" constant="7" id="eVr-Gj-cO2"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <animations/>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -558,6 +634,7 @@
     </scenes>
     <resources>
         <image name="first" width="30" height="30"/>
+        <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="riO-sv-9nt"/>
