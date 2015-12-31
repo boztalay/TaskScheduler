@@ -243,7 +243,17 @@
                             <outlet property="delegate" destination="60G-ka-S1T" id="lva-VY-bUF"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="All Tasks" id="AaT-5e-smN"/>
+                    <navigationItem key="navigationItem" title="All Tasks" id="AaT-5e-smN">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="kGO-19-eva">
+                            <connections>
+                                <action selector="addButtonPressed:" destination="60G-ka-S1T" id="Y89-hm-YUF"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="Cgd-Fh-Id7" kind="presentation" identifier="AllTasksToNewTask" id="lyD-iM-Nt8"/>
+                        <segue destination="bY3-WC-BbD" kind="show" identifier="AllTasksToEditTask" id="xra-a0-KPr"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iCE-dP-anY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -637,6 +647,7 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="riO-sv-9nt"/>
+        <segue reference="xra-a0-KPr"/>
+        <segue reference="lyD-iM-Nt8"/>
     </inferredMetricsTieBreakers>
 </document>

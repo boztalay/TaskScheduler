@@ -18,6 +18,7 @@
 		FB80ABB91BDAB884002C28B2 /* SetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB80ABB81BDAB884002C28B2 /* SetupViewController.swift */; };
 		FBA05C601C28EE1B00498424 /* AllTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA05C5F1C28EE1B00498424 /* AllTasksViewController.swift */; };
 		FBA05C621C28F2C200498424 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA05C611C28F2C200498424 /* TaskTableViewCell.swift */; };
+		FBA05C651C3389C300498424 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA05C641C3389C300498424 /* PersistenceController.swift */; };
 		FBAEE8021BB9A92200E87679 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8001BB9A92200E87679 /* Task.swift */; };
 		FBAEE8041BB9AE2300E87679 /* TaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8031BB9AE2300E87679 /* TaskType.swift */; };
 		FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */; };
@@ -87,6 +88,7 @@
 		FB80ABB81BDAB884002C28B2 /* SetupViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SetupViewController.swift; sourceTree = "<group>"; };
 		FBA05C5F1C28EE1B00498424 /* AllTasksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllTasksViewController.swift; sourceTree = "<group>"; };
 		FBA05C611C28F2C200498424 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
+		FBA05C641C3389C300498424 /* PersistenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		FBAEE8001BB9A92200E87679 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		FBAEE8031BB9AE2300E87679 /* TaskType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskType.swift; sourceTree = "<group>"; };
 		FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
@@ -186,6 +188,14 @@
 			name = Scheduler;
 			sourceTree = "<group>";
 		};
+		FBA05C631C33897900498424 /* Persistence */ = {
+			isa = PBXGroup;
+			children = (
+				FBA05C641C3389C300498424 /* PersistenceController.swift */,
+			);
+			name = Persistence;
+			sourceTree = "<group>";
+		};
 		FBD1BE2A1BAC7EF00055ACF2 = {
 			isa = PBXGroup;
 			children = (
@@ -246,6 +256,7 @@
 				FB709EFB1BCEB3B70092B9D8 /* Scheduler */,
 				FB709EF71BCEB3830092B9D8 /* Classes */,
 				FB709EF81BCEB3970092B9D8 /* Helpers */,
+				FBA05C631C33897900498424 /* Persistence */,
 				FB14C1741BB97E8C000A16EE /* TaskScheduler.xcdatamodeld */,
 			);
 			name = Model;
@@ -454,6 +465,7 @@
 				FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */,
 				FBA05C621C28F2C200498424 /* TaskTableViewCell.swift in Sources */,
 				FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */,
+				FBA05C651C3389C300498424 /* PersistenceController.swift in Sources */,
 				FBD1BE391BAC7EF00055ACF2 /* TasksViewController.swift in Sources */,
 				FB709EF11BCC3A890092B9D8 /* TaskWorkSession.swift in Sources */,
 				FBA05C601C28EE1B00498424 /* AllTasksViewController.swift in Sources */,
