@@ -8,7 +8,7 @@
 
 import UIKit
 
-class AllTasksViewController: UITableViewController, UITabBarControllerDelegate, PersistenceControllerDelegate {
+class AllTasksViewController: UITableViewController, PersistenceControllerDelegate {
     
     let persistenceController = PersistenceController.sharedInstance
     
@@ -22,7 +22,6 @@ class AllTasksViewController: UITableViewController, UITabBarControllerDelegate,
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.allowsMultipleSelectionDuringEditing = false
-        self.tabBarController?.delegate = self
         
         self.reloadTasks()
     }
@@ -72,10 +71,6 @@ class AllTasksViewController: UITableViewController, UITabBarControllerDelegate,
                 print("Couldn't save the data")
             }
         }
-    }
-    
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-        self.tableView.setEditing(false, animated: true)
     }
     
     @IBAction func addButtonPressed(sender: AnyObject) {

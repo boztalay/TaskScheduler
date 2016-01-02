@@ -1,5 +1,5 @@
 //
-//  TasksViewController.swift
+//  TodaysWorkViewController.swift
 //  TaskScheduler
 //
 //  Created by Ben Oztalay on 9/18/15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TasksViewController: UITableViewController, UITabBarControllerDelegate, SchedulerDelegate, SetupViewControllerDelegate, PersistenceControllerDelegate {
+class TodaysWorkViewController: UITableViewController, SchedulerDelegate, SetupViewControllerDelegate, PersistenceControllerDelegate {
     
     let persistenceController = PersistenceController.sharedInstance
 
@@ -22,7 +22,6 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.allowsMultipleSelectionDuringEditing = false
-        self.tabBarController?.delegate = self
         
         self.fetchOrCreateUser()
     }
@@ -116,10 +115,6 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
                 print("Couldn't save the data")
             }
         }
-    }
-    
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
-        self.tableView.setEditing(false, animated: true)
     }
 
     @IBAction func addButtonPressed(sender: AnyObject) {

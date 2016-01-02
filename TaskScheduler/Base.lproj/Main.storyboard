@@ -41,10 +41,10 @@
             </objects>
             <point key="canvasLocation" x="724" y="-374"/>
         </scene>
-        <!--Today's Tasks-->
+        <!--Today's Work-->
         <scene sceneID="wbi-Br-bql">
             <objects>
-                <tableViewController id="u8q-WI-CfE" customClass="TasksViewController" customModule="TaskScheduler" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="u8q-WI-CfE" customClass="TodaysWorkViewController" customModule="TaskScheduler" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="6k5-2H-NBL">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -112,8 +112,8 @@
                             <outlet property="delegate" destination="u8q-WI-CfE" id="o8U-RG-zwY"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Tasks" image="first" id="9yt-0f-RNV"/>
-                    <navigationItem key="navigationItem" title="Today's Tasks" id="Caa-Bj-hlY">
+                    <tabBarItem key="tabBarItem" title="Today" image="first" id="9yt-0f-RNV"/>
+                    <navigationItem key="navigationItem" title="Today's Work" id="Caa-Bj-hlY">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="HO7-MC-hkh">
                             <connections>
                                 <action selector="addButtonPressed:" destination="u8q-WI-CfE" id="m2z-9Y-Eya"/>
