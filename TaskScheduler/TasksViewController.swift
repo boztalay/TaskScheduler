@@ -7,57 +7,32 @@
 //
 
 import UIKit
-import CoreData
-import JSQCoreDataKit
 
-class TasksViewController: UITableViewController, UITabBarControllerDelegate, SchedulerDelegate, SetupViewControllerDelegate {
+class TasksViewController: UITableViewController, UITabBarControllerDelegate, SchedulerDelegate, SetupViewControllerDelegate, PersistenceControllerDelegate {
     
-    var coreDataStack: CoreDataStack?
+    let persistenceController = PersistenceController.sharedInstance
+
     var user: User?
     var scheduler: Scheduler?
-    
-    private lazy var fetchedResultsController: NSFetchedResultsController = {
-        let model = CoreDataModel(name: "TaskScheduler", bundle: NSBundle(identifier: "com.boztalay.TaskScheduler")!)
-        self.coreDataStack = CoreDataStack(model: model)
-        
-        let fetchRequest = NSFetchRequest(entityName: "User")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "sunAvailableWorkTime", ascending: true)]
-        fetchRequest.includesSubentities = true
-        
-        let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.coreDataStack!.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        self.subscribeToDataSaves()
-        
-        return controller
-    }()
-    
-    func handleManagedObjectContextDidSave(notification: NSNotification) {
-        self.refreshSchedule()
-    }
-    
-    func subscribeToDataSaves() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleManagedObjectContextDidSave:"), name: NSManagedObjectContextDidSaveNotification, object: self.coreDataStack!.managedObjectContext)
-    }
-    
-    func unsubscribeFromDataSaves() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.persistenceController.addDelegate(self)
+        
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.allowsMultipleSelectionDuringEditing = false
-        
         self.tabBarController?.delegate = self
         
         self.fetchOrCreateUser()
     }
     
+    func persitenceControllerDataChanged() {
+        self.refreshSchedule()
+    }
+    
     func fetchOrCreateUser() {
-        try! fetchedResultsController.performFetch()
-        
-        if fetchedResultsController.fetchedObjects?.count <= 0 {
+        if self.persistenceController.getLatestUserData() == nil {
             self.performSegueWithIdentifier("TasksToSetup", sender: nil)
         } else {
             // Need to do this manually on the first fetch
@@ -66,30 +41,26 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
     }
     
     func refreshSchedule() {
-        try! fetchedResultsController.performFetch()
-        if let fetchedObjects = self.fetchedResultsController.fetchedObjects {
-            if fetchedObjects.count > 0 {
-                self.user = fetchedObjects[0] as? User
-                self.scheduler = Scheduler(user: self.user!, coreDataStack: self.coreDataStack!)
-                self.scheduler!.delegate = self
-                self.scheduler!.scheduleTasksForUser()
-            }
+        if let user = self.persistenceController.getLatestUserData() {
+            self.user = user
+            self.scheduler = Scheduler(user: self.user!)
+            self.scheduler!.delegate = self
+            self.scheduler!.scheduleTasksForUser()
         }
     }
     
     func setupComplete(workSchedule: AvailableWorkSchedule) {
-        self.user = User(context: self.coreDataStack!.managedObjectContext)
+        self.user = User(context: self.persistenceController.coreDataStack!.managedObjectContext)
         self.user!.scheduleWorkTime(workSchedule)
         
-        let saveResult = saveContextAndWait(self.coreDataStack!.managedObjectContext)
-        if !saveResult.success {
-            print("Couldn't save the context: \(saveResult.error)")
+        if !self.persistenceController.saveDataAndWait() {
+            print("Couldn't save the data")
         }
     }
     
     func scheduleStarted() {
         print("Schedule started")
-        self.unsubscribeFromDataSaves()
+        self.persistenceController.removeDelegate(self)
     }
     
     func scheduleCompleted(status: ScheduleStatus) {
@@ -100,7 +71,7 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
             printTasks()
             self.tableView.reloadData()
         }
-        self.subscribeToDataSaves()
+        self.persistenceController.addDelegate(self)
     }
     
     func printTasks() {
@@ -137,13 +108,12 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
             
             let workSession = self.user!.todayWorkDay().workSessionsArray[indexPath.row]
             let taskToDelete = [workSession.parentTask]
-            deleteObjects(taskToDelete, inContext: self.coreDataStack!.managedObjectContext)
+            self.persistenceController.deleteStoredObjects(taskToDelete)
             
             // Save the context
             
-            let saveResult = saveContextAndWait(self.coreDataStack!.managedObjectContext)
-            if !saveResult.success {
-                print("Couldn't save the context: \(saveResult.error)")
+            if !self.persistenceController.saveDataAndWait() {
+                print("Couldn't save the data")
             }
         }
     }
@@ -170,7 +140,6 @@ class TasksViewController: UITableViewController, UITabBarControllerDelegate, Sc
         
             editTaskViewController.task = sender as? Task
             editTaskViewController.user = self.user
-            editTaskViewController.coreDataStack = coreDataStack
         } else if segue.identifier == "TasksToSetup" {
             let setupViewController = navigationController!.viewControllers.first as! SetupViewController
             setupViewController.delegate = self

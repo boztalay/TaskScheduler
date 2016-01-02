@@ -10,17 +10,17 @@ import Foundation
 import CoreData
 import JSQCoreDataKit
 
-protocol PersistenceControllerDelegate : class {
+protocol PersistenceControllerDelegate: class {
     func persitenceControllerDataChanged()
 }
 
-class PersistenceController {
+class PersistenceController: NSObject {
 
     static let sharedInstance = PersistenceController()
     
     private var delegates: [PersistenceControllerDelegate]
     private var latestUser: User?
-    private var coreDataStack: CoreDataStack?
+    var coreDataStack: CoreDataStack?
     
     private lazy var fetchedResultsController: NSFetchedResultsController = {
         let model = CoreDataModel(name: "TaskScheduler", bundle: NSBundle(identifier: "com.boztalay.TaskScheduler")!)
@@ -37,7 +37,7 @@ class PersistenceController {
         return controller
     }()
     
-    private func handleManagedObjectContextDidSave(notification: NSNotification) {
+    func handleManagedObjectContextDidSave(notification: NSNotification) {
         updateLatestUser()
         
         for delegate in self.delegates {
@@ -49,19 +49,27 @@ class PersistenceController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleManagedObjectContextDidSave:"), name: NSManagedObjectContextDidSaveNotification, object: self.coreDataStack!.managedObjectContext)
     }
     
-    init() {
+    override init() {
         self.delegates = []
-        
-        try! fetchedResultsController.performFetch()
+
+        super.init()
+
         updateLatestUser()
     }
     
     private func updateLatestUser() {
+        try! fetchedResultsController.performFetch()
         if let fetchedObjects = self.fetchedResultsController.fetchedObjects {
             if fetchedObjects.count > 0 {
                 self.latestUser = fetchedObjects[0] as? User
+                return
             }
         }
+        
+        // If the fetched results controller didn't find anything, set
+        // latestUser to nil to reflect that (if, for some reason, there
+        // was a stored User, then it disappeared)
+        self.latestUser = nil
     }
     
     func getLatestUserData() -> User? {
@@ -76,5 +84,14 @@ class PersistenceController {
         if let index = self.delegates.indexOf({ $0 === delegateToRemove }) {
             self.delegates.removeAtIndex(index)
         }
+    }
+    
+    func saveDataAndWait() -> Bool {
+        let saveResult = saveContextAndWait(self.coreDataStack!.managedObjectContext)
+        return saveResult.success
+    }
+    
+    func deleteStoredObjects<T: NSManagedObject>(objectsToDelete: [T]) {
+        deleteObjects(objectsToDelete, inContext: self.coreDataStack!.managedObjectContext)
     }
 }

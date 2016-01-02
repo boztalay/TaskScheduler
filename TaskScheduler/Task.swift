@@ -17,6 +17,9 @@ class Task: NSManagedObject {
     // The CoreData entity name to use for this class
     static var entityName = "Task"
     
+    // The user that owns this task
+    @NSManaged var parentUser: User
+    
     // The title or name of the task
     @NSManaged var title: String
 
@@ -166,8 +169,11 @@ class Task: NSManagedObject {
         }
     }
     
-    // Removes all of the incomplete work sessions from this task
-    func resetWorkSessions() {
+    // Removes all of the incomplete work sessions from this task and returns them
+    func resetWorkSessions() -> [TaskWorkSession] {
+        let incompleteWorkSessions = self.workSessionsArray.filter({ !$0.hasBeenCompleted })
         self.workSessions = NSMutableSet.init(array: self.workSessionsArray.filter({ $0.hasBeenCompleted }))
+        
+        return incompleteWorkSessions
     }
 }

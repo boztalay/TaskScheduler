@@ -13,6 +13,9 @@ class WorkDay: NSManagedObject {
     // The CoreData entity name to use for this class
     static var entityName = "WorkDay"
     
+    // The user that owns this work day
+    @NSManaged var parentUser: User
+    
     // The date that this work day is for
     @NSManaged var date: NSDate
     

@@ -10,8 +10,9 @@ import UIKit
 import JSQCoreDataKit
 
 class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+    
+    let persistenceController = PersistenceController.sharedInstance
 
-    var coreDataStack: CoreDataStack?
     var user: User?
     var task: Task?
     var isEditingTask: Bool = false
@@ -129,7 +130,7 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
         // Make or set the task accordingly
         
         if !self.isEditingTask {
-            self.task = Task(context: self.coreDataStack!.managedObjectContext, title: self.titleTextField!.text!, dueDate: date, priority: priority, type: type, workEstimate: workEstimate!)
+            self.task = Task(context: self.persistenceController.coreDataStack!.managedObjectContext, title: self.titleTextField!.text!, dueDate: date, priority: priority, type: type, workEstimate: workEstimate!)
         } else {
             self.task!.title = self.titleTextField!.text!
             self.task!.dueDate = date
@@ -142,9 +143,8 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
         
         // Save the context
         
-        let saveResult = saveContextAndWait(self.coreDataStack!.managedObjectContext)
-        if !saveResult.success {
-            print("Couldn't save the context: \(saveResult.error)")
+        if !self.persistenceController.saveDataAndWait() {
+            print("Couldn't save the data")
         }
         
         // Peace out (in two different ways)

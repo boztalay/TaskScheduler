@@ -19,20 +19,21 @@ protocol SchedulerDelegate {
 }
 
 class Scheduler {
+    
+    let persistenceController = PersistenceController.sharedInstance
+    
     private var user: User
-    private var coreDataStack: CoreDataStack
     
     var delegate: SchedulerDelegate?
     
-    init(user: User, coreDataStack: CoreDataStack) {
+    init(user: User) {
         self.user = user
-        self.coreDataStack = coreDataStack
     }
     
     func scheduleTasksForUser() {
         delegate?.scheduleStarted()
         
-        self.coreDataStack.managedObjectContext.performBlock() {
+        self.persistenceController.coreDataStack!.managedObjectContext.performBlock() {
             do {
                 try self.actuallyScheduleTasksForUser()
                 self.delegate?.scheduleCompleted(ScheduleStatus.Succeeded)
@@ -47,11 +48,17 @@ class Scheduler {
         // and reset them appropriately. Tasks that are eleigible are: not
         // marked as compelete, due in the future, have work left to do.
         
+        // TODO make this whole resetting thing less weird
+        
         let tasksToSchedule = user.outstandingTasks
+        var workSessionsToDelete: [TaskWorkSession] = []
         for task in tasksToSchedule {
             task.isDropped = false
-            task.resetWorkSessions()
+            workSessionsToDelete.appendContentsOf(task.resetWorkSessions())
         }
+        
+        // Delete the now-orphaned work sessions
+        self.persistenceController.deleteStoredObjects(workSessionsToDelete)
         
         // Then, reset all of the workdays
         user.resetWorkDays()

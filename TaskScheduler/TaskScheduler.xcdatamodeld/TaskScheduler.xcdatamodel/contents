@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="15C50" minimumToolsVersion="Xcode 7.0">
     <entity name="Task" representedClassName=".Task" syncable="YES">
         <attribute name="dueDate" attributeType="Date" syncable="YES"/>
         <attribute name="isCompleteNum" attributeType="Boolean" syncable="YES"/>
@@ -8,7 +8,8 @@
         <attribute name="title" attributeType="String" syncable="YES"/>
         <attribute name="type" attributeType="String" syncable="YES"/>
         <attribute name="workEstimateNum" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="workSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskWorkSession" inverseName="parentTask" inverseEntity="TaskWorkSession" syncable="YES"/>
+        <relationship name="parentUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="tasks" inverseEntity="User" syncable="YES"/>
+        <relationship name="workSessions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TaskWorkSession" inverseName="parentTask" inverseEntity="TaskWorkSession" syncable="YES"/>
     </entity>
     <entity name="TaskWorkSession" representedClassName=".TaskWorkSession" syncable="YES">
         <attribute name="amountOfWorkNum" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
@@ -24,18 +25,19 @@
         <attribute name="thuAvailableWorkTime" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="tueAvailableWorkTime" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <attribute name="wedAvailableWorkTime" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
-        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Task" syncable="YES"/>
-        <relationship name="workDays" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkDay" syncable="YES"/>
+        <relationship name="tasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Task" inverseName="parentUser" inverseEntity="Task" syncable="YES"/>
+        <relationship name="workDays" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="WorkDay" inverseName="parentUser" inverseEntity="WorkDay" syncable="YES"/>
     </entity>
     <entity name="WorkDay" representedClassName=".WorkDay" syncable="YES">
         <attribute name="date" attributeType="Date" syncable="YES"/>
         <attribute name="totalAvailableWorkNum" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <relationship name="parentUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="workDays" inverseEntity="User" syncable="YES"/>
         <relationship name="workSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskWorkSession" inverseName="dayScheduledOn" inverseEntity="TaskWorkSession" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Task" positionX="-36" positionY="54" width="128" height="165"/>
+        <element name="Task" positionX="-36" positionY="54" width="128" height="180"/>
         <element name="TaskWorkSession" positionX="-54" positionY="45" width="128" height="105"/>
         <element name="User" positionX="-63" positionY="-18" width="128" height="180"/>
-        <element name="WorkDay" positionX="-18" positionY="63" width="128" height="90"/>
+        <element name="WorkDay" positionX="-18" positionY="63" width="128" height="105"/>
     </elements>
 </model>

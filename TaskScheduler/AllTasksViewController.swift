@@ -7,60 +7,32 @@
 //
 
 import UIKit
-import CoreData
-import JSQCoreDataKit
 
-class AllTasksViewController: UITableViewController, UITabBarControllerDelegate {
+class AllTasksViewController: UITableViewController, UITabBarControllerDelegate, PersistenceControllerDelegate {
     
-    var coreDataStack: CoreDataStack?
+    let persistenceController = PersistenceController.sharedInstance
+    
     var user: User?
     var sortedTasks: [Task]?
     
-    private lazy var fetchedResultsController: NSFetchedResultsController = {
-        let model = CoreDataModel(name: "TaskScheduler", bundle: NSBundle(identifier: "com.boztalay.TaskScheduler")!)
-        self.coreDataStack = CoreDataStack(model: model)
-        
-        let fetchRequest = NSFetchRequest(entityName: "User")
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "sunAvailableWorkTime", ascending: true)]
-        fetchRequest.includesSubentities = true
-        
-        let controller = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.coreDataStack!.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
-        
-        self.subscribeToDataSaves()
-        
-        return controller
-    }()
-    
-    func handleManagedObjectContextDidSave(notification: NSNotification) {
-        self.reloadTasks()
-    }
-    
-    func subscribeToDataSaves() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleManagedObjectContextDidSave:"), name: NSManagedObjectContextDidSaveNotification, object: self.coreDataStack!.managedObjectContext)
-    }
-    
-    func unsubscribeFromDataSaves() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.persistenceController.addDelegate(self)
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.allowsMultipleSelectionDuringEditing = false
         self.tabBarController?.delegate = self
         
-        try! fetchedResultsController.performFetch()
-        
+        self.reloadTasks()
+    }
+    
+    func persitenceControllerDataChanged() {
         self.reloadTasks()
     }
     
     func reloadTasks() {
-        if let fetchedObjects = self.fetchedResultsController.fetchedObjects {
-            if fetchedObjects.count > 0 {
-                self.user = fetchedObjects[0] as? User
-            }
-        }
+        self.user = self.persistenceController.getLatestUserData()
         
         self.sortedTasks = self.user?.tasksArray.sort() { $0.dueDate.compare($1.dueDate) == .OrderedAscending }
         self.tableView.reloadData()
@@ -92,13 +64,12 @@ class AllTasksViewController: UITableViewController, UITabBarControllerDelegate 
             // Delete the task
 
             let taskToDelete = [self.sortedTasks![indexPath.row]]
-            deleteObjects(taskToDelete, inContext: self.coreDataStack!.managedObjectContext)
+            self.persistenceController.deleteStoredObjects(taskToDelete)
             
             // Save the context
             
-            let saveResult = saveContextAndWait(self.coreDataStack!.managedObjectContext)
-            if !saveResult.success {
-                print("Couldn't save the context: \(saveResult.error)")
+            if !self.persistenceController.saveDataAndWait() {
+                print("Couldn't save the data")
             }
         }
     }
@@ -125,7 +96,6 @@ class AllTasksViewController: UITableViewController, UITabBarControllerDelegate 
             
             editTaskViewController.task = sender as? Task
             editTaskViewController.user = self.user
-            editTaskViewController.coreDataStack = coreDataStack
         }
     }
 }
