@@ -41,7 +41,13 @@ class PersistenceController: NSObject {
         updateLatestUser()
         
         for delegate in self.delegates {
-            delegate.persitenceControllerDataChanged()
+            dispatch_async(dispatch_get_main_queue()) {
+                // Calling this in the main queue to avoid updating the UI on
+                // a different thread, might need to change in the future so that
+                // delegates handle this themselves in a more precise fashion. But
+                // for now, I haven't noticed any performance issues.
+                delegate.persitenceControllerDataChanged()
+            }
         }
     }
     
