@@ -29,9 +29,6 @@ class Task: NSManagedObject {
     // Higher integers are higher priority
     @NSManaged var priorityNum: NSNumber
 
-    // A category for the task
-    @NSManaged var type: String
-
     // The number of hours the task will take
     @NSManaged var workEstimateNum: NSNumber
 
@@ -121,14 +118,13 @@ class Task: NSManagedObject {
     }
     
     // Creates a new task and inserts it into the context
-    convenience init(context: NSManagedObjectContext, title: String, dueDate: NSDate, priority: Int, type: String, workEstimate: Float) {
+    convenience init(context: NSManagedObjectContext, title: String, dueDate: NSDate, priority: Int, workEstimate: Float) {
         let entity = NSEntityDescription.entityForName(Task.entityName, inManagedObjectContext: context)!
         self.init(entity: entity, insertIntoManagedObjectContext: context)
         
         self.title = title
         self.dueDate = dueDate
         self.priority = priority
-        self.type = type
         self.workEstimate = workEstimate
         self.isDropped = false
         self.isComplete = false

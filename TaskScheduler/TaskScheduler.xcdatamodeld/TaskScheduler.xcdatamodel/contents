@@ -6,7 +6,6 @@
         <attribute name="isDroppedNum" attributeType="Boolean" syncable="YES"/>
         <attribute name="priorityNum" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="title" attributeType="String" syncable="YES"/>
-        <attribute name="type" attributeType="String" syncable="YES"/>
         <attribute name="workEstimateNum" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="parentUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="tasks" inverseEntity="User" syncable="YES"/>
         <relationship name="workSessions" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TaskWorkSession" inverseName="parentTask" inverseEntity="TaskWorkSession" syncable="YES"/>
@@ -35,7 +34,7 @@
         <relationship name="workSessions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TaskWorkSession" inverseName="dayScheduledOn" inverseEntity="TaskWorkSession" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Task" positionX="-36" positionY="54" width="128" height="180"/>
+        <element name="Task" positionX="-36" positionY="54" width="128" height="165"/>
         <element name="TaskWorkSession" positionX="-54" positionY="45" width="128" height="105"/>
         <element name="User" positionX="-63" positionY="-18" width="128" height="180"/>
         <element name="WorkDay" positionX="-18" positionY="63" width="128" height="105"/>

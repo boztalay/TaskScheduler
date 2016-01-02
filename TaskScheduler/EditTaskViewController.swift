@@ -21,9 +21,6 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
     @IBOutlet weak var workEstimateTextField: UITextField!
     @IBOutlet weak var dueDatePicker: UIDatePicker!
     @IBOutlet weak var priorityPicker: UIPickerView!
-    @IBOutlet weak var typePicker: UIPickerView!
-    
-    let taskTypes: [String] = ["Chore", "Homework", "Project", "Exercise"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,8 +41,6 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
     func doCommonSetup() {
         self.priorityPicker!.dataSource = self
         self.priorityPicker!.delegate = self
-        self.typePicker!.dataSource = self
-        self.typePicker!.delegate = self
     }
     
     func setUpForNewTask() {
@@ -60,7 +55,6 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
         self.workEstimateTextField.text = String(task!.workEstimate)
         self.dueDatePicker.date = task!.dueDate
         self.priorityPicker!.selectRow(Int(task!.priority), inComponent: 0, animated: false)
-        self.typePicker!.selectRow(self.taskTypes.indexOf(self.task!.type)!, inComponent: 0, animated: false)
     }
     
     func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
@@ -70,8 +64,6 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == self.priorityPicker! {
             return PriorityLevel.count
-        } else if pickerView == self.typePicker {
-            return TaskType.count
         } else {
             return 0
         }
@@ -80,8 +72,6 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
     func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerView == self.priorityPicker! {
             return String(row)
-        } else if pickerView == self.typePicker {
-            return self.taskTypes[row]
         } else {
             return ""
         }
@@ -125,18 +115,16 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
         }
         
         let priority = self.priorityPicker!.selectedRowInComponent(0)
-        let type = self.taskTypes[self.typePicker!.selectedRowInComponent(0)]
         
         // Make or set the task accordingly
         
         if !self.isEditingTask {
-            self.task = Task(context: self.persistenceController.coreDataStack!.managedObjectContext, title: self.titleTextField!.text!, dueDate: date, priority: priority, type: type, workEstimate: workEstimate!)
+            self.task = Task(context: self.persistenceController.coreDataStack!.managedObjectContext, title: self.titleTextField!.text!, dueDate: date, priority: priority, workEstimate: workEstimate!)
         } else {
             self.task!.title = self.titleTextField!.text!
             self.task!.dueDate = date
             self.task!.priority = priority
             self.task!.workEstimate = workEstimate!
-            self.task!.type = type
         }
         
         self.user!.addTask(self.task!)

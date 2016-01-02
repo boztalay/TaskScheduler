@@ -9,10 +9,10 @@
 import UIKit
 
 class TaskTableViewCell: UITableViewCell {
+
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var dueByLabel: UILabel!
     @IBOutlet weak var priorityLabel: UILabel!
-    @IBOutlet weak var typeLabel: UILabel!
     
     private static var dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
@@ -27,6 +27,5 @@ class TaskTableViewCell: UITableViewCell {
         self.titleLabel.text = "\(task.title) (\(task.workEstimate) hours)"
         self.dueByLabel.text = "Due " + TaskTableViewCell.dateFormatter.stringFromDate(task.dueDate)
         self.priorityLabel.text = String(task.priority)
-        self.typeLabel.text = task.type
     }
 }
