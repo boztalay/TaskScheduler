@@ -1,5 +1,5 @@
 //
-//  SetupViewController.swift
+//  SettingsViewController.swift
 //  TaskScheduler
 //
 //  Created by Ben Oztalay on 10/23/15.
@@ -12,11 +12,12 @@ enum SetupError: ErrorType {
     case TextFieldValidationError
 }
 
-protocol SetupViewControllerDelegate {
+protocol SettingsViewControllerDelegate {
     func setupComplete(workSchedule: AvailableWorkSchedule)
 }
 
-class SetupViewController: UITableViewController {
+class SettingsViewController: UITableViewController {
+
     @IBOutlet weak var sundayTextField: UITextField!
     @IBOutlet weak var mondayTextField: UITextField!
     @IBOutlet weak var tuesdayTextField: UITextField!
@@ -25,7 +26,20 @@ class SetupViewController: UITableViewController {
     @IBOutlet weak var fridayTextField: UITextField!
     @IBOutlet weak var saturdayTextField: UITextField!
     
-    var delegate: SetupViewControllerDelegate?
+    var isSettingUp: Bool?
+    var delegate: SettingsViewControllerDelegate?
+    
+    override func viewDidLoad() {
+        if self.isSettingUp == nil {
+            self.isSettingUp = false
+        }
+        
+        if self.isSettingUp! {
+            self.title = "Setup"
+        } else {
+            self.title = "Settings"
+        }
+    }
     
     @IBAction func doneButtonPressed(sender: AnyObject) {
         var workSchedule = AvailableWorkSchedule()

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TodaysWorkViewController: UITableViewController, SchedulerDelegate, SetupViewControllerDelegate, PersistenceControllerDelegate {
+class TodaysWorkViewController: UITableViewController, SchedulerDelegate, SettingsViewControllerDelegate, PersistenceControllerDelegate {
     
     let persistenceController = PersistenceController.sharedInstance
 
@@ -136,8 +136,9 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, SetupV
             editTaskViewController.task = sender as? Task
             editTaskViewController.user = self.user
         } else if segue.identifier == "TasksToSetup" {
-            let setupViewController = navigationController!.viewControllers.first as! SetupViewController
-            setupViewController.delegate = self
+            let settingsViewController = navigationController!.viewControllers.first as! SettingsViewController
+            settingsViewController.delegate = self
+            settingsViewController.isSettingUp = true
         }
     }
 }
