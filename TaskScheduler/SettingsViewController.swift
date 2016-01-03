@@ -27,7 +27,9 @@ class SettingsViewController: UITableViewController, UITextFieldDelegate, Schedu
     var user: User?
     var isSettingUp: Bool?
     
-    override func viewDidLoad() {
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
         if self.isSettingUp == nil {
             self.isSettingUp = false
         }
