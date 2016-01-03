@@ -64,8 +64,12 @@ class User: NSManagedObject {
         return Array(self.workDays as! Set<WorkDay>)
     }
     
-    // An unordered array of all of the dropped tasks
+    // An unordered array of all of the work days not in the past
+    var workDaysNotInPast: [WorkDay] {
+        return self.workDaysArray.filter({ $0.date.compare(DateUtils.todayDay()) != .OrderedAscending })
+    }
     
+    // An unordered array of all of the dropped tasks
     var droppedTasks: [Task] {
         return self.tasksArray.filter({ $0.isDropped })
     }

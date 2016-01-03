@@ -113,7 +113,7 @@ class SettingsViewController: UITableViewController, UITextFieldDelegate, Schedu
         
         var shouldAskUserAboutSchedule = false
         
-        for workDay in self.user!.workDaysArray { // TODO CHANGE TO WORK DAYS IN FUTURE
+        for workDay in self.user!.workDaysNotInPast {
             let workAvailableInNewSchedule = try! self.user!.totalAvailableWorkOnDate(workDay.date)
             if workDay.totalAvailableWork != workAvailableInNewSchedule {
                 shouldAskUserAboutSchedule = true

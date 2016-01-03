@@ -270,13 +270,13 @@
         <scene sceneID="uV5-Uf-aMj">
             <objects>
                 <tableViewController id="K7o-Jv-JWb" customClass="ScheduleConfirmationViewController" customModule="TaskScheduler" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hWh-lL-vYF">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="hWh-lL-vYF">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="WorkDayConfirmationCell" textLabel="oQO-to-MXJ" style="IBUITableViewCellStyleDefault" id="m4g-cG-2X3">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="114" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m4g-cG-2X3" id="Kql-gy-KIn">
                                     <rect key="frame" x="0.0" y="0.0" width="561" height="43.5"/>
@@ -299,7 +299,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Schedule Confirmation" id="j9b-zf-tQl">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="rmr-dF-CPy"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Fhi-cJ-ivS">
+                            <connections>
+                                <action selector="cancelButtonPressed:" destination="K7o-Jv-JWb" id="mwO-Pw-AHK"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="rmr-dF-CPy">
+                            <connections>
+                                <action selector="doneButtonPressed:" destination="K7o-Jv-JWb" id="8f0-Xa-uw7"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="06B-nE-3B5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -477,11 +486,11 @@
                                         <rect key="frame" x="0.0" y="114" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dAZ-or-1gz" id="cu2-ox-2Hp">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sunday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OOL-bx-MrJ">
-                                                    <rect key="frame" x="14" y="12" width="90" height="20"/>
+                                                    <rect key="frame" x="15" y="12" width="90" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="90" id="cdt-p9-GaM"/>
                                                     </constraints>
@@ -490,7 +499,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.0" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ari-AK-t36">
-                                                    <rect key="frame" x="112" y="14" width="478" height="17"/>
+                                                    <rect key="frame" x="113" y="14" width="477" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                                     <connections>
@@ -502,7 +511,7 @@
                                                 <constraint firstItem="Ari-AK-t36" firstAttribute="leading" secondItem="OOL-bx-MrJ" secondAttribute="trailing" constant="8" id="4yA-mK-RTj"/>
                                                 <constraint firstItem="Ari-AK-t36" firstAttribute="centerY" secondItem="cu2-ox-2Hp" secondAttribute="centerY" id="Iav-YE-Oi1"/>
                                                 <constraint firstItem="OOL-bx-MrJ" firstAttribute="centerY" secondItem="cu2-ox-2Hp" secondAttribute="centerYWithinMargins" id="ZiZ-z6-hUb"/>
-                                                <constraint firstItem="OOL-bx-MrJ" firstAttribute="leading" secondItem="cu2-ox-2Hp" secondAttribute="leadingMargin" constant="6" id="ejh-lc-gqj"/>
+                                                <constraint firstItem="OOL-bx-MrJ" firstAttribute="leading" secondItem="cu2-ox-2Hp" secondAttribute="leadingMargin" constant="7" id="ejh-lc-gqj"/>
                                                 <constraint firstAttribute="trailing" secondItem="Ari-AK-t36" secondAttribute="trailing" constant="10" id="hLB-4W-ZrZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -514,11 +523,11 @@
                                         <rect key="frame" x="0.0" y="158" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rgt-IB-1fH" id="DOs-0c-qAY">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.0" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aEL-ha-QNE">
-                                                    <rect key="frame" x="112" y="14" width="478" height="17"/>
+                                                    <rect key="frame" x="113" y="14" width="477" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                                     <connections>
@@ -526,7 +535,7 @@
                                                     </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Monday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7W9-j5-0lo">
-                                                    <rect key="frame" x="14" y="12" width="90" height="20"/>
+                                                    <rect key="frame" x="15" y="12" width="90" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="90" id="dx9-Gq-34X"/>
                                                     </constraints>
@@ -540,7 +549,7 @@
                                                 <constraint firstItem="aEL-ha-QNE" firstAttribute="leading" secondItem="7W9-j5-0lo" secondAttribute="trailing" constant="8" id="dmN-mj-kSd"/>
                                                 <constraint firstItem="7W9-j5-0lo" firstAttribute="centerY" secondItem="DOs-0c-qAY" secondAttribute="centerYWithinMargins" id="fug-i0-iMd"/>
                                                 <constraint firstItem="aEL-ha-QNE" firstAttribute="centerY" secondItem="DOs-0c-qAY" secondAttribute="centerY" id="hBe-Zx-afq"/>
-                                                <constraint firstItem="7W9-j5-0lo" firstAttribute="leading" secondItem="DOs-0c-qAY" secondAttribute="leadingMargin" constant="6" id="soK-BS-tGl"/>
+                                                <constraint firstItem="7W9-j5-0lo" firstAttribute="leading" secondItem="DOs-0c-qAY" secondAttribute="leadingMargin" constant="7" id="soK-BS-tGl"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -548,11 +557,11 @@
                                         <rect key="frame" x="0.0" y="202" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WNX-cI-t8D" id="edC-Wb-j9v">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.0" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yMb-fd-rah">
-                                                    <rect key="frame" x="112" y="14" width="478" height="17"/>
+                                                    <rect key="frame" x="113" y="14" width="477" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                                     <connections>
@@ -560,7 +569,7 @@
                                                     </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tuesday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UU5-98-pMn">
-                                                    <rect key="frame" x="14" y="12" width="90" height="20"/>
+                                                    <rect key="frame" x="15" y="12" width="90" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="90" id="LIQ-gb-zNv"/>
                                                     </constraints>
@@ -570,7 +579,7 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="UU5-98-pMn" firstAttribute="leading" secondItem="edC-Wb-j9v" secondAttribute="leadingMargin" constant="6" id="7bF-eL-2Lq"/>
+                                                <constraint firstItem="UU5-98-pMn" firstAttribute="leading" secondItem="edC-Wb-j9v" secondAttribute="leadingMargin" constant="7" id="7bF-eL-2Lq"/>
                                                 <constraint firstAttribute="trailing" secondItem="yMb-fd-rah" secondAttribute="trailing" constant="10" id="Aio-sp-hYk"/>
                                                 <constraint firstItem="yMb-fd-rah" firstAttribute="leading" secondItem="UU5-98-pMn" secondAttribute="trailing" constant="8" id="LDM-fF-NmV"/>
                                                 <constraint firstItem="yMb-fd-rah" firstAttribute="centerY" secondItem="edC-Wb-j9v" secondAttribute="centerY" id="xEe-rf-fvl"/>
@@ -582,11 +591,11 @@
                                         <rect key="frame" x="0.0" y="246" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eCl-h1-nux" id="4aw-FJ-U1m">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Wednesday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UYA-Nw-IHi">
-                                                    <rect key="frame" x="14" y="12" width="90" height="20"/>
+                                                    <rect key="frame" x="15" y="12" width="90" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="90" id="Pdn-VS-0vl"/>
                                                     </constraints>
@@ -595,7 +604,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.0" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="w3e-Ek-13T">
-                                                    <rect key="frame" x="112" y="14" width="478" height="17"/>
+                                                    <rect key="frame" x="113" y="14" width="477" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                                     <connections>
@@ -608,7 +617,7 @@
                                                 <constraint firstItem="w3e-Ek-13T" firstAttribute="leading" secondItem="UYA-Nw-IHi" secondAttribute="trailing" constant="8" id="9fZ-xU-k0s"/>
                                                 <constraint firstItem="w3e-Ek-13T" firstAttribute="centerY" secondItem="4aw-FJ-U1m" secondAttribute="centerY" id="MJP-R2-3JE"/>
                                                 <constraint firstItem="UYA-Nw-IHi" firstAttribute="centerY" secondItem="4aw-FJ-U1m" secondAttribute="centerYWithinMargins" id="vEb-yw-HrX"/>
-                                                <constraint firstItem="UYA-Nw-IHi" firstAttribute="leading" secondItem="4aw-FJ-U1m" secondAttribute="leadingMargin" constant="6" id="wIw-QU-5pH"/>
+                                                <constraint firstItem="UYA-Nw-IHi" firstAttribute="leading" secondItem="4aw-FJ-U1m" secondAttribute="leadingMargin" constant="7" id="wIw-QU-5pH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -616,11 +625,11 @@
                                         <rect key="frame" x="0.0" y="290" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m05-Fg-c0k" id="ffa-Iq-Gma">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.0" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IVZ-9s-gIX">
-                                                    <rect key="frame" x="112" y="14" width="478" height="17"/>
+                                                    <rect key="frame" x="113" y="14" width="477" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                                     <connections>
@@ -628,7 +637,7 @@
                                                     </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Thursday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pAs-t9-Kje">
-                                                    <rect key="frame" x="14" y="12" width="90" height="20"/>
+                                                    <rect key="frame" x="15" y="12" width="90" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="90" id="vHX-fl-ysx"/>
                                                     </constraints>
@@ -640,7 +649,7 @@
                                             <constraints>
                                                 <constraint firstItem="IVZ-9s-gIX" firstAttribute="leading" secondItem="pAs-t9-Kje" secondAttribute="trailing" constant="8" id="7n5-vA-6qK"/>
                                                 <constraint firstItem="IVZ-9s-gIX" firstAttribute="centerY" secondItem="ffa-Iq-Gma" secondAttribute="centerY" id="GEE-0q-3ci"/>
-                                                <constraint firstItem="pAs-t9-Kje" firstAttribute="leading" secondItem="ffa-Iq-Gma" secondAttribute="leadingMargin" constant="6" id="fbZ-aK-RcU"/>
+                                                <constraint firstItem="pAs-t9-Kje" firstAttribute="leading" secondItem="ffa-Iq-Gma" secondAttribute="leadingMargin" constant="7" id="fbZ-aK-RcU"/>
                                                 <constraint firstAttribute="trailing" secondItem="IVZ-9s-gIX" secondAttribute="trailing" constant="10" id="gYn-i1-qv8"/>
                                                 <constraint firstItem="pAs-t9-Kje" firstAttribute="centerY" secondItem="ffa-Iq-Gma" secondAttribute="centerYWithinMargins" id="mpV-gK-8dc"/>
                                             </constraints>
@@ -650,11 +659,11 @@
                                         <rect key="frame" x="0.0" y="334" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1wl-EC-K7Y" id="ydu-uv-9n5">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Friday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JK5-C1-Oau">
-                                                    <rect key="frame" x="14" y="12" width="58" height="20"/>
+                                                    <rect key="frame" x="15" y="12" width="58" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="58" id="0SE-Af-n5o"/>
                                                     </constraints>
@@ -663,7 +672,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.0" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zhl-WF-fUj">
-                                                    <rect key="frame" x="80" y="14" width="510" height="17"/>
+                                                    <rect key="frame" x="81" y="14" width="509" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="next" enablesReturnKeyAutomatically="YES"/>
                                                     <connections>
@@ -673,7 +682,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="JK5-C1-Oau" firstAttribute="centerY" secondItem="ydu-uv-9n5" secondAttribute="centerYWithinMargins" id="2XB-YB-ucq"/>
-                                                <constraint firstItem="JK5-C1-Oau" firstAttribute="leading" secondItem="ydu-uv-9n5" secondAttribute="leadingMargin" constant="6" id="95t-Ni-a6q"/>
+                                                <constraint firstItem="JK5-C1-Oau" firstAttribute="leading" secondItem="ydu-uv-9n5" secondAttribute="leadingMargin" constant="7" id="95t-Ni-a6q"/>
                                                 <constraint firstItem="Zhl-WF-fUj" firstAttribute="leading" secondItem="JK5-C1-Oau" secondAttribute="trailing" constant="8" id="FZK-00-MKk"/>
                                                 <constraint firstAttribute="trailing" secondItem="Zhl-WF-fUj" secondAttribute="trailing" constant="10" id="OS9-F6-MWK"/>
                                                 <constraint firstItem="Zhl-WF-fUj" firstAttribute="centerY" secondItem="ydu-uv-9n5" secondAttribute="centerY" id="rsp-te-eNW"/>
@@ -684,11 +693,11 @@
                                         <rect key="frame" x="0.0" y="378" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="U2o-uU-efA" id="tHt-tt-5C3">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="0.0" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="C4H-Rs-HZi">
-                                                    <rect key="frame" x="112" y="14" width="478" height="17"/>
+                                                    <rect key="frame" x="113" y="14" width="477" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" keyboardType="numbersAndPunctuation" returnKeyType="done" enablesReturnKeyAutomatically="YES"/>
                                                     <connections>
@@ -696,7 +705,7 @@
                                                     </connections>
                                                 </textField>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saturday" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kr8-33-4pW">
-                                                    <rect key="frame" x="14" y="12" width="90" height="20"/>
+                                                    <rect key="frame" x="15" y="12" width="90" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="90" id="8wO-mA-9XX"/>
                                                     </constraints>
@@ -707,7 +716,7 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="C4H-Rs-HZi" firstAttribute="leading" secondItem="kr8-33-4pW" secondAttribute="trailing" constant="8" id="26f-9a-SEQ"/>
-                                                <constraint firstItem="kr8-33-4pW" firstAttribute="leading" secondItem="tHt-tt-5C3" secondAttribute="leadingMargin" constant="6" id="Uuk-Xy-vRe"/>
+                                                <constraint firstItem="kr8-33-4pW" firstAttribute="leading" secondItem="tHt-tt-5C3" secondAttribute="leadingMargin" constant="7" id="Uuk-Xy-vRe"/>
                                                 <constraint firstItem="C4H-Rs-HZi" firstAttribute="centerY" secondItem="tHt-tt-5C3" secondAttribute="centerY" id="bkv-mj-Mw4"/>
                                                 <constraint firstAttribute="trailing" secondItem="C4H-Rs-HZi" secondAttribute="trailing" constant="10" id="cdY-do-DoX"/>
                                                 <constraint firstItem="kr8-33-4pW" firstAttribute="centerY" secondItem="tHt-tt-5C3" secondAttribute="centerYWithinMargins" id="k6L-tU-CNy"/>

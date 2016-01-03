@@ -61,6 +61,7 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
             printTasks()
             self.tableView.reloadData()
         }
+        
         self.persistenceController.addDelegate(self)
     }
     
