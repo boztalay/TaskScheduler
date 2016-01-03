@@ -12,12 +12,8 @@ enum SetupError: ErrorType {
     case TextFieldValidationError
 }
 
-protocol SettingsViewControllerDelegate {
-    func setupComplete(workSchedule: AvailableWorkSchedule)
-}
-
-class SettingsViewController: UITableViewController, UITextFieldDelegate {
-
+class SettingsViewController: UITableViewController, UITextFieldDelegate, ScheduleConfirmationDelegate {
+    
     @IBOutlet weak var sundayTextField: UITextField!
     @IBOutlet weak var mondayTextField: UITextField!
     @IBOutlet weak var tuesdayTextField: UITextField!
@@ -26,8 +22,10 @@ class SettingsViewController: UITableViewController, UITextFieldDelegate {
     @IBOutlet weak var fridayTextField: UITextField!
     @IBOutlet weak var saturdayTextField: UITextField!
     
+    let persistenceController = PersistenceController.sharedInstance
+    
+    var user: User?
     var isSettingUp: Bool?
-    var delegate: SettingsViewControllerDelegate?
     
     override func viewDidLoad() {
         if self.isSettingUp == nil {
@@ -35,9 +33,28 @@ class SettingsViewController: UITableViewController, UITextFieldDelegate {
         }
         
         if self.isSettingUp! {
-            self.title = "Setup"
+            self.setUpForSetup()
         } else {
-            self.title = "Settings"
+            self.setUpForSettings()
+        }
+    }
+    
+    func setUpForSetup() {
+        self.title = "Setup"
+    }
+    
+    func setUpForSettings() {
+        self.title = "Settings"
+        self.user = self.persistenceController.getLatestUserData()
+        
+        if let user = self.user {
+            self.sundayTextField.text = user.sunAvailableWorkTime.stringValue
+            self.mondayTextField.text = user.monAvailableWorkTime.stringValue
+            self.tuesdayTextField.text = user.tueAvailableWorkTime.stringValue
+            self.wednesdayTextField.text = user.wedAvailableWorkTime.stringValue
+            self.thursdayTextField.text = user.thuAvailableWorkTime.stringValue
+            self.fridayTextField.text = user.friAvailableWorkTime.stringValue
+            self.saturdayTextField.text = user.satAvailableWorkTime.stringValue
         }
     }
     
@@ -56,14 +73,16 @@ class SettingsViewController: UITableViewController, UITextFieldDelegate {
             self.saturdayTextField.becomeFirstResponder()
         } else if textField === self.saturdayTextField {
             self.saturdayTextField.resignFirstResponder()
-            self.doneButtonPressed(self)
+            self.saveButtonPressed(self)
         }
         
         return true
     }
     
-    @IBAction func doneButtonPressed(sender: AnyObject) {
+    @IBAction func saveButtonPressed(sender: AnyObject) {
         self.view.endEditing(true)
+        
+        // Validate the input and build the work schedule
         
         var workSchedule = AvailableWorkSchedule()
         
@@ -80,12 +99,34 @@ class SettingsViewController: UITableViewController, UITextFieldDelegate {
             return
         }
         
-        if self.isSettingUp! {
-            dispatch_async(dispatch_get_main_queue()) {
-                self.delegate!.setupComplete(workSchedule)
-            }
+        // Make a new user object (if needed) and schedule the work time
         
-            self.dismissViewControllerAnimated(true, completion: nil)
+        if self.isSettingUp! {
+            self.user = User(context: self.persistenceController.coreDataStack!.managedObjectContext)
+        }
+        
+        self.user!.scheduleWorkTime(workSchedule)
+        
+        // See if we need to ask the user if they want to update the
+        // available work times on any existing work days to match
+        // the new schedule
+        
+        var shouldAskUserAboutSchedule = false
+        
+        for workDay in self.user!.workDaysArray { // TODO CHANGE TO WORK DAYS IN FUTURE
+            let workAvailableInNewSchedule = try! self.user!.totalAvailableWorkOnDate(workDay.date)
+            if workDay.totalAvailableWork != workAvailableInNewSchedule {
+                shouldAskUserAboutSchedule = true
+            }
+        }
+        
+        // If we do need to ask the user about the schedule, show
+        // a screen to ask about it. Otherwise, just exit.
+        
+        if shouldAskUserAboutSchedule {
+            self.performSegueWithIdentifier("SettingsToConfirmation", sender: nil)
+        } else {
+            self.saveAndExit()
         }
     }
     
@@ -108,5 +149,27 @@ class SettingsViewController: UITableViewController, UITextFieldDelegate {
         alert.addAction(cancelAction)
         
         presentViewController(alert, animated: true, completion:nil)
+    }
+    
+    func scheduleConfirmationComplete() {
+        self.saveAndExit()
+    }
+    
+    func saveAndExit() {
+        if !self.persistenceController.saveDataAndWait() {
+            print("Couldn't save the data")
+        }
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        let navigationController = segue.destinationViewController as? UINavigationController
+
+        if segue.identifier == "SettingsToConfirmation" {
+            let confirmationViewController = navigationController!.viewControllers.first as! ScheduleConfirmationViewController
+            confirmationViewController.user = self.user
+            confirmationViewController.delegate = self
+        }
     }
 }

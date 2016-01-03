@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TodaysWorkViewController: UITableViewController, SchedulerDelegate, SettingsViewControllerDelegate, PersistenceControllerDelegate {
+class TodaysWorkViewController: UITableViewController, SchedulerDelegate, PersistenceControllerDelegate {
     
     let persistenceController = PersistenceController.sharedInstance
 
@@ -45,15 +45,6 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Settin
             self.scheduler = Scheduler(user: self.user!)
             self.scheduler!.delegate = self
             self.scheduler!.scheduleTasksForUser()
-        }
-    }
-    
-    func setupComplete(workSchedule: AvailableWorkSchedule) {
-        self.user = User(context: self.persistenceController.coreDataStack!.managedObjectContext)
-        self.user!.scheduleWorkTime(workSchedule)
-        
-        if !self.persistenceController.saveDataAndWait() {
-            print("Couldn't save the data")
         }
     }
     
@@ -137,7 +128,6 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Settin
             editTaskViewController.user = self.user
         } else if segue.identifier == "TasksToSetup" {
             let settingsViewController = navigationController!.viewControllers.first as! SettingsViewController
-            settingsViewController.delegate = self
             settingsViewController.isSettingUp = true
         }
     }

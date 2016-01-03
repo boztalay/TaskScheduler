@@ -250,6 +250,62 @@
             </objects>
             <point key="canvasLocation" x="2231" y="-374"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="aMn-9B-Kbq">
+            <objects>
+                <navigationController id="pmn-4W-EMh" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="l5f-1v-UfP">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="K7o-Jv-JWb" kind="relationship" relationship="rootViewController" id="OI3-zm-Zcc"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="74S-Sh-slY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2231" y="-1115"/>
+        </scene>
+        <!--Schedule Confirmation-->
+        <scene sceneID="uV5-Uf-aMj">
+            <objects>
+                <tableViewController id="K7o-Jv-JWb" customClass="ScheduleConfirmationViewController" customModule="TaskScheduler" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="hWh-lL-vYF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="WorkDayConfirmationCell" textLabel="oQO-to-MXJ" style="IBUITableViewCellStyleDefault" id="m4g-cG-2X3">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="m4g-cG-2X3" id="Kql-gy-KIn">
+                                    <rect key="frame" x="0.0" y="0.0" width="561" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oQO-to-MXJ">
+                                            <rect key="frame" x="15" y="0.0" width="546" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="K7o-Jv-JWb" id="q9p-O6-dps"/>
+                            <outlet property="delegate" destination="K7o-Jv-JWb" id="w4k-qr-7uP"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Schedule Confirmation" id="j9b-zf-tQl">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="rmr-dF-CPy"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="06B-nE-3B5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2976" y="-1115"/>
+        </scene>
         <!--Edit Task-->
         <scene sceneID="X09-eH-7me">
             <objects>
@@ -450,6 +506,9 @@
                                                 <constraint firstAttribute="trailing" secondItem="Ari-AK-t36" secondAttribute="trailing" constant="10" id="hLB-4W-ZrZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="pmn-4W-EMh" kind="presentation" identifier="SettingsToConfirmation" id="H8r-ib-ivI"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="rgt-IB-1fH">
                                         <rect key="frame" x="0.0" y="158" width="600" height="44"/>
@@ -664,9 +723,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Setup" id="ula-UM-Xeb">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="8yE-N6-XNY">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="8yE-N6-XNY">
                             <connections>
-                                <action selector="doneButtonPressed:" destination="UPQ-ja-RSk" id="4VM-pL-bHe"/>
+                                <action selector="saveButtonPressed:" destination="UPQ-ja-RSk" id="Hua-GQ-bAb"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

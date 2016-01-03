@@ -28,25 +28,25 @@ class User: NSManagedObject {
     static var entityName = "User"
     
     // The number of hours of work available on Sundays
-    @NSManaged private var sunAvailableWorkTime: NSNumber
+    @NSManaged var sunAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Mondays
-    @NSManaged private var monAvailableWorkTime: NSNumber
+    @NSManaged var monAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Tuesdays
-    @NSManaged private var tueAvailableWorkTime: NSNumber
+    @NSManaged var tueAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Wednesdays
-    @NSManaged private var wedAvailableWorkTime: NSNumber
+    @NSManaged var wedAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Thursdays
-    @NSManaged private var thuAvailableWorkTime: NSNumber
+    @NSManaged var thuAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Fridays
-    @NSManaged private var friAvailableWorkTime: NSNumber
+    @NSManaged var friAvailableWorkTime: NSNumber
     
     // The number of hours of work available on Saturdays
-    @NSManaged private var satAvailableWorkTime: NSNumber
+    @NSManaged var satAvailableWorkTime: NSNumber
     
     // A set of Tasks to be done
     @NSManaged var tasks: NSSet

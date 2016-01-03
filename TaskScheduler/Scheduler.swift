@@ -23,7 +23,6 @@ class Scheduler {
     let persistenceController = PersistenceController.sharedInstance
     
     private var user: User
-    
     var delegate: SchedulerDelegate?
     
     init(user: User) {
@@ -48,13 +47,13 @@ class Scheduler {
         // and reset them appropriately. Tasks that are eleigible are: not
         // marked as compelete, due in the future, have work left to do.
         
-        // TODO make this whole resetting thing less weird
+        // TODO make this whole resetting/removing incomplete work days thing less weird
         
         let tasksToSchedule = user.outstandingTasks
         var workSessionsToDelete: [TaskWorkSession] = []
         for task in tasksToSchedule {
             task.isDropped = false
-            workSessionsToDelete.appendContentsOf(task.resetWorkSessions())
+            workSessionsToDelete.appendContentsOf(task.removeIncompleteWorkSessions())
         }
         
         // Delete the now-orphaned work sessions

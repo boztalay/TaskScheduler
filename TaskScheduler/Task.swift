@@ -166,7 +166,7 @@ class Task: NSManagedObject {
     }
     
     // Removes all of the incomplete work sessions from this task and returns them
-    func resetWorkSessions() -> [TaskWorkSession] {
+    func removeIncompleteWorkSessions() -> [TaskWorkSession] {
         let incompleteWorkSessions = self.workSessionsArray.filter({ !$0.hasBeenCompleted })
         self.workSessions = NSMutableSet.init(array: self.workSessionsArray.filter({ $0.hasBeenCompleted }))
         
