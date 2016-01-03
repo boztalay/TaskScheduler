@@ -16,7 +16,7 @@ protocol SettingsViewControllerDelegate {
     func setupComplete(workSchedule: AvailableWorkSchedule)
 }
 
-class SettingsViewController: UITableViewController {
+class SettingsViewController: UITableViewController, UITextFieldDelegate {
 
     @IBOutlet weak var sundayTextField: UITextField!
     @IBOutlet weak var mondayTextField: UITextField!
@@ -41,7 +41,30 @@ class SettingsViewController: UITableViewController {
         }
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField === self.sundayTextField {
+            self.mondayTextField.becomeFirstResponder()
+        } else if textField === self.mondayTextField {
+            self.tuesdayTextField.becomeFirstResponder()
+        } else if textField === self.tuesdayTextField {
+            self.wednesdayTextField.becomeFirstResponder()
+        } else if textField === self.wednesdayTextField {
+            self.thursdayTextField.becomeFirstResponder()
+        } else if textField === self.thursdayTextField {
+            self.fridayTextField.becomeFirstResponder()
+        } else if textField === self.fridayTextField {
+            self.saturdayTextField.becomeFirstResponder()
+        } else if textField === self.saturdayTextField {
+            self.saturdayTextField.resignFirstResponder()
+            self.doneButtonPressed(self)
+        }
+        
+        return true
+    }
+    
     @IBAction func doneButtonPressed(sender: AnyObject) {
+        self.view.endEditing(true)
+        
         var workSchedule = AvailableWorkSchedule()
         
         do {
@@ -57,11 +80,13 @@ class SettingsViewController: UITableViewController {
             return
         }
         
-        dispatch_async(dispatch_get_main_queue()) {
-            self.delegate!.setupComplete(workSchedule)
-        }
+        if self.isSettingUp! {
+            dispatch_async(dispatch_get_main_queue()) {
+                self.delegate!.setupComplete(workSchedule)
+            }
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismissViewControllerAnimated(true, completion: nil)
+        }
     }
     
     func validateTextField(textField: UITextField) throws -> Float {
