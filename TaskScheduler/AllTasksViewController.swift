@@ -116,12 +116,50 @@ class AllTasksViewController: UITableViewController, PersistenceControllerDelega
             task = self.pastTasks![indexPath.row]
         }
         
-        task.isComplete = false
-        
-        // Save the context
-        if !self.persistenceController.saveDataAndWait() {
-            print("Couldn't save the data")
+        if task.workLeftToDo == 0.0 {
+            self.showIncreaseEstimateAlertForTask(task)
+        } else {
+            task.isComplete = false
+            
+            // Save the context
+            if !self.persistenceController.saveDataAndWait() {
+                print("Couldn't save the data")
+            }
         }
+    }
+    
+    private func showIncreaseEstimateAlertForTask(task: Task) {
+        let alert = UIAlertController(title: "Increase Estimate", message: "Looks like there's no more work to be done on this task, please enter how much you'd like to increase the work estimate by to mark it as incomplete:", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .Cancel, handler: nil))
+        alert.addTextFieldWithConfigurationHandler({ (textField: UITextField!) in
+            textField.placeholder = "Work Estimate Increase"
+            textField.keyboardType = .NumbersAndPunctuation
+        })
+
+        alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default) { (action: UIAlertAction) in
+            let textField = alert.textFields![0]
+
+            if let text = textField.text {
+                let number = NSNumberFormatter().numberFromString(text)
+                if number != nil && number!.floatValue > 0.0 {
+                    task.workEstimate += number!.floatValue
+                    task.isComplete = false
+                    
+                    // Save the context
+                    if !self.persistenceController.saveDataAndWait() {
+                        print("Couldn't save the data")
+                    }
+                    
+                    return
+                }
+            }
+        
+            let badInputAlert = UIAlertController(title: "Invalid Input", message: "The work estimate increase has to be a number greater than zero!", preferredStyle: UIAlertControllerStyle.Alert)
+            badInputAlert.addAction(UIAlertAction(title: "Whoops, sorry", style: .Cancel, handler: nil))
+            self.presentViewController(badInputAlert, animated: true, completion: nil)
+        })
+
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func cellSlideDeleteActionTriggered(tableView: UITableView, indexPath: NSIndexPath) {

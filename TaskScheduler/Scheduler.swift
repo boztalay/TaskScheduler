@@ -35,6 +35,7 @@ class Scheduler {
         self.persistenceController.coreDataStack!.managedObjectContext.performBlock() {
             do {
                 try self.actuallyScheduleTasksForUser()
+                self.persistenceController.saveDataAndWait()
                 self.delegate?.scheduleCompleted(ScheduleStatus.Succeeded)
             } catch {
                 self.delegate?.scheduleCompleted(ScheduleStatus.Failed)
@@ -87,7 +88,7 @@ class Scheduler {
                 var workDropped: Float = 0.0
                 
                 // First get a list of tasks due on or before the current date
-                var tasksDue = user.tasksArray.filter({ $0.dueDate.compare(currentDueDate) != .OrderedDescending })
+                var tasksDue = tasksToSchedule.filter({ $0.dueDate.compare(currentDueDate) != .OrderedDescending })
                 
                 // Then sort that list of tasks by estimated work, then in reverse by priority
                 tasksDue.sortInPlace({ $0.workEstimate > $1.workEstimate })
@@ -115,7 +116,7 @@ class Scheduler {
         
         // Sort the tasks so that the latest, shortest, lowest-priority tasks are first
         
-        var sortedTasks = user.notDroppedTasks.sort({ $0.workEstimate < $1.workEstimate })
+        var sortedTasks = tasksToSchedule.filter({ !$0.isDropped }).sort({ $0.workEstimate < $1.workEstimate })
         sortedTasks.sortInPlace({ $0.priority < $1.priority })
         sortedTasks.sortInPlace({ $0.dueDate.compare($1.dueDate) == .OrderedDescending })
         
