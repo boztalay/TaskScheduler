@@ -195,7 +195,14 @@ class AllTasksViewController: UITableViewController, PersistenceControllerDelega
             task = self.pastTasks![indexPath.row]
         }
         
-        self.performSegueWithIdentifier("AllTasksToEditTask", sender: task)
+        if task.isComplete {
+            let alert = UIAlertController(title: "Task Completed", message: "Sorry, you can't edit tasks that are marked as compeleted.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Bummer", style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        } else {
+            self.performSegueWithIdentifier("AllTasksToEditTask", sender: task)
+        }
     }
     
     @IBAction func addButtonPressed(sender: AnyObject) {

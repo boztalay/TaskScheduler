@@ -178,7 +178,14 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
             workSession = self.completeWorkSessions![indexPath.row]
         }
         
-        self.performSegueWithIdentifier("TasksToEditTask", sender: workSession.parentTask)
+        if workSession.parentTask.isComplete {
+            let alert = UIAlertController(title: "Task Completed", message: "Sorry, you can't edit tasks that are marked as compeleted.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Bummer", style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            self.tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        } else {
+            self.performSegueWithIdentifier("TasksToEditTask", sender: workSession.parentTask)
+        }
     }
 
     @IBAction func addButtonPressed(sender: AnyObject) {
