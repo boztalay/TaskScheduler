@@ -96,12 +96,12 @@ class EditTaskViewController: UITableViewController, UITextFieldDelegate {
         }
         
         let date = DateUtils.removeTimeFromDate(self.dueDatePicker!.date)
-        if date.compare(DateUtils.todayDay()) == NSComparisonResult.OrderedAscending {
-            let alert = UIAlertController(title: "Past Date", message: "Hey! This date is in the past!", preferredStyle: .Alert)
-            alert.addAction(UIAlertAction(title: "Sorry", style: .Cancel, handler: nil))
-            self.presentViewController(alert, animated: true, completion: nil)
-            return
-        }
+//        if date.compare(DateUtils.todayDay()) == NSComparisonResult.OrderedAscending {
+//            let alert = UIAlertController(title: "Past Date", message: "Hey! This date is in the past!", preferredStyle: .Alert)
+//            alert.addAction(UIAlertAction(title: "Sorry", style: .Cancel, handler: nil))
+//            self.presentViewController(alert, animated: true, completion: nil)
+//            return
+//        }
         
         let priority = Int(round(self.prioritySlider.value))
         

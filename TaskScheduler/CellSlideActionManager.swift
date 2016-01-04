@@ -18,12 +18,12 @@ struct CellSlideActionAttributes {
     static let generalFraction: CGFloat = 0.25
     static let generalElasticity: CGFloat = 50.0
     
-    static let markCompleteActiveBackgroundColor = UIColor.blueColor()
-    static let markCompleteInactiveBackgroundColor = UIColor.lightGrayColor()
-    static let markIncompleteActiveBackgroundColor = UIColor.lightGrayColor()
-    static let markIncompleteInactiveBackgroundColor = UIColor.blueColor()
-    static let deleteActionActiveBackgroundColor = UIColor.redColor()
-    static let deleteActionInactiveBackgroundColor = UIColor.lightGrayColor()
+    static let markCompleteActiveBackgroundColor = UIColor(red: 0.42, green: 1.0, blue: 0.42, alpha: 1.0)
+    static let markCompleteInactiveBackgroundColor = UIColor(white: 0.82, alpha: 1.0)
+    static let markIncompleteActiveBackgroundColor = markCompleteInactiveBackgroundColor
+    static let markIncompleteInactiveBackgroundColor = markCompleteActiveBackgroundColor
+    static let deleteActionActiveBackgroundColor = UIColor(red: 1.0, green: 0.15, blue: 0.15, alpha: 1.0)
+    static let deleteActionInactiveBackgroundColor = markCompleteInactiveBackgroundColor
 }
 
 class CellSlideActionManager: NSObject {
