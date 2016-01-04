@@ -10,7 +10,8 @@ import UIKit
 
 struct TaskStateColors {
     static let NormalColor = UIColor.whiteColor()
-    static let CompleteColor = UIColor(white: 0.80, alpha: 1.0)
+    static let CompleteColor = UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 0.25)
+    static let IncompleteColor = UIColor(red: 1.0, green: 1.0, blue: 0.0, alpha: 0.25)
     static let DroppedColor = UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 0.25)
 }
 
@@ -22,7 +23,7 @@ class GenericTaskTableViewCell: UITableViewCell {
     @IBOutlet weak var priorityLabel: UILabel!
     
     static let ReuseIdentifier = "GenericTaskTableViewCell"
-    static let NibName = GenericTaskTableViewCell.ReuseIdentifier
+    private static let NibName = GenericTaskTableViewCell.ReuseIdentifier
     static let Nib = UINib(nibName: GenericTaskTableViewCell.NibName, bundle: nil)
     
     private static var dateFormatter: NSDateFormatter = {
@@ -33,20 +34,25 @@ class GenericTaskTableViewCell: UITableViewCell {
         formatter.doesRelativeDateFormatting = true
         return formatter
     }()
+    
+    private func setCommonTextLabelsFromTask(task: Task) {
+        self.titleLabel.text = task.title
+        self.dueByLabel.text = "Due " + GenericTaskTableViewCell.dateFormatter.stringFromDate(task.dueDate)
+        self.priorityLabel.text = "\(try! PriorityPrettifier.priorityNameFromLevel(task.priority)) Priortiy"
+    }
 
     func setFromTask(task: Task) {
-        self.titleLabel.text = task.title
+        self.setCommonTextLabelsFromTask(task)
         
         self.workLabel.text = "\(task.workEstimate) hour"
         if task.workEstimate != 1.0 {
             self.workLabel.text! += "s"
         }
         
-        self.dueByLabel.text = "Due " + GenericTaskTableViewCell.dateFormatter.stringFromDate(task.dueDate)
-        self.priorityLabel.text = "\(try! PriorityPrettifier.priorityNameFromLevel(task.priority)) Priortiy"
-        
         if task.isComplete {
             self.backgroundColor = TaskStateColors.CompleteColor
+        } else if task.isDueInPast && !task.isComplete {
+            self.backgroundColor = TaskStateColors.IncompleteColor
         } else if task.isDropped {
             self.backgroundColor = TaskStateColors.DroppedColor
         } else {
@@ -56,15 +62,12 @@ class GenericTaskTableViewCell: UITableViewCell {
     
     func setFromWorkSession(workSession: TaskWorkSession) {
         let task = workSession.parentTask
-        self.titleLabel.text = task.title
+        self.setCommonTextLabelsFromTask(task)
         
         self.workLabel.text = "For \(workSession.amountOfWork) hour"
         if workSession.amountOfWork != 1.0 {
             self.workLabel.text! += "s"
         }
-        
-        self.dueByLabel.text = "Due " + GenericTaskTableViewCell.dateFormatter.stringFromDate(task.dueDate)
-        self.priorityLabel.text = "\(try! PriorityPrettifier.priorityNameFromLevel(task.priority)) Priortiy"
         
         if workSession.hasBeenCompleted {
             self.backgroundColor = TaskStateColors.CompleteColor
