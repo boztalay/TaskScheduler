@@ -62,15 +62,21 @@ class CellSlideActionManager: NSObject {
     }
     
     private func markCompleteActionTriggered(tableView: UITableView?, indexPath: NSIndexPath?) {
-        self.delegate?.cellSlideMarkCompleteActionTriggered(tableView!, indexPath: indexPath!)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.cellSlideMarkCompleteActionTriggered(tableView!, indexPath: indexPath!)
+        }
     }
     
     private func markIncompleteActionTriggered(tableView: UITableView?, indexPath: NSIndexPath?) {
-        self.delegate?.cellSlideMarkIncompleteActionTriggered(tableView!, indexPath: indexPath!)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.cellSlideMarkIncompleteActionTriggered(tableView!, indexPath: indexPath!)
+        }
     }
     
     private func deleteActionTriggered(tableView: UITableView?, indexPath: NSIndexPath?) {
-        self.delegate?.cellSlideDeleteActionTriggered(tableView!, indexPath: indexPath!)
+        dispatch_async(dispatch_get_main_queue()) {
+            self.delegate?.cellSlideDeleteActionTriggered(tableView!, indexPath: indexPath!)
+        }
     }
     
     func addMarkCompleteAndDeleteSlideActionsToCell(cell: UITableViewCell) {

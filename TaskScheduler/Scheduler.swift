@@ -36,9 +36,14 @@ class Scheduler {
             do {
                 try self.actuallyScheduleTasksForUser()
                 self.persistenceController.saveDataAndWait()
-                self.delegate?.scheduleCompleted(ScheduleStatus.Succeeded)
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.scheduleCompleted(ScheduleStatus.Succeeded)
+                }
             } catch {
-                self.delegate?.scheduleCompleted(ScheduleStatus.Failed)
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.delegate?.scheduleCompleted(ScheduleStatus.Failed)
+                }
             }
         }
     }
