@@ -63,7 +63,7 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
     
     func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerView == self.priorityPicker! {
-            return PriorityLevel.count
+            return 5
         } else {
             return 0
         }

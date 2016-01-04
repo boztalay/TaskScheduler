@@ -11,6 +11,11 @@
 		FB14C1831BB98F84000A16EE /* JSQCoreDataKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB14C1801BB98F61000A16EE /* JSQCoreDataKit.framework */; };
 		FB14C1851BB98FB0000A16EE /* JSQCoreDataKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FB14C1801BB98F61000A16EE /* JSQCoreDataKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FB5821871C38AFB900DC8980 /* ScheduleConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5821861C38AFB900DC8980 /* ScheduleConfirmationViewController.swift */; };
+		FB58218F1C39FDC200DC8980 /* DRCellSlideAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FB58218A1C39FDC200DC8980 /* DRCellSlideAction.m */; };
+		FB5821901C39FDC200DC8980 /* DRCellSlideActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB58218C1C39FDC200DC8980 /* DRCellSlideActionView.m */; };
+		FB5821911C39FDC200DC8980 /* DRCellSlideGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB58218E1C39FDC200DC8980 /* DRCellSlideGestureRecognizer.m */; };
+		FB5821961C3A055300DC8980 /* GenericTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5821941C3A055300DC8980 /* GenericTaskTableViewCell.swift */; };
+		FB5821971C3A055300DC8980 /* GenericTaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5821951C3A055300DC8980 /* GenericTaskTableViewCell.xib */; };
 		FB709EED1BCC3A4D0092B9D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EEC1BCC3A4D0092B9D8 /* User.swift */; };
 		FB709EF11BCC3A890092B9D8 /* TaskWorkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */; };
 		FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */; };
@@ -18,10 +23,8 @@
 		FB709EFA1BCEB3A70092B9D8 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */; };
 		FB80ABB91BDAB884002C28B2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB80ABB81BDAB884002C28B2 /* SettingsViewController.swift */; };
 		FBA05C601C28EE1B00498424 /* AllTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA05C5F1C28EE1B00498424 /* AllTasksViewController.swift */; };
-		FBA05C621C28F2C200498424 /* TaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA05C611C28F2C200498424 /* TaskTableViewCell.swift */; };
 		FBA05C651C3389C300498424 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA05C641C3389C300498424 /* PersistenceController.swift */; };
 		FBAEE8021BB9A92200E87679 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8001BB9A92200E87679 /* Task.swift */; };
-		FBAEE8041BB9AE2300E87679 /* TaskType.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8031BB9AE2300E87679 /* TaskType.swift */; };
 		FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */; };
 		FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE361BAC7EF00055ACF2 /* AppDelegate.swift */; };
 		FBD1BE391BAC7EF00055ACF2 /* TodaysWorkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE381BAC7EF00055ACF2 /* TodaysWorkViewController.swift */; };
@@ -30,8 +33,7 @@
 		FBD1BE431BAC7EF00055ACF2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBD1BE411BAC7EF00055ACF2 /* LaunchScreen.storyboard */; };
 		FBD1BE4E1BAC7EF00055ACF2 /* TaskSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE4D1BAC7EF00055ACF2 /* TaskSchedulerTests.swift */; };
 		FBD1BE591BAC7EF00055ACF2 /* TaskSchedulerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE581BAC7EF00055ACF2 /* TaskSchedulerUITests.swift */; };
-		FBD1BE6C1BAC87450055ACF2 /* WorkSessionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE6B1BAC87450055ACF2 /* WorkSessionTableViewCell.swift */; };
-		FBD1BE701BAC8CD70055ACF2 /* Priority.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE6F1BAC8CD70055ACF2 /* Priority.swift */; };
+		FBD1BE701BAC8CD70055ACF2 /* PriorityPrettifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE6F1BAC8CD70055ACF2 /* PriorityPrettifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +84,14 @@
 		FB14C1751BB97E8C000A16EE /* TaskScheduler.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskScheduler.xcdatamodel; sourceTree = "<group>"; };
 		FB14C17A1BB98F61000A16EE /* JSQCoreDataKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JSQCoreDataKit.xcodeproj; path = JSQCoreDataKit/JSQCoreDataKit.xcodeproj; sourceTree = "<group>"; };
 		FB5821861C38AFB900DC8980 /* ScheduleConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleConfirmationViewController.swift; sourceTree = "<group>"; };
+		FB5821891C39FDC200DC8980 /* DRCellSlideAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRCellSlideAction.h; sourceTree = "<group>"; };
+		FB58218A1C39FDC200DC8980 /* DRCellSlideAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCellSlideAction.m; sourceTree = "<group>"; };
+		FB58218B1C39FDC200DC8980 /* DRCellSlideActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRCellSlideActionView.h; sourceTree = "<group>"; };
+		FB58218C1C39FDC200DC8980 /* DRCellSlideActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCellSlideActionView.m; sourceTree = "<group>"; };
+		FB58218D1C39FDC200DC8980 /* DRCellSlideGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRCellSlideGestureRecognizer.h; sourceTree = "<group>"; };
+		FB58218E1C39FDC200DC8980 /* DRCellSlideGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCellSlideGestureRecognizer.m; sourceTree = "<group>"; };
+		FB5821941C3A055300DC8980 /* GenericTaskTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericTaskTableViewCell.swift; sourceTree = "<group>"; };
+		FB5821951C3A055300DC8980 /* GenericTaskTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenericTaskTableViewCell.xib; sourceTree = "<group>"; };
 		FB709EEC1BCC3A4D0092B9D8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskWorkSession.swift; sourceTree = "<group>"; };
 		FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkDay.swift; sourceTree = "<group>"; };
@@ -89,10 +99,8 @@
 		FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		FB80ABB81BDAB884002C28B2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FBA05C5F1C28EE1B00498424 /* AllTasksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllTasksViewController.swift; sourceTree = "<group>"; };
-		FBA05C611C28F2C200498424 /* TaskTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskTableViewCell.swift; sourceTree = "<group>"; };
 		FBA05C641C3389C300498424 /* PersistenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
 		FBAEE8001BB9A92200E87679 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		FBAEE8031BB9AE2300E87679 /* TaskType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskType.swift; sourceTree = "<group>"; };
 		FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
 		FBD1BE331BAC7EF00055ACF2 /* TaskScheduler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskScheduler.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD1BE361BAC7EF00055ACF2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -107,8 +115,7 @@
 		FBD1BE541BAC7EF00055ACF2 /* TaskSchedulerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TaskSchedulerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBD1BE581BAC7EF00055ACF2 /* TaskSchedulerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskSchedulerUITests.swift; sourceTree = "<group>"; };
 		FBD1BE5A1BAC7EF00055ACF2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FBD1BE6B1BAC87450055ACF2 /* WorkSessionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkSessionTableViewCell.swift; sourceTree = "<group>"; };
-		FBD1BE6F1BAC8CD70055ACF2 /* Priority.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Priority.swift; sourceTree = "<group>"; };
+		FBD1BE6F1BAC8CD70055ACF2 /* PriorityPrettifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriorityPrettifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +147,7 @@
 		FB14C1791BB98EFF000A16EE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FB5821881C39FDC200DC8980 /* DRCellSlideGestureRecognizer */,
 				FB14C17A1BB98F61000A16EE /* JSQCoreDataKit.xcodeproj */,
 			);
 			name = Frameworks;
@@ -152,6 +160,19 @@
 				FB14C1821BB98F61000A16EE /* JSQCoreDataKitTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		FB5821881C39FDC200DC8980 /* DRCellSlideGestureRecognizer */ = {
+			isa = PBXGroup;
+			children = (
+				FB5821891C39FDC200DC8980 /* DRCellSlideAction.h */,
+				FB58218A1C39FDC200DC8980 /* DRCellSlideAction.m */,
+				FB58218B1C39FDC200DC8980 /* DRCellSlideActionView.h */,
+				FB58218C1C39FDC200DC8980 /* DRCellSlideActionView.m */,
+				FB58218D1C39FDC200DC8980 /* DRCellSlideGestureRecognizer.h */,
+				FB58218E1C39FDC200DC8980 /* DRCellSlideGestureRecognizer.m */,
+			);
+			path = DRCellSlideGestureRecognizer;
 			sourceTree = "<group>";
 		};
 		FB709EF41BCC3E830092B9D8 /* Misc */ = {
@@ -176,8 +197,7 @@
 		FB709EF81BCEB3970092B9D8 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				FBD1BE6F1BAC8CD70055ACF2 /* Priority.swift */,
-				FBAEE8031BB9AE2300E87679 /* TaskType.swift */,
+				FBD1BE6F1BAC8CD70055ACF2 /* PriorityPrettifier.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -267,8 +287,8 @@
 		FBD1BE671BAC7F020055ACF2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				FBD1BE6B1BAC87450055ACF2 /* WorkSessionTableViewCell.swift */,
-				FBA05C611C28F2C200498424 /* TaskTableViewCell.swift */,
+				FB5821951C3A055300DC8980 /* GenericTaskTableViewCell.xib */,
+				FB5821941C3A055300DC8980 /* GenericTaskTableViewCell.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -431,6 +451,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB5821971C3A055300DC8980 /* GenericTaskTableViewCell.xib in Resources */,
 				FBD1BE431BAC7EF00055ACF2 /* LaunchScreen.storyboard in Resources */,
 				FBD1BE401BAC7EF00055ACF2 /* Assets.xcassets in Resources */,
 				FBD1BE3E1BAC7EF00055ACF2 /* Main.storyboard in Resources */,
@@ -458,24 +479,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB5821911C39FDC200DC8980 /* DRCellSlideGestureRecognizer.m in Sources */,
 				FBAEE8021BB9A92200E87679 /* Task.swift in Sources */,
 				FB709EFA1BCEB3A70092B9D8 /* Scheduler.swift in Sources */,
 				FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */,
 				FB14C1761BB97E8C000A16EE /* TaskScheduler.xcdatamodeld in Sources */,
 				FB80ABB91BDAB884002C28B2 /* SettingsViewController.swift in Sources */,
 				FB709EF61BCC3E990092B9D8 /* DateUtils.swift in Sources */,
-				FBD1BE6C1BAC87450055ACF2 /* WorkSessionTableViewCell.swift in Sources */,
+				FB5821901C39FDC200DC8980 /* DRCellSlideActionView.m in Sources */,
 				FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */,
+				FB5821961C3A055300DC8980 /* GenericTaskTableViewCell.swift in Sources */,
 				FB5821871C38AFB900DC8980 /* ScheduleConfirmationViewController.swift in Sources */,
-				FBA05C621C28F2C200498424 /* TaskTableViewCell.swift in Sources */,
 				FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */,
 				FBA05C651C3389C300498424 /* PersistenceController.swift in Sources */,
 				FBD1BE391BAC7EF00055ACF2 /* TodaysWorkViewController.swift in Sources */,
 				FB709EF11BCC3A890092B9D8 /* TaskWorkSession.swift in Sources */,
 				FBA05C601C28EE1B00498424 /* AllTasksViewController.swift in Sources */,
-				FBAEE8041BB9AE2300E87679 /* TaskType.swift in Sources */,
 				FB709EED1BCC3A4D0092B9D8 /* User.swift in Sources */,
-				FBD1BE701BAC8CD70055ACF2 /* Priority.swift in Sources */,
+				FBD1BE701BAC8CD70055ACF2 /* PriorityPrettifier.swift in Sources */,
+				FB58218F1C39FDC200DC8980 /* DRCellSlideAction.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

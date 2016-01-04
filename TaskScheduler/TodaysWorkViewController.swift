@@ -22,6 +22,7 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
         
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.allowsMultipleSelectionDuringEditing = false
+        self.tableView.registerNib(GenericTaskTableViewCell.Nib, forCellReuseIdentifier: GenericTaskTableViewCell.ReuseIdentifier)
         
         self.fetchOrCreateUser()
     }
@@ -81,10 +82,10 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("WorkSessionCell", forIndexPath: indexPath) as! WorkSessionTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(GenericTaskTableViewCell.ReuseIdentifier, forIndexPath: indexPath) as! GenericTaskTableViewCell
         
         let workSession = self.user!.todayWorkDay().workSessionsArray[indexPath.row]
-        cell.setWorkSession(workSession)
+        cell.setFromWorkSession(workSession)
         
         return cell
     }
