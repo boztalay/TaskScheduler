@@ -16,6 +16,7 @@
 		FB5821911C39FDC200DC8980 /* DRCellSlideGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB58218E1C39FDC200DC8980 /* DRCellSlideGestureRecognizer.m */; };
 		FB5821961C3A055300DC8980 /* GenericTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5821941C3A055300DC8980 /* GenericTaskTableViewCell.swift */; };
 		FB5821971C3A055300DC8980 /* GenericTaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5821951C3A055300DC8980 /* GenericTaskTableViewCell.xib */; };
+		FB58219A1C3A50ED00DC8980 /* CellSlideActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5821991C3A50ED00DC8980 /* CellSlideActionManager.swift */; };
 		FB709EED1BCC3A4D0092B9D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EEC1BCC3A4D0092B9D8 /* User.swift */; };
 		FB709EF11BCC3A890092B9D8 /* TaskWorkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */; };
 		FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */; };
@@ -92,6 +93,8 @@
 		FB58218E1C39FDC200DC8980 /* DRCellSlideGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCellSlideGestureRecognizer.m; sourceTree = "<group>"; };
 		FB5821941C3A055300DC8980 /* GenericTaskTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericTaskTableViewCell.swift; sourceTree = "<group>"; };
 		FB5821951C3A055300DC8980 /* GenericTaskTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenericTaskTableViewCell.xib; sourceTree = "<group>"; };
+		FB5821981C3A48B700DC8980 /* TaskScheduler-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TaskScheduler-Bridging-Header.h"; sourceTree = "<group>"; };
+		FB5821991C3A50ED00DC8980 /* CellSlideActionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellSlideActionManager.swift; sourceTree = "<group>"; };
 		FB709EEC1BCC3A4D0092B9D8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskWorkSession.swift; sourceTree = "<group>"; };
 		FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkDay.swift; sourceTree = "<group>"; };
@@ -179,6 +182,7 @@
 			isa = PBXGroup;
 			children = (
 				FB709EF51BCC3E990092B9D8 /* DateUtils.swift */,
+				FB5821991C3A50ED00DC8980 /* CellSlideActionManager.swift */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -318,6 +322,7 @@
 			isa = PBXGroup;
 			children = (
 				FBD1BE441BAC7EF00055ACF2 /* Info.plist */,
+				FB5821981C3A48B700DC8980 /* TaskScheduler-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -484,6 +489,7 @@
 				FB709EFA1BCEB3A70092B9D8 /* Scheduler.swift in Sources */,
 				FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */,
 				FB14C1761BB97E8C000A16EE /* TaskScheduler.xcdatamodeld in Sources */,
+				FB58219A1C3A50ED00DC8980 /* CellSlideActionManager.swift in Sources */,
 				FB80ABB91BDAB884002C28B2 /* SettingsViewController.swift in Sources */,
 				FB709EF61BCC3E990092B9D8 /* DateUtils.swift in Sources */,
 				FB5821901C39FDC200DC8980 /* DRCellSlideActionView.m in Sources */,
@@ -593,6 +599,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "TaskScheduler/TaskScheduler-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -632,6 +639,7 @@
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "TaskScheduler/TaskScheduler-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

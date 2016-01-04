@@ -8,12 +8,15 @@
 
 import UIKit
 
-class TodaysWorkViewController: UITableViewController, SchedulerDelegate, PersistenceControllerDelegate {
+class TodaysWorkViewController: UITableViewController, SchedulerDelegate, PersistenceControllerDelegate, CellSlideActionManagerDelegate {
     
     let persistenceController = PersistenceController.sharedInstance
+    let cellSlideActionManager = CellSlideActionManager()
 
     var user: User?
     var scheduler: Scheduler?
+    var incompleteWorkSessions: [TaskWorkSession]?
+    var completeWorkSessions: [TaskWorkSession]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +26,8 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.allowsMultipleSelectionDuringEditing = false
         self.tableView.registerNib(GenericTaskTableViewCell.Nib, forCellReuseIdentifier: GenericTaskTableViewCell.ReuseIdentifier)
+        
+        self.cellSlideActionManager.delegate = self
         
         self.fetchOrCreateUser()
     }
@@ -50,7 +55,6 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
     }
     
     func scheduleStarted() {
-        print("Schedule started")
         self.persistenceController.removeDelegate(self)
     }
     
@@ -58,56 +62,93 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
         if status == ScheduleStatus.Failed {
             print("Schedule failed")
         } else {
-            print("Schedule success")
-            printTasks()
+            self.incompleteWorkSessions = self.user?.todayWorkDay().workSessionsArray.filter({ !$0.hasBeenCompleted})
+            self.completeWorkSessions = self.user?.todayWorkDay().workSessionsArray.filter({ $0.hasBeenCompleted})
             self.tableView.reloadData()
         }
         
         self.persistenceController.addDelegate(self)
     }
     
-    func printTasks() {
-        print("\(self.user!.todayWorkDay().date)")
-        for workSession in self.user!.todayWorkDay().workSessionsArray {
-            print("- \(workSession.parentTask.title) for \(workSession.amountOfWork) on \(workSession.dayScheduledOn.date)")
-        }
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let user = self.user {
-            return user.todayWorkDay().workSessionsArray.count
+        if section == 0 {
+            if let incompleteWorkSessions = self.incompleteWorkSessions {
+                return incompleteWorkSessions.count
+            }
+        } else if section == 1 {
+            if let completeWorkSessions = self.completeWorkSessions {
+                return completeWorkSessions.count
+            }
+        }
+        
+        return 0
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Incomplete"
+        } else if section == 1  {
+            return "Compelete"
         } else {
-            return 0
+            return "ERROR"
         }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(GenericTaskTableViewCell.ReuseIdentifier, forIndexPath: indexPath) as! GenericTaskTableViewCell
+        var workSession: TaskWorkSession
         
-        let workSession = self.user!.todayWorkDay().workSessionsArray[indexPath.row]
+        if indexPath.section == 0 {
+            workSession = self.incompleteWorkSessions![indexPath.row]
+            self.cellSlideActionManager.addMarkCompleteAndDeleteSlideActionsToCell(cell)
+        } else {
+            workSession = self.completeWorkSessions![indexPath.row]
+            self.cellSlideActionManager.addMarkIncompleteSlideActionToCell(cell)
+        }
+        
         cell.setFromWorkSession(workSession)
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("TasksToEditTask", sender: self.user!.todayWorkDay().workSessionsArray[indexPath.row].parentTask)
+    func cellSlideMarkCompleteActionTriggered(tableView: UITableView, indexPath: NSIndexPath) {
+        let workSession = self.incompleteWorkSessions![indexPath.row]
+        workSession.hasBeenCompleted = true
+        
+        // Save the context
+        if !self.persistenceController.saveDataAndWait() {
+            print("Couldn't save the data")
+        }
+    }
+
+    func cellSlideMarkIncompleteActionTriggered(tableView: UITableView, indexPath: NSIndexPath) {
+        let workSession = self.completeWorkSessions![indexPath.row]
+        workSession.hasBeenCompleted = false
+        
+        // Save the context
+        if !self.persistenceController.saveDataAndWait() {
+            print("Couldn't save the data")
+        }
+    }
+
+    func cellSlideDeleteActionTriggered(tableView: UITableView, indexPath: NSIndexPath) {
+        // Delete the work session's task
+        let workSession = self.incompleteWorkSessions![indexPath.row]
+        let taskToDelete = [workSession.parentTask]
+        self.persistenceController.deleteStoredObjects(taskToDelete)
+        
+        // Save the context
+        if !self.persistenceController.saveDataAndWait() {
+            print("Couldn't save the data")
+        }
     }
     
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the work session's task
-            
-            let workSession = self.user!.todayWorkDay().workSessionsArray[indexPath.row]
-            let taskToDelete = [workSession.parentTask]
-            self.persistenceController.deleteStoredObjects(taskToDelete)
-            
-            // Save the context
-            
-            if !self.persistenceController.saveDataAndWait() {
-                print("Couldn't save the data")
-            }
-        }
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        self.performSegueWithIdentifier("TasksToEditTask", sender: self.user!.todayWorkDay().workSessionsArray[indexPath.row].parentTask)
     }
 
     @IBAction func addButtonPressed(sender: AnyObject) {

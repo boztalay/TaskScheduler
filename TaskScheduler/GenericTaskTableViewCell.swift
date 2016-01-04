@@ -10,9 +10,9 @@ import UIKit
 
 struct TaskStateColors {
     static let NormalColor = UIColor.whiteColor()
-    static let CompleteColor = UIColor(red: 0.0, green: 1.0, blue: 0.0, alpha: 0.25)
-    static let IncompleteColor = UIColor(red: 1.0, green: 1.0, blue: 0.0, alpha: 0.25)
-    static let DroppedColor = UIColor(red: 1.0, green: 0.0, blue: 0.0, alpha: 0.25)
+    static let CompleteColor = UIColor(red: 0.9, green: 1.0, blue: 0.9, alpha: 1.0)
+    static let IncompleteColor = UIColor(red: 1.0, green: 1.0, blue: 0.9, alpha: 1.0)
+    static let DroppedColor = UIColor(red: 1.0, green: 0.9, blue: 0.9, alpha: 1.0)
 }
 
 class GenericTaskTableViewCell: UITableViewCell {
