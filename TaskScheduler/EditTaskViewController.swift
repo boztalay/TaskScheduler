@@ -9,7 +9,7 @@
 import UIKit
 import JSQCoreDataKit
 
-class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class EditTaskViewController: UITableViewController, UITextFieldDelegate {
     
     let persistenceController = PersistenceController.sharedInstance
 
@@ -19,28 +19,21 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
     
     @IBOutlet weak var titleTextField: UITextField!
     @IBOutlet weak var workEstimateTextField: UITextField!
+    @IBOutlet weak var prioritySlider: UISlider!
     @IBOutlet weak var dueDatePicker: UIDatePicker!
-    @IBOutlet weak var priorityPicker: UIPickerView!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         if let _ = self.task {
             self.isEditingTask = true
         }
-
-        self.doCommonSetup()
         
         if self.isEditingTask {
             self.setUpForExistingTask()
         } else {
             self.setUpForNewTask()
         }
-    }
-    
-    func doCommonSetup() {
-        self.priorityPicker!.dataSource = self
-        self.priorityPicker!.delegate = self
     }
     
     func setUpForNewTask() {
@@ -53,28 +46,22 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
         
         self.titleTextField.text = task!.title
         self.workEstimateTextField.text = String(task!.workEstimate)
+        self.prioritySlider.value = Float(task!.priority)
         self.dueDatePicker.date = task!.dueDate
-        self.priorityPicker!.selectRow(Int(task!.priority), inComponent: 0, animated: false)
+    }
+
+    @IBAction func prioritySliderValueChanged(sender: AnyObject) {
+        self.prioritySlider!.value = round(self.prioritySlider!.value)
     }
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if pickerView == self.priorityPicker! {
-            return 5
-        } else {
-            return 0
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        if textField === self.titleTextField {
+            self.workEstimateTextField.becomeFirstResponder()
+        } else if textField === self.workEstimateTextField {
+            self.workEstimateTextField.resignFirstResponder()
         }
-    }
-    
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if pickerView == self.priorityPicker! {
-            return String(row)
-        } else {
-            return ""
-        }
+        
+        return true
     }
 
     @IBAction func cancelButtonPressed(sender: AnyObject) {
@@ -82,6 +69,8 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
     }
 
     @IBAction func doneButtonPressed(sender: AnyObject) {
+        self.view.endEditing(true)
+        
         // Validate everything
         
         if self.titleTextField!.text == nil || self.titleTextField!.text!.isEmpty {
@@ -114,7 +103,7 @@ class EditTaskViewController: UITableViewController, UIPickerViewDataSource, UIP
             return
         }
         
-        let priority = self.priorityPicker!.selectedRowInComponent(0)
+        let priority = Int(round(self.prioritySlider.value))
         
         // Make or set the task accordingly
         
