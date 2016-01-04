@@ -8,12 +8,14 @@
 
 import UIKit
 
-class AllTasksViewController: UITableViewController, PersistenceControllerDelegate {
+class AllTasksViewController: UITableViewController, PersistenceControllerDelegate, CellSlideActionManagerDelegate {
     
     let persistenceController = PersistenceController.sharedInstance
+    let cellSlideActionManager = CellSlideActionManager()
     
     var user: User?
-    var sortedTasks: [Task]?
+    var currentTasks: [Task]?
+    var pastTasks: [Task]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +25,8 @@ class AllTasksViewController: UITableViewController, PersistenceControllerDelega
         self.tableView.tableFooterView = UIView(frame: CGRectZero)
         self.tableView.allowsMultipleSelectionDuringEditing = false
         self.tableView.registerNib(GenericTaskTableViewCell.Nib, forCellReuseIdentifier: GenericTaskTableViewCell.ReuseIdentifier)
+        
+        self.cellSlideActionManager.delegate = self
         
         self.reloadTasks()
     }
@@ -34,44 +38,117 @@ class AllTasksViewController: UITableViewController, PersistenceControllerDelega
     func reloadTasks() {
         self.user = self.persistenceController.getLatestUserData()
         
-        self.sortedTasks = self.user?.tasksArray.sort() { $0.dueDate.compare($1.dueDate) == .OrderedAscending }
+        self.currentTasks = self.user?.tasksArray.filter({ !$0.isDueInPast }).sort({ $0.dueDate.compare($1.dueDate) == .OrderedAscending })
+        self.pastTasks = self.user?.tasksArray.filter({ $0.isDueInPast }).sort({ $0.dueDate.compare($1.dueDate) == .OrderedDescending })
         self.tableView.reloadData()
     }
     
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 2
+    }
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let sortedTasks = self.sortedTasks {
-            return sortedTasks.count
+        if section == 0 {
+            if let currentTasks = self.currentTasks {
+                return currentTasks.count
+            }
+        } else if section == 1 {
+            if let pastTasks = self.pastTasks {
+                return pastTasks.count
+            }
+        }
+        
+        return 0
+    }
+    
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Current Tasks"
+        } else if section == 1  {
+            return "Past Tasks"
         } else {
-            return 0
+            return "ERROR"
         }
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(GenericTaskTableViewCell.ReuseIdentifier, forIndexPath: indexPath) as! GenericTaskTableViewCell
+        var task: Task
         
-        let task = self.sortedTasks![indexPath.row]
+        if indexPath.section == 0 {
+            task = self.currentTasks![indexPath.row]
+        } else {
+            task = self.pastTasks![indexPath.row]
+        }
+        
         cell.setFromTask(task)
+        
+        if task.isComplete {
+            self.cellSlideActionManager.addMarkIncompleteAndDeleteSlideActionsToCell(cell)
+        } else {
+            self.cellSlideActionManager.addMarkCompleteAndDeleteSlideActionsToCell(cell)
+        }
         
         return cell
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("AllTasksToEditTask", sender: self.sortedTasks![indexPath.row])
+    func cellSlideMarkCompleteActionTriggered(tableView: UITableView, indexPath: NSIndexPath) {
+        var task: Task
+        if indexPath.section == 0 {
+            task = self.currentTasks![indexPath.row]
+        } else {
+            task = self.pastTasks![indexPath.row]
+        }
+        
+        task.isComplete = true
+        
+        // Save the context
+        if !self.persistenceController.saveDataAndWait() {
+            print("Couldn't save the data")
+        }
     }
     
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the task
-
-            let taskToDelete = [self.sortedTasks![indexPath.row]]
-            self.persistenceController.deleteStoredObjects(taskToDelete)
-            
-            // Save the context
-            
-            if !self.persistenceController.saveDataAndWait() {
-                print("Couldn't save the data")
-            }
+    func cellSlideMarkIncompleteActionTriggered(tableView: UITableView, indexPath: NSIndexPath) {
+        var task: Task
+        if indexPath.section == 0 {
+            task = self.currentTasks![indexPath.row]
+        } else {
+            task = self.pastTasks![indexPath.row]
         }
+        
+        task.isComplete = false
+        
+        // Save the context
+        if !self.persistenceController.saveDataAndWait() {
+            print("Couldn't save the data")
+        }
+    }
+    
+    func cellSlideDeleteActionTriggered(tableView: UITableView, indexPath: NSIndexPath) {
+        // Delete the task
+        var task: Task
+        if indexPath.section == 0 {
+            task = self.currentTasks![indexPath.row]
+        } else {
+            task = self.pastTasks![indexPath.row]
+        }
+        self.persistenceController.deleteStoredObjects([task])
+        
+        // Save the context
+        if !self.persistenceController.saveDataAndWait() {
+            print("Couldn't save the data")
+        }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        var task: Task
+        if indexPath.section == 0 {
+            task = self.currentTasks![indexPath.row]
+        } else {
+            task = self.pastTasks![indexPath.row]
+        }
+        
+        self.performSegueWithIdentifier("AllTasksToEditTask", sender: task)
     }
     
     @IBAction func addButtonPressed(sender: AnyObject) {

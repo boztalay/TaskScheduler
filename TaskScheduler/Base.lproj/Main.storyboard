@@ -94,10 +94,10 @@
         <scene sceneID="KPa-2O-jry">
             <objects>
                 <tableViewController id="60G-ka-S1T" customClass="AllTasksViewController" customModule="TaskScheduler" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="28" sectionFooterHeight="28" id="6q5-2b-LEb">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="60" sectionHeaderHeight="18" sectionFooterHeight="18" id="6q5-2b-LEb">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <connections>
                             <outlet property="dataSource" destination="60G-ka-S1T" id="efq-4C-Gve"/>
                             <outlet property="delegate" destination="60G-ka-S1T" id="lva-VY-bUF"/>
@@ -664,8 +664,8 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="riO-sv-9nt"/>
-        <segue reference="2cd-kk-qU1"/>
+        <segue reference="lyD-iM-Nt8"/>
         <segue reference="DIe-E5-dE6"/>
+        <segue reference="xra-a0-KPr"/>
     </inferredMetricsTieBreakers>
 </document>
