@@ -119,6 +119,8 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
         let workSession = self.incompleteWorkSessions![indexPath.row]
         workSession.hasBeenCompleted = true
         
+        self.updateCompletionStatusOfParentTaskOfWorkSession(workSession)
+        
         // Save the context
         if !self.persistenceController.saveDataAndWait() {
             print("Couldn't save the data")
@@ -129,9 +131,19 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
         let workSession = self.completeWorkSessions![indexPath.row]
         workSession.hasBeenCompleted = false
         
+        self.updateCompletionStatusOfParentTaskOfWorkSession(workSession)
+        
         // Save the context
         if !self.persistenceController.saveDataAndWait() {
             print("Couldn't save the data")
+        }
+    }
+    
+    private func updateCompletionStatusOfParentTaskOfWorkSession(workSession: TaskWorkSession) {
+        if workSession.parentTask.workLeftToDo == 0.0 {
+            workSession.parentTask.isComplete = true
+        } else {
+            workSession.parentTask.isComplete = false
         }
     }
 
