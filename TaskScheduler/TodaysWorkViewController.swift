@@ -103,7 +103,7 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
         if section == 0 {
             return "Incomplete"
         } else if section == 1  {
-            return "Compelete"
+            return "Complete"
         } else {
             return "ERROR"
         }

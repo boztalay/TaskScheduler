@@ -45,12 +45,9 @@
 
 - (void)tint {
     [UIView animateWithDuration:0.15 animations:^{
-        
         self.iconImageView.tintColor = self.active ? self.action.activeColor : self.action.inactiveColor;
         self.backgroundColor = self.active ? self.action.activeBackgroundColor : self.action.inactiveBackgroundColor;
-        
     } completion:^(BOOL finished) {
-        
     }];
 }
 

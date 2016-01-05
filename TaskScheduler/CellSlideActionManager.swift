@@ -15,15 +15,21 @@ protocol CellSlideActionManagerDelegate {
 }
 
 struct CellSlideActionAttributes {
-    static let generalFraction: CGFloat = 0.25
+    static let generalFraction: CGFloat = 0.20
     static let generalElasticity: CGFloat = 50.0
+    static let generalIconColor = UIColor.whiteColor()
     
     static let markCompleteActiveBackgroundColor = UIColor(red: 0.42, green: 1.0, blue: 0.42, alpha: 1.0)
     static let markCompleteInactiveBackgroundColor = UIColor(white: 0.82, alpha: 1.0)
+    static let markCompleteIcon = UIImage(named: "check")
+
     static let markIncompleteActiveBackgroundColor = markCompleteInactiveBackgroundColor
     static let markIncompleteInactiveBackgroundColor = markCompleteActiveBackgroundColor
+    static let markIncompleteIcon = UIImage(named: "uncheck")
+
     static let deleteActionActiveBackgroundColor = UIColor(red: 1.0, green: 0.15, blue: 0.15, alpha: 1.0)
     static let deleteActionInactiveBackgroundColor = markCompleteInactiveBackgroundColor
+    static let deleteIcon = UIImage(named: "delete")
 }
 
 class CellSlideActionManager: NSObject {
@@ -46,18 +52,27 @@ class CellSlideActionManager: NSObject {
         self.markCompleteAction.elasticity = CellSlideActionAttributes.generalElasticity
         self.markCompleteAction.activeBackgroundColor = CellSlideActionAttributes.markCompleteActiveBackgroundColor
         self.markCompleteAction.inactiveBackgroundColor = CellSlideActionAttributes.markCompleteInactiveBackgroundColor
+        self.markCompleteAction.icon = CellSlideActionAttributes.markCompleteIcon
+        self.markCompleteAction.activeColor = CellSlideActionAttributes.generalIconColor
+        self.markCompleteAction.inactiveColor = CellSlideActionAttributes.generalIconColor
         self.markCompleteAction.didTriggerBlock = self.markCompleteActionTriggered
         
         self.markIncompleteAction.behavior = DRCellSlideActionBehavior.PullBehavior
         self.markIncompleteAction.elasticity = CellSlideActionAttributes.generalElasticity
         self.markIncompleteAction.activeBackgroundColor = CellSlideActionAttributes.markIncompleteActiveBackgroundColor
         self.markIncompleteAction.inactiveBackgroundColor = CellSlideActionAttributes.markIncompleteInactiveBackgroundColor
+        self.markIncompleteAction.icon = CellSlideActionAttributes.markIncompleteIcon
+        self.markIncompleteAction.activeColor = CellSlideActionAttributes.generalIconColor
+        self.markIncompleteAction.inactiveColor = CellSlideActionAttributes.generalIconColor
         self.markIncompleteAction.didTriggerBlock = self.markIncompleteActionTriggered
         
         self.deleteAction.behavior = DRCellSlideActionBehavior.PushBehavior
         self.deleteAction.elasticity = CellSlideActionAttributes.generalElasticity
         self.deleteAction.activeBackgroundColor = CellSlideActionAttributes.deleteActionActiveBackgroundColor
         self.deleteAction.inactiveBackgroundColor = CellSlideActionAttributes.deleteActionInactiveBackgroundColor
+        self.deleteAction.icon = CellSlideActionAttributes.deleteIcon
+        self.deleteAction.activeColor = CellSlideActionAttributes.generalIconColor
+        self.deleteAction.inactiveColor = CellSlideActionAttributes.generalIconColor
         self.deleteAction.didTriggerBlock = self.deleteActionTriggered
     }
     
