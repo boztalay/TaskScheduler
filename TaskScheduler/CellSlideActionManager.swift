@@ -19,16 +19,16 @@ struct CellSlideActionAttributes {
     static let generalElasticity: CGFloat = 50.0
     static let generalIconColor = UIColor.whiteColor()
     
-    static let markCompleteActiveBackgroundColor = UIColor(red: 0.42, green: 1.0, blue: 0.42, alpha: 1.0)
-    static let markCompleteInactiveBackgroundColor = UIColor(white: 0.82, alpha: 1.0)
+    static let markCompleteActiveBackgroundColor = TaskSchedulerColors.TaskComplete
+    static let markCompleteInactiveBackgroundColor = TaskSchedulerColors.TaskInProgess
     static let markCompleteIcon = UIImage(named: "check")
 
-    static let markIncompleteActiveBackgroundColor = markCompleteInactiveBackgroundColor
-    static let markIncompleteInactiveBackgroundColor = markCompleteActiveBackgroundColor
+    static let markIncompleteActiveBackgroundColor = TaskSchedulerColors.TaskInProgess
+    static let markIncompleteInactiveBackgroundColor = TaskSchedulerColors.TaskComplete
     static let markIncompleteIcon = UIImage(named: "uncheck")
 
-    static let deleteActionActiveBackgroundColor = UIColor(red: 1.0, green: 0.15, blue: 0.15, alpha: 1.0)
-    static let deleteActionInactiveBackgroundColor = markCompleteInactiveBackgroundColor
+    static let deleteActionActiveBackgroundColor = TaskSchedulerColors.TaskDropped
+    static let deleteActionInactiveBackgroundColor = TaskSchedulerColors.TaskInProgess
     static let deleteIcon = UIImage(named: "delete")
 }
 

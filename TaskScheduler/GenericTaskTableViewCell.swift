@@ -8,17 +8,11 @@
 
 import UIKit
 
-struct TaskStateColors {
-    static let NormalColor = UIColor.whiteColor()
-    static let CompleteColor = UIColor(red: 0.9, green: 1.0, blue: 0.9, alpha: 1.0)
-    static let IncompleteColor = UIColor(red: 1.0, green: 1.0, blue: 0.9, alpha: 1.0)
-    static let DroppedColor = UIColor(red: 1.0, green: 0.9, blue: 0.9, alpha: 1.0)
-}
-
 class GenericTaskTableViewCell: UITableViewCell {
     
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var workLabel: UILabel!
+    @IBOutlet weak var statusDot: UIView!
     @IBOutlet weak var dueByLabel: UILabel!
     @IBOutlet weak var priorityLabel: UILabel!
     
@@ -35,6 +29,10 @@ class GenericTaskTableViewCell: UITableViewCell {
         return formatter
     }()
     
+    override func awakeFromNib() {
+        self.statusDot.layer.cornerRadius = self.statusDot.frame.width / 2.0
+    }
+    
     private func setCommonTextLabelsFromTask(task: Task) {
         self.titleLabel.text = task.title
         self.dueByLabel.text = "Due " + GenericTaskTableViewCell.dateFormatter.stringFromDate(task.dueDate)
@@ -50,13 +48,13 @@ class GenericTaskTableViewCell: UITableViewCell {
         }
         
         if task.isComplete {
-            self.backgroundColor = TaskStateColors.CompleteColor
+            self.statusDot.backgroundColor = TaskSchedulerColors.TaskComplete
         } else if task.isDueInPast && !task.isComplete {
-            self.backgroundColor = TaskStateColors.IncompleteColor
+            self.statusDot.backgroundColor = TaskSchedulerColors.TaskIncomplete
         } else if task.isDropped {
-            self.backgroundColor = TaskStateColors.DroppedColor
+            self.statusDot.backgroundColor = TaskSchedulerColors.TaskDropped
         } else {
-            self.backgroundColor = TaskStateColors.NormalColor
+            self.statusDot.backgroundColor = TaskSchedulerColors.TaskInProgess
         }
     }
     
@@ -70,11 +68,11 @@ class GenericTaskTableViewCell: UITableViewCell {
         }
         
         if workSession.hasBeenCompleted {
-            self.backgroundColor = TaskStateColors.CompleteColor
+            self.statusDot.backgroundColor = TaskSchedulerColors.TaskComplete
         } else if task.isDropped {
-            self.backgroundColor = TaskStateColors.DroppedColor
+            self.statusDot.backgroundColor = TaskSchedulerColors.TaskDropped
         } else {
-            self.backgroundColor = TaskStateColors.NormalColor
+            self.statusDot.backgroundColor = TaskSchedulerColors.TaskInProgess
         }
     }
 }

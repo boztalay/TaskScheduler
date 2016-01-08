@@ -17,6 +17,7 @@
 		FB5821961C3A055300DC8980 /* GenericTaskTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5821941C3A055300DC8980 /* GenericTaskTableViewCell.swift */; };
 		FB5821971C3A055300DC8980 /* GenericTaskTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FB5821951C3A055300DC8980 /* GenericTaskTableViewCell.xib */; };
 		FB58219A1C3A50ED00DC8980 /* CellSlideActionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5821991C3A50ED00DC8980 /* CellSlideActionManager.swift */; };
+		FB5821A71C3F2E3300DC8980 /* TaskSchedulerColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5821A61C3F2E3300DC8980 /* TaskSchedulerColors.swift */; };
 		FB709EED1BCC3A4D0092B9D8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EEC1BCC3A4D0092B9D8 /* User.swift */; };
 		FB709EF11BCC3A890092B9D8 /* TaskWorkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */; };
 		FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */; };
@@ -95,6 +96,7 @@
 		FB5821951C3A055300DC8980 /* GenericTaskTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GenericTaskTableViewCell.xib; sourceTree = "<group>"; };
 		FB5821981C3A48B700DC8980 /* TaskScheduler-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TaskScheduler-Bridging-Header.h"; sourceTree = "<group>"; };
 		FB5821991C3A50ED00DC8980 /* CellSlideActionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CellSlideActionManager.swift; sourceTree = "<group>"; };
+		FB5821A61C3F2E3300DC8980 /* TaskSchedulerColors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskSchedulerColors.swift; sourceTree = "<group>"; };
 		FB709EEC1BCC3A4D0092B9D8 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TaskWorkSession.swift; sourceTree = "<group>"; };
 		FB709EF21BCC3A9F0092B9D8 /* WorkDay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkDay.swift; sourceTree = "<group>"; };
@@ -183,6 +185,7 @@
 			children = (
 				FB709EF51BCC3E990092B9D8 /* DateUtils.swift */,
 				FB5821991C3A50ED00DC8980 /* CellSlideActionManager.swift */,
+				FB5821A61C3F2E3300DC8980 /* TaskSchedulerColors.swift */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -495,6 +498,7 @@
 				FB5821901C39FDC200DC8980 /* DRCellSlideActionView.m in Sources */,
 				FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */,
 				FB5821961C3A055300DC8980 /* GenericTaskTableViewCell.swift in Sources */,
+				FB5821A71C3F2E3300DC8980 /* TaskSchedulerColors.swift in Sources */,
 				FB5821871C38AFB900DC8980 /* ScheduleConfirmationViewController.swift in Sources */,
 				FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */,
 				FBA05C651C3389C300498424 /* PersistenceController.swift in Sources */,
