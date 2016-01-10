@@ -73,7 +73,7 @@ class Scheduler {
             return
         }
         
-        // And sort outstanding tasks by due date
+        // Sort outstanding tasks by due date
         let tasksSortedByDueDate = tasksToSchedule.sort() { $0.dueDate.compare($1.dueDate) == .OrderedAscending }
         
         // Go through all of the due dates, seeing if all of the tasks due on or before
@@ -82,7 +82,7 @@ class Scheduler {
         // that get done.
         
         let lastDueDate = tasksSortedByDueDate.last!.dueDate
-        var currentDueDate = DateUtils.dateByAddingDay(DateUtils.todayDay()) // Start with due date tomorrow
+        var currentDueDate = DateUtils.tomorrowDay() // Start with due date tomorrow
         
         while currentDueDate.compare(lastDueDate) != .OrderedDescending {
             let workTimeAvailable = user.availableWorkTimeBetweenNowAnd(date: currentDueDate)
@@ -114,7 +114,7 @@ class Scheduler {
         }
         
         // Goals/rules of scheduling:
-        //      Tasks are scheduled to be completed the day before they're due (unless the only day left is its due date)
+        //      Tasks are scheduled to be completed the day before they're due
         //      All tasks meet their deadlines (we know there's enough working time once we get here)
         //      Tasks are started as late as possible, with low priority tasks scheduled later than high priority tasks
         //      Long tasks can be split over several days
@@ -130,7 +130,7 @@ class Scheduler {
         for task in sortedTasks {
             var dayToScheduleOn: WorkDay?
             
-            // First try to find the latest day before the task's due date
+            // Try to find the latest day before the task's due date
             // that has available work
             var currentDay = user.workDayBeforeDay(user.workDayForDate(task.dueDate))
             while currentDay.date.compare(DateUtils.todayDay()) != .OrderedAscending {
@@ -139,14 +139,6 @@ class Scheduler {
                     break
                 }
                 currentDay = user.workDayBeforeDay(currentDay)
-            }
-            
-            // If that didn't work, check the task's due date
-            if dayToScheduleOn == nil {
-                let day = user.workDayForDate(task.dueDate)
-                if day.workLeftToBeScheduled > 0.0 {
-                    dayToScheduleOn = day
-                }
             }
             
             // If it still can't be scheduled, something is wrong

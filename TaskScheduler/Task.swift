@@ -113,8 +113,10 @@ class Task: NSManagedObject {
     }
     
     // Whether or not the task is due in the past
+    // Note that being due today is considered in the past,
+    // as a task due today should have been done yesterday
     var isDueInPast: Bool {
-        return (self.dueDate.compare(DateUtils.todayDay()) == .OrderedAscending)
+        return (self.dueDate.compare(DateUtils.tomorrowDay()) == .OrderedAscending)
     }
     
     // Creates a new task and inserts it into the context
