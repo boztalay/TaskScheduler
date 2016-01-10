@@ -29,11 +29,17 @@ class EditTaskViewController: UITableViewController, UITextFieldDelegate {
             self.isEditingTask = true
         }
         
+        self.doCommonSetup()
+        
         if self.isEditingTask {
             self.setUpForExistingTask()
         } else {
             self.setUpForNewTask()
         }
+    }
+    
+    func doCommonSetup() {
+        self.dueDatePicker.minimumDate = DateUtils.tomorrowDay()
     }
     
     func setUpForNewTask() {
@@ -96,12 +102,12 @@ class EditTaskViewController: UITableViewController, UITextFieldDelegate {
         }
         
         let date = DateUtils.removeTimeFromDate(self.dueDatePicker!.date)
-//        if date.compare(DateUtils.todayDay()) == NSComparisonResult.OrderedAscending {
-//            let alert = UIAlertController(title: "Past Date", message: "Hey! This date is in the past!", preferredStyle: .Alert)
-//            alert.addAction(UIAlertAction(title: "Sorry", style: .Cancel, handler: nil))
-//            self.presentViewController(alert, animated: true, completion: nil)
-//            return
-//        }
+        if date.compare(DateUtils.tomorrowDay()) == NSComparisonResult.OrderedAscending {
+            let alert = UIAlertController(title: "Past Date", message: "Hey! The due date needs to be in the future!", preferredStyle: .Alert)
+            alert.addAction(UIAlertAction(title: "Sorry", style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            return
+        }
         
         let priority = Int(round(self.prioritySlider.value))
         
