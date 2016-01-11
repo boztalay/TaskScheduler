@@ -67,4 +67,12 @@ class WorkDay: NSManagedObject {
         self.date = date
         self.totalAvailableWork = totalAvailableWork
     }
+    
+    // Removes all of the incomplete work sessions from this work day and returns them
+    func removeIncompleteWorkSessions() -> [TaskWorkSession] {
+        let incompleteWorkSessions = self.workSessionsArray.filter({ !$0.hasBeenCompleted })
+        self.workSessions = NSMutableSet.init(array: self.workSessionsArray.filter({ $0.hasBeenCompleted }))
+        
+        return incompleteWorkSessions
+    }
 }

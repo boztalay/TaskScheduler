@@ -50,7 +50,7 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
             self.user = user
             self.scheduler = Scheduler(user: self.user!)
             self.scheduler!.delegate = self
-            self.scheduler!.scheduleTasksForUser()
+            self.scheduler!.scheduleTasks()
         }
     }
     
@@ -60,13 +60,15 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
     
     func scheduleCompleted(status: ScheduleStatus) {
         if status == ScheduleStatus.Failed {
-            print("Schedule failed")
+            let alert = UIAlertController(title: "Scheduling Failed", message: "Uh oh, the scheduling failed! This should never happen.", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Yikes!", style: .Cancel, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
         } else {
-            self.incompleteWorkSessions = self.user?.todayWorkDay().workSessionsArray.filter({ !$0.hasBeenCompleted})
-            self.sortWorkSessionsInPlaceForDisplay(self.incompleteWorkSessions!)
+            self.incompleteWorkSessions = self.user?.todayWorkDay().workSessionsArray.filter({ !$0.hasBeenCompleted })
+            self.incompleteWorkSessions = self.sortWorkSessionsForDisplay(self.incompleteWorkSessions!)
             
-            self.completeWorkSessions = self.user?.todayWorkDay().workSessionsArray.filter({ $0.hasBeenCompleted})
-            self.sortWorkSessionsInPlaceForDisplay(self.completeWorkSessions!)
+            self.completeWorkSessions = self.user?.todayWorkDay().workSessionsArray.filter({ $0.hasBeenCompleted })
+            self.completeWorkSessions = self.sortWorkSessionsForDisplay(self.completeWorkSessions!)
             
             self.tableView.reloadData()
         }
@@ -74,11 +76,13 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
         self.persistenceController.addDelegate(self)
     }
     
-    private func sortWorkSessionsInPlaceForDisplay(var workSessionsToSort: [TaskWorkSession]) {
+    private func sortWorkSessionsForDisplay(workSessions: [TaskWorkSession]) -> [TaskWorkSession] {
         // Sort so that the highest priority, due-earliest, longest tasks are first
-        workSessionsToSort.sortInPlace({ $0.amountOfWork > $1.amountOfWork })
+        var workSessionsToSort = workSessions.sort({ $0.amountOfWork > $1.amountOfWork })
         workSessionsToSort.sortInPlace({ $0.parentTask.dueDate.compare($1.parentTask.dueDate) == .OrderedAscending })
         workSessionsToSort.sortInPlace({ $0.parentTask.priority > $1.parentTask.priority })
+
+        return workSessionsToSort
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

@@ -185,14 +185,4 @@ class User: NSManagedObject {
     func workToDoBetweenNowAnd(date date: NSDate) -> Float {
         return self.notDroppedTasks.filter({ $0.isDueOnOrBefore(date) && !$0.isDueInPast }).map({ $0.workLeftToDo }).reduce(0.0, combine: +)
     }
-    
-    // Removes all of the incomplete work sessions from all of
-    // this user's work days, to prepare for the scheduler
-    func resetWorkDays() {
-        for workDay in self.workDays {
-            if let workDay = workDay as? WorkDay {
-                workDay.workSessions = NSMutableSet.init(array: workDay.workSessionsArray.filter({ $0.hasBeenCompleted }))
-            }
-        }
-    }
 }

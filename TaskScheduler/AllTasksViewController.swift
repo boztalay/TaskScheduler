@@ -39,19 +39,21 @@ class AllTasksViewController: UITableViewController, PersistenceManagerDelegate,
         self.user = self.persistenceController.getLatestUserData()
         
         self.currentTasks = self.user?.tasksArray.filter({ !$0.isDueInPast })
-        self.sortTasksInPlaceForDisplay(self.currentTasks!, dateOrder: .OrderedAscending)
+        self.currentTasks = self.sortTasksForDisplay(self.currentTasks!, dateOrder: .OrderedAscending)
         
         self.pastTasks = self.user?.tasksArray.filter({ $0.isDueInPast })
-        self.sortTasksInPlaceForDisplay(self.pastTasks!, dateOrder: .OrderedDescending)
+        self.pastTasks = self.sortTasksForDisplay(self.pastTasks!, dateOrder: .OrderedDescending)
         
         self.tableView.reloadData()
     }
     
-    private func sortTasksInPlaceForDisplay(var workSessionsToSort: [Task], dateOrder: NSComparisonResult) {
+    private func sortTasksForDisplay(tasks: [Task], dateOrder: NSComparisonResult) -> [Task] {
         // Sorts so that workEstimate is within priority, which is within due date
-        workSessionsToSort.sortInPlace({ $0.workEstimate > $1.workEstimate })
-        workSessionsToSort.sortInPlace({ $0.priority > $1.priority })
-        workSessionsToSort.sortInPlace({ $0.dueDate.compare($1.dueDate) == dateOrder })
+        var tasksToSort = tasks.sort({ $0.workEstimate > $1.workEstimate })
+        tasksToSort.sortInPlace({ $0.priority > $1.priority })
+        tasksToSort.sortInPlace({ $0.dueDate.compare($1.dueDate) == dateOrder })
+        
+        return tasksToSort
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
