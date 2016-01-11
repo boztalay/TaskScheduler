@@ -41,12 +41,12 @@ class AllTasksViewController: UITableViewController, PersistenceControllerDelega
         self.currentTasks = self.user?.tasksArray.filter({ !$0.isDueInPast })
         self.pastTasks = self.user?.tasksArray.filter({ $0.isDueInPast })
         
-        self.currentTasks!.sortInPlace({ $0.priority > $1.priority })
         self.currentTasks!.sortInPlace({ $0.workEstimate > $1.workEstimate })
+        self.currentTasks!.sortInPlace({ $0.priority > $1.priority })
         self.currentTasks!.sortInPlace({ $0.dueDate.compare($1.dueDate) == .OrderedAscending })
         
-        self.pastTasks!.sortInPlace({ $0.priority > $1.priority })
         self.pastTasks!.sortInPlace({ $0.workEstimate > $1.workEstimate })
+        self.pastTasks!.sortInPlace({ $0.priority > $1.priority })
         self.pastTasks!.sortInPlace({ $0.dueDate.compare($1.dueDate) == .OrderedDescending })
         
         self.tableView.reloadData()
