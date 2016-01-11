@@ -75,4 +75,25 @@ class GenericTaskTableViewCell: UITableViewCell {
             self.statusDot.backgroundColor = TaskSchedulerColors.TaskInProgess
         }
     }
+    
+    // These are here as a silly workaround for the dot's background
+    // color being reset when the cell is selected/highlighted
+    
+    override func setSelected(selected: Bool, animated: Bool) {
+        let dotColor = self.statusDot.backgroundColor
+        super.setSelected(selected, animated: animated)
+        
+        if selected  {
+            self.statusDot.backgroundColor = dotColor
+        }
+    }
+    
+    override func setHighlighted(highlighted: Bool, animated: Bool) {
+        let dotColor = self.statusDot.backgroundColor
+        super.setHighlighted(selected, animated: animated)
+        
+        if selected  {
+            self.statusDot.backgroundColor = dotColor
+        }
+    }
 }
