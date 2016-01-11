@@ -16,10 +16,13 @@ import JSQCoreDataKit
 //      Tasks are started as late as possible, with low priority tasks scheduled later than high priority tasks
 //      Long tasks can be split over several days
 
+// An error type to throw when things to wrong
 enum ScheduleStatus: ErrorType {
     case Succeeded, Failed
 }
 
+// A delegate protocol for controllers to conform
+// to to get updates about a requested scheduling
 protocol SchedulerDelegate {
     func scheduleStarted()
     func scheduleCompleted(status: ScheduleStatus)
@@ -36,6 +39,9 @@ class Scheduler {
         self.user = user
     }
     
+    // Schedules all of the tasks for the user
+    // Internally, this just handles some bookkeeping
+    // like calling the delegate functions
     func scheduleTasks() {
         delegate?.scheduleStarted()
         
@@ -55,12 +61,16 @@ class Scheduler {
         }
     }
     
+    // Actually runs the scheduling algorithm
     private func actuallyScheduleTasks() throws {
         let tasksToSchedule = self.prepareUserAndGetTasksToSchedule()
         self.dropTasksAsNeededFromList(tasksToSchedule)
         try self.scheduleRemainingTasksInList(tasksToSchedule)
     }
     
+    // Cleans out all of the user's tasks and work days
+    // to get them ready for the scheduling
+    // Returns a list of outstanding tasks to schedule
     private func prepareUserAndGetTasksToSchedule() -> [Task] {
         let tasksToSchedule = user.outstandingTasks
 
@@ -72,6 +82,9 @@ class Scheduler {
         return tasksToSchedule
     }
     
+    // Cleans out incomplete work sessions from the tasks
+    // in the given list
+    // Returns a list of those incomplete work sessions
     private func prepareTasksAndGetWorkSessionsToDelete(tasksToSchedule: [Task]) -> [TaskWorkSession] {
         var workSessionsToDelete: [TaskWorkSession] = []
         
@@ -83,12 +96,17 @@ class Scheduler {
         return workSessionsToDelete
     }
     
+    // Cleans out incomplete work sessions from the work
+    // days in the given list
     private func prepareWorkDays(workDays: [WorkDay]) {
         for workDay in workDays {
             workDay.removeIncompleteWorkSessions()
         }
     }
     
+    // Goes through the given list of tasks and drops
+    // tasks if the list of tasks to schedule isn't
+    // schedulable
     private func dropTasksAsNeededFromList(tasksToSchedule: [Task]) {
         let tasksSortedByDueDate = tasksToSchedule.sort({ $0.dueDate.compare($1.dueDate) == .OrderedAscending })
         
@@ -101,6 +119,10 @@ class Scheduler {
         }
     }
     
+    // Determines if the given list of tasks is
+    // schedulable for the given due date and drops
+    // tasks due on or before that date if they can't
+    // all be completed by that date
     private func dropTasksAsNeededFromList(tasksToSchedule: [Task], dueOn currentDueDate: NSDate) {
         let workTimeAvailable = user.availableWorkTimeBetweenNowAnd(date: currentDueDate)
         let estimatedWork = user.workToDoBetweenNowAnd(date: currentDueDate)
@@ -111,6 +133,9 @@ class Scheduler {
         }
     }
     
+    // Drops tasks from the given lists of tasks
+    // until the given number of hours of work has
+    // has been freed up
     private func dropTasksFromList(var tasksToDropFrom: [Task], forHoursOfWork hoursToDrop: Float) {
         tasksToDropFrom.sortInPlace({ $0.workEstimate > $1.workEstimate })
         tasksToDropFrom.sortInPlace({ $0.priority < $1.priority })
@@ -126,6 +151,8 @@ class Scheduler {
         }
     }
     
+    // Schedules work sessions for each of the tasks
+    // in the given list that haven't been dropped
     private func scheduleRemainingTasksInList(tasksToSchedule: [Task]) throws {
         let sortedTasks = self.sortTasksListForScheduling(tasksToSchedule)
 
@@ -142,6 +169,9 @@ class Scheduler {
         }
     }
     
+    // Returns a new list of tasks, in which all of
+    // the tasks in the given list are in the order
+    // they should be scheduled in
     private func sortTasksListForScheduling(tasksToSchedule: [Task]) -> [Task] {
         var sortedTasks = tasksToSchedule.filter({ !$0.isDropped })
         
@@ -152,6 +182,9 @@ class Scheduler {
         return sortedTasks
     }
     
+    // Finds the latest work day with time available
+    // before the given task's due date
+    // Returns that work day, or null if there wasn't one
     private func findLatestDayToStartSchedulingTaskOn(task: Task) -> WorkDay? {
         var dayToScheduleOn: WorkDay?
         var currentDay = user.workDayBeforeDay(user.workDayForDate(task.dueDate))
@@ -167,6 +200,8 @@ class Scheduler {
         return dayToScheduleOn
     }
     
+    // Schedules the given task across work days
+    // starting at the given day and working back
     private func scheduleTask(task: Task, startingOnDay dayToScheduleOn: WorkDay?) {
         var currentDay = dayToScheduleOn!
 
