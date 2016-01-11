@@ -63,22 +63,22 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
             print("Schedule failed")
         } else {
             self.incompleteWorkSessions = self.user?.todayWorkDay().workSessionsArray.filter({ !$0.hasBeenCompleted})
+            self.sortWorkSessionsInPlaceForDisplay(self.incompleteWorkSessions!)
+            
             self.completeWorkSessions = self.user?.todayWorkDay().workSessionsArray.filter({ $0.hasBeenCompleted})
-            
-            // Sort so that the highest priority, due-earliest, longest tasks are first
-            
-            self.incompleteWorkSessions!.sortInPlace({ $0.amountOfWork > $1.amountOfWork })
-            self.incompleteWorkSessions!.sortInPlace({ $0.parentTask.dueDate.compare($1.parentTask.dueDate) == .OrderedAscending })
-            self.incompleteWorkSessions!.sortInPlace({ $0.parentTask.priority > $1.parentTask.priority })
-            
-            self.completeWorkSessions!.sortInPlace({ $0.amountOfWork > $1.amountOfWork })
-            self.completeWorkSessions!.sortInPlace({ $0.parentTask.dueDate.compare($1.parentTask.dueDate) == .OrderedAscending })
-            self.completeWorkSessions!.sortInPlace({ $0.parentTask.priority > $1.parentTask.priority })
+            self.sortWorkSessionsInPlaceForDisplay(self.completeWorkSessions!)
             
             self.tableView.reloadData()
         }
         
         self.persistenceController.addDelegate(self)
+    }
+    
+    private func sortWorkSessionsInPlaceForDisplay(var workSessionsToSort: [TaskWorkSession]) {
+        // Sort so that the highest priority, due-earliest, longest tasks are first
+        workSessionsToSort.sortInPlace({ $0.amountOfWork > $1.amountOfWork })
+        workSessionsToSort.sortInPlace({ $0.parentTask.dueDate.compare($1.parentTask.dueDate) == .OrderedAscending })
+        workSessionsToSort.sortInPlace({ $0.parentTask.priority > $1.parentTask.priority })
     }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
