@@ -68,12 +68,12 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
             // Sort so that the highest priority, due-earliest, longest tasks are first
             
             self.incompleteWorkSessions!.sortInPlace({ $0.amountOfWork > $1.amountOfWork })
-            self.incompleteWorkSessions!.sortInPlace({ $0.parentTask.priority > $1.parentTask.priority })
             self.incompleteWorkSessions!.sortInPlace({ $0.parentTask.dueDate.compare($1.parentTask.dueDate) == .OrderedAscending })
+            self.incompleteWorkSessions!.sortInPlace({ $0.parentTask.priority > $1.parentTask.priority })
             
             self.completeWorkSessions!.sortInPlace({ $0.amountOfWork > $1.amountOfWork })
-            self.completeWorkSessions!.sortInPlace({ $0.parentTask.priority > $1.parentTask.priority })
             self.completeWorkSessions!.sortInPlace({ $0.parentTask.dueDate.compare($1.parentTask.dueDate) == .OrderedAscending })
+            self.completeWorkSessions!.sortInPlace({ $0.parentTask.priority > $1.parentTask.priority })
             
             self.tableView.reloadData()
         }
