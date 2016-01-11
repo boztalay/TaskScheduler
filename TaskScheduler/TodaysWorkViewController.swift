@@ -8,9 +8,9 @@
 
 import UIKit
 
-class TodaysWorkViewController: UITableViewController, SchedulerDelegate, PersistenceControllerDelegate, CellSlideActionManagerDelegate {
+class TodaysWorkViewController: UITableViewController, SchedulerDelegate, PersistenceManagerDelegate, CellSlideActionManagerDelegate {
     
-    let persistenceController = PersistenceController.sharedInstance
+    let persistenceController = PersistenceManager.sharedInstance
     let cellSlideActionManager = CellSlideActionManager()
 
     var user: User?
@@ -32,7 +32,7 @@ class TodaysWorkViewController: UITableViewController, SchedulerDelegate, Persis
         self.fetchOrCreateUser()
     }
     
-    func persitenceControllerDataChanged() {
+    func persitenceManagerDataChanged() {
         self.refreshSchedule()
     }
     

@@ -25,7 +25,7 @@
 		FB709EFA1BCEB3A70092B9D8 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */; };
 		FB80ABB91BDAB884002C28B2 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB80ABB81BDAB884002C28B2 /* SettingsViewController.swift */; };
 		FBA05C601C28EE1B00498424 /* AllTasksViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA05C5F1C28EE1B00498424 /* AllTasksViewController.swift */; };
-		FBA05C651C3389C300498424 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA05C641C3389C300498424 /* PersistenceController.swift */; };
+		FBA05C651C3389C300498424 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBA05C641C3389C300498424 /* PersistenceManager.swift */; };
 		FBAEE8021BB9A92200E87679 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8001BB9A92200E87679 /* Task.swift */; };
 		FBAEE8061BB9C50D00E87679 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */; };
 		FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBD1BE361BAC7EF00055ACF2 /* AppDelegate.swift */; };
@@ -104,7 +104,7 @@
 		FB709EF91BCEB3A70092B9D8 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = "<group>"; };
 		FB80ABB81BDAB884002C28B2 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		FBA05C5F1C28EE1B00498424 /* AllTasksViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllTasksViewController.swift; sourceTree = "<group>"; };
-		FBA05C641C3389C300498424 /* PersistenceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		FBA05C641C3389C300498424 /* PersistenceManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		FBAEE8001BB9A92200E87679 /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
 		FBD1BE331BAC7EF00055ACF2 /* TaskScheduler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskScheduler.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -220,7 +220,7 @@
 		FBA05C631C33897900498424 /* Persistence */ = {
 			isa = PBXGroup;
 			children = (
-				FBA05C641C3389C300498424 /* PersistenceController.swift */,
+				FBA05C641C3389C300498424 /* PersistenceManager.swift */,
 			);
 			name = Persistence;
 			sourceTree = "<group>";
@@ -501,7 +501,7 @@
 				FB5821A71C3F2E3300DC8980 /* TaskSchedulerColors.swift in Sources */,
 				FB5821871C38AFB900DC8980 /* ScheduleConfirmationViewController.swift in Sources */,
 				FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */,
-				FBA05C651C3389C300498424 /* PersistenceController.swift in Sources */,
+				FBA05C651C3389C300498424 /* PersistenceManager.swift in Sources */,
 				FBD1BE391BAC7EF00055ACF2 /* TodaysWorkViewController.swift in Sources */,
 				FB709EF11BCC3A890092B9D8 /* TaskWorkSession.swift in Sources */,
 				FBA05C601C28EE1B00498424 /* AllTasksViewController.swift in Sources */,

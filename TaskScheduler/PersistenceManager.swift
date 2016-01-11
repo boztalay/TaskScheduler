@@ -1,5 +1,5 @@
 //
-//  PersistenceController.swift
+//  PersistenceManager.swift
 //  TaskScheduler
 //
 //  Created by Ben Oztalay on 12/29/15.
@@ -10,15 +10,15 @@ import Foundation
 import CoreData
 import JSQCoreDataKit
 
-protocol PersistenceControllerDelegate: class {
-    func persitenceControllerDataChanged()
+protocol PersistenceManagerDelegate: class {
+    func persitenceManagerDataChanged()
 }
 
-class PersistenceController: NSObject {
+class PersistenceManager: NSObject {
 
-    static let sharedInstance = PersistenceController()
+    static let sharedInstance = PersistenceManager()
     
-    private var delegates: [PersistenceControllerDelegate]
+    private var delegates: [PersistenceManagerDelegate]
     private var latestUser: User?
     var coreDataStack: CoreDataStack?
     
@@ -46,7 +46,7 @@ class PersistenceController: NSObject {
                 // a different thread, might need to change in the future so that
                 // delegates handle this themselves in a more precise fashion. But
                 // for now, I haven't noticed any performance issues.
-                delegate.persitenceControllerDataChanged()
+                delegate.persitenceManagerDataChanged()
             }
         }
     }
@@ -82,11 +82,11 @@ class PersistenceController: NSObject {
         return self.latestUser
     }
     
-    func addDelegate(newDelegate: PersistenceControllerDelegate) {
+    func addDelegate(newDelegate: PersistenceManagerDelegate) {
         self.delegates.append(newDelegate)
     }
     
-    func removeDelegate(delegateToRemove: PersistenceControllerDelegate) {
+    func removeDelegate(delegateToRemove: PersistenceManagerDelegate) {
         if let index = self.delegates.indexOf({ $0 === delegateToRemove }) {
             self.delegates.removeAtIndex(index)
         }

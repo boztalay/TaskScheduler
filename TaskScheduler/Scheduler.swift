@@ -20,7 +20,7 @@ protocol SchedulerDelegate {
 
 class Scheduler {
     
-    let persistenceController = PersistenceController.sharedInstance
+    let persistenceController = PersistenceManager.sharedInstance
     
     private var user: User
     var delegate: SchedulerDelegate?

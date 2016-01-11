@@ -22,7 +22,7 @@ class SettingsViewController: UITableViewController, UITextFieldDelegate, Schedu
     @IBOutlet weak var fridayTextField: UITextField!
     @IBOutlet weak var saturdayTextField: UITextField!
     
-    let persistenceController = PersistenceController.sharedInstance
+    let persistenceController = PersistenceManager.sharedInstance
     
     var user: User?
     var isSettingUp: Bool?

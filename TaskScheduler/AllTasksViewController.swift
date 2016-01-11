@@ -8,9 +8,9 @@
 
 import UIKit
 
-class AllTasksViewController: UITableViewController, PersistenceControllerDelegate, CellSlideActionManagerDelegate {
+class AllTasksViewController: UITableViewController, PersistenceManagerDelegate, CellSlideActionManagerDelegate {
     
-    let persistenceController = PersistenceController.sharedInstance
+    let persistenceController = PersistenceManager.sharedInstance
     let cellSlideActionManager = CellSlideActionManager()
     
     var user: User?
@@ -31,7 +31,7 @@ class AllTasksViewController: UITableViewController, PersistenceControllerDelega
         self.reloadTasks()
     }
     
-    func persitenceControllerDataChanged() {
+    func persitenceManagerDataChanged() {
         self.reloadTasks()
     }
     

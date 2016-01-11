@@ -11,7 +11,7 @@ import JSQCoreDataKit
 
 class EditTaskViewController: UITableViewController, UITextFieldDelegate {
     
-    let persistenceController = PersistenceController.sharedInstance
+    let persistenceController = PersistenceManager.sharedInstance
 
     var user: User?
     var task: Task?
