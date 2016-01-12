@@ -9,7 +9,10 @@
 import Foundation
 import CoreData
 
+// An error type to throw task-related errors
 enum TaskError: ErrorType {
+    // Thrown when markWorkSessionAsComplete is given
+    // a work session that doesn't belong to this task
     case WorkSessionDoesntBelong
 }
 
@@ -116,7 +119,7 @@ class Task: NSManagedObject {
     // Note that being due today is considered in the past,
     // as a task due today should have been done yesterday
     var isDueInPast: Bool {
-        return (self.dueDate.compare(DateUtils.tomorrowDay()) == .OrderedAscending)
+        return self.isDueOnOrBefore(DateUtils.todayDay())
     }
     
     // Creates a new task and inserts it into the context
@@ -159,7 +162,7 @@ class Task: NSManagedObject {
     func markWorkSessionAsComplete(workSession: TaskWorkSession) throws {
         if workSession.parentTask === self {
             workSession.hasBeenCompleted = true
-            if self.workCompleted >= self.workLeftToDo {
+            if self.workCompleted >= self.workEstimate {
                 self.isComplete = true
             }
         } else {

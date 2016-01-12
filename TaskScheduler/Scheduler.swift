@@ -35,7 +35,6 @@ protocol SchedulerDelegate {
 }
 
 class Scheduler {
-    
     let persistenceController = PersistenceManager.sharedInstance
     
     private var user: User
