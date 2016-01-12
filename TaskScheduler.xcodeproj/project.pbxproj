@@ -183,9 +183,10 @@
 		FB709EF41BCC3E830092B9D8 /* Misc */ = {
 			isa = PBXGroup;
 			children = (
-				FB709EF51BCC3E990092B9D8 /* DateUtils.swift */,
 				FB5821991C3A50ED00DC8980 /* CellSlideActionManager.swift */,
+				FB709EF51BCC3E990092B9D8 /* DateUtils.swift */,
 				FB5821A61C3F2E3300DC8980 /* TaskSchedulerColors.swift */,
+				FBD1BE6F1BAC8CD70055ACF2 /* PriorityPrettifier.swift */,
 			);
 			name = Misc;
 			sourceTree = "<group>";
@@ -199,14 +200,6 @@
 				FB709EF01BCC3A890092B9D8 /* TaskWorkSession.swift */,
 			);
 			name = Classes;
-			sourceTree = "<group>";
-		};
-		FB709EF81BCEB3970092B9D8 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				FBD1BE6F1BAC8CD70055ACF2 /* PriorityPrettifier.swift */,
-			);
-			name = Helpers;
 			sourceTree = "<group>";
 		};
 		FB709EFB1BCEB3B70092B9D8 /* Scheduler */ = {
@@ -284,7 +277,6 @@
 			children = (
 				FB709EFB1BCEB3B70092B9D8 /* Scheduler */,
 				FB709EF71BCEB3830092B9D8 /* Classes */,
-				FB709EF81BCEB3970092B9D8 /* Helpers */,
 				FBA05C631C33897900498424 /* Persistence */,
 				FB14C1741BB97E8C000A16EE /* TaskScheduler.xcdatamodeld */,
 			);
