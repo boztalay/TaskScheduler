@@ -9,10 +9,15 @@
 import Foundation
 import CoreData
 
+// An error type for throwing User-related errors
 enum UserError: ErrorType {
+    // Thrown if totalAvailableWorkOnDate gets
+    // an invalid day of week number
     case BadDayOfWeekError
 }
 
+// A struct to make it more convenient to pass around
+// a user's available work schedule
 struct AvailableWorkSchedule {
     var sundayWork: Float = 0.0
     var mondayWork: Float = 0.0
@@ -65,28 +70,15 @@ class User: NSManagedObject {
     }
     
     // An unordered array of all of the work days not in the past
+    // Note that this includes today, whereas other definitions
+    // of "not in the past" in this app do not
     var workDaysNotInPast: [WorkDay] {
         return self.workDaysArray.filter({ $0.date.compare(DateUtils.todayDay()) != .OrderedAscending })
     }
     
-    // An unordered array of all of the dropped tasks
-    var droppedTasks: [Task] {
-        return self.tasksArray.filter({ $0.isDropped })
-    }
-    
-    // An unordered array of all of the not dropped tasks
-    var notDroppedTasks: [Task] {
-        return self.tasksArray.filter({ !$0.isDropped })
-    }
-    
-    // An unordered array of all of the completed tasks
-    var completedTasks: [Task] {
-        return self.tasksArray.filter({ $0.workLeftToDo <= 0.0 || $0.isComplete })
-    }
-    
     // An unordered array of all of the tasks that still need to be done
     var outstandingTasks: [Task] {
-        return self.tasksArray.filter({ $0.workLeftToDo > 0.0 && $0.isComplete == false && !$0.isDueInPast})
+        return self.tasksArray.filter({ $0.workLeftToDo > 0.0 && !$0.isComplete && !$0.isDueInPast})
     }
     
     // Makes a new User and inserts it into the context
@@ -183,6 +175,6 @@ class User: NSManagedObject {
     
     // Calculates the amount of work to do between now and the given date
     func workToDoBetweenNowAnd(date date: NSDate) -> Float {
-        return self.notDroppedTasks.filter({ $0.isDueOnOrBefore(date) && !$0.isDueInPast }).map({ $0.workLeftToDo }).reduce(0.0, combine: +)
+        return self.tasksArray.filter({ !$0.isDropped && !$0.isDueInPast && $0.isDueOnOrBefore(date) }).map({ $0.workLeftToDo }).reduce(0.0, combine: +)
     }
 }

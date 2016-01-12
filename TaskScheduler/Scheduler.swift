@@ -16,6 +16,12 @@ import JSQCoreDataKit
 //      Tasks are started as late as possible, with low priority tasks scheduled later than high priority tasks
 //      Long tasks can be split over several days
 
+// Note that there's a case where how it drops tasks isn't great. If there
+// is a high-priority task that would take longer than the amount of work
+// left available, that task and all lower-priority tasks will be dropped.
+// It really should just drop the long high-priority task, but it's not a
+// common case so I'm going to leave it alone for now.
+
 // An error type to throw when things to wrong
 enum ScheduleStatus: ErrorType {
     case Succeeded, Failed
