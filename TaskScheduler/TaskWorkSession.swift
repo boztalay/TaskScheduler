@@ -44,7 +44,8 @@ class TaskWorkSession: NSManagedObject {
             return self.hasBeenCompletedNum.boolValue
         }
     }
-    
+
+    // Creates a new TaskWorkSession and inserts it into the context
     convenience init(context: NSManagedObjectContext, parentTask: Task, dayScheduledOn: WorkDay, amountOfWork: Float) {
         let entity = NSEntityDescription.entityForName(TaskWorkSession.entityName, inManagedObjectContext: context)!
         self.init(entity: entity, insertIntoManagedObjectContext: context)

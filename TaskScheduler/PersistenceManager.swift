@@ -10,12 +10,14 @@ import Foundation
 import CoreData
 import JSQCoreDataKit
 
+// A delegate for controllers to conform to to get
+// updates about data changes from this class
 protocol PersistenceManagerDelegate: class {
+    // Called whenever the underlying data changes
     func persitenceManagerDataChanged()
 }
 
 class PersistenceManager: NSObject {
-
     static let sharedInstance = PersistenceManager()
     
     private var delegates: [PersistenceManagerDelegate]
@@ -27,6 +29,7 @@ class PersistenceManager: NSObject {
         self.coreDataStack = CoreDataStack(model: model)
         
         let fetchRequest = NSFetchRequest(entityName: "User")
+        // NSFetchRequest requires at least one sort descriptor
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "sunAvailableWorkTime", ascending: true)]
         fetchRequest.includesSubentities = true
         
@@ -37,6 +40,7 @@ class PersistenceManager: NSObject {
         return controller
     }()
     
+    // Called whenever the underlying data gets saved
     func handleManagedObjectContextDidSave(notification: NSNotification) {
         updateLatestUser()
         
@@ -51,6 +55,8 @@ class PersistenceManager: NSObject {
         }
     }
     
+    // Adds self as an observer for the notification sent out
+    // whenever the managed object context is saved
     private func subscribeToDataSaves() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleManagedObjectContextDidSave:"), name: NSManagedObjectContextDidSaveNotification, object: self.coreDataStack!.managedObjectContext)
     }
@@ -63,6 +69,8 @@ class PersistenceManager: NSObject {
         updateLatestUser()
     }
     
+    // Updates the latest user object by fetching whatever is
+    // on the disk, could make self.latestUser nil
     private func updateLatestUser() {
         try! fetchedResultsController.performFetch()
         if let fetchedObjects = self.fetchedResultsController.fetchedObjects {
@@ -78,25 +86,35 @@ class PersistenceManager: NSObject {
         self.latestUser = nil
     }
     
+    // Returns the latest user object
     func getLatestUserData() -> User? {
         return self.latestUser
     }
     
+    // Adds a delegate to the list of delegates
+    // Note that this checks for duplicates
     func addDelegate(newDelegate: PersistenceManagerDelegate) {
-        self.delegates.append(newDelegate)
+        if self.delegates.indexOf({ $0 === newDelegate}) == nil {
+            self.delegates.append(newDelegate)
+        }
     }
     
+    // Removes the given delegate from the list of delegates
+    // Doesn't do anything if the delegate is not in the list
     func removeDelegate(delegateToRemove: PersistenceManagerDelegate) {
         if let index = self.delegates.indexOf({ $0 === delegateToRemove }) {
             self.delegates.removeAtIndex(index)
         }
     }
     
+    // Saves the context to disk and waits for completion
+    // Returns whether or not the save was successful
     func saveDataAndWait() -> Bool {
         let saveResult = saveContextAndWait(self.coreDataStack!.managedObjectContext)
         return saveResult.success
     }
     
+    // Deletes the given objects from the context
     func deleteStoredObjects<T: NSManagedObject>(objectsToDelete: [T]) {
         deleteObjects(objectsToDelete, inContext: self.coreDataStack!.managedObjectContext)
     }
