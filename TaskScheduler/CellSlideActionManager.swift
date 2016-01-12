@@ -8,12 +8,21 @@
 
 import UIKit
 
+// A delegate for controllers to conform to to get notified
+// when the user triggers an action by sliding a cell over
 protocol CellSlideActionManagerDelegate {
+    // Called when a cell's mark complete action is triggered
     func cellSlideMarkCompleteActionTriggered(tableView: UITableView, indexPath: NSIndexPath)
+
+    // Called when a cell's mark incomplete action is triggered
     func cellSlideMarkIncompleteActionTriggered(tableView: UITableView, indexPath: NSIndexPath)
+
+    // Called when a cell's delete action is triggered
     func cellSlideDeleteActionTriggered(tableView: UITableView, indexPath: NSIndexPath)
 }
 
+// Holds some attributes for the cell slide actions,
+// just here for easier configuration
 struct CellSlideActionAttributes {
     static let generalFraction: CGFloat = 0.20
     static let generalElasticity: CGFloat = 50.0
@@ -33,7 +42,6 @@ struct CellSlideActionAttributes {
 }
 
 class CellSlideActionManager: NSObject {
-    
     private var markCompleteAction: DRCellSlideAction
     private var markIncompleteAction: DRCellSlideAction
     private var deleteAction: DRCellSlideAction
@@ -42,12 +50,14 @@ class CellSlideActionManager: NSObject {
     var delegate: CellSlideActionManagerDelegate?
     
     override init() {
+        // Need to initialize them first, then call super.init
         self.markCompleteAction = DRCellSlideAction(forFraction: CellSlideActionAttributes.generalFraction)
         self.markIncompleteAction = DRCellSlideAction(forFraction: CellSlideActionAttributes.generalFraction)
         self.deleteAction = DRCellSlideAction(forFraction: -CellSlideActionAttributes.generalFraction)
         
         super.init()
         
+        // Set up the mark complete action
         self.markCompleteAction.behavior = DRCellSlideActionBehavior.PullBehavior
         self.markCompleteAction.elasticity = CellSlideActionAttributes.generalElasticity
         self.markCompleteAction.activeBackgroundColor = CellSlideActionAttributes.markCompleteActiveBackgroundColor
@@ -57,6 +67,7 @@ class CellSlideActionManager: NSObject {
         self.markCompleteAction.inactiveColor = CellSlideActionAttributes.generalIconColor
         self.markCompleteAction.didTriggerBlock = self.markCompleteActionTriggered
         
+        // Set up the mark incomplete action
         self.markIncompleteAction.behavior = DRCellSlideActionBehavior.PullBehavior
         self.markIncompleteAction.elasticity = CellSlideActionAttributes.generalElasticity
         self.markIncompleteAction.activeBackgroundColor = CellSlideActionAttributes.markIncompleteActiveBackgroundColor
@@ -66,6 +77,7 @@ class CellSlideActionManager: NSObject {
         self.markIncompleteAction.inactiveColor = CellSlideActionAttributes.generalIconColor
         self.markIncompleteAction.didTriggerBlock = self.markIncompleteActionTriggered
         
+        // Set up the delete action
         self.deleteAction.behavior = DRCellSlideActionBehavior.PushBehavior
         self.deleteAction.elasticity = CellSlideActionAttributes.generalElasticity
         self.deleteAction.activeBackgroundColor = CellSlideActionAttributes.deleteActionActiveBackgroundColor
@@ -76,73 +88,79 @@ class CellSlideActionManager: NSObject {
         self.deleteAction.didTriggerBlock = self.deleteActionTriggered
     }
     
+    // Called whenever the mark complete action is triggered
     private func markCompleteActionTriggered(tableView: UITableView?, indexPath: NSIndexPath?) {
         dispatch_async(dispatch_get_main_queue()) {
             self.delegate?.cellSlideMarkCompleteActionTriggered(tableView!, indexPath: indexPath!)
         }
     }
     
+    // Called whenever the mark incomplete action is triggered
     private func markIncompleteActionTriggered(tableView: UITableView?, indexPath: NSIndexPath?) {
         dispatch_async(dispatch_get_main_queue()) {
             self.delegate?.cellSlideMarkIncompleteActionTriggered(tableView!, indexPath: indexPath!)
         }
     }
     
+    // Called whenever the delete action is triggered
     private func deleteActionTriggered(tableView: UITableView?, indexPath: NSIndexPath?) {
         dispatch_async(dispatch_get_main_queue()) {
             self.delegate?.cellSlideDeleteActionTriggered(tableView!, indexPath: indexPath!)
         }
     }
     
+    // Configures the given cell to have mark complete and
+    // delete cell slide actions
     func addMarkCompleteAndDeleteSlideActionsToCell(cell: UITableViewCell) {
         self.removeKnownGestureRecognizersFromCell(cell)
         
         let gestureRecognizer = DRCellSlideGestureRecognizer()
         gestureRecognizer.addActions([self.markCompleteAction, self.deleteAction])
         
-        self.addGestureRecognizerToCell(cell, gestureRecognizer: gestureRecognizer)
+        cell.addGestureRecognizer(gestureRecognizer)
     }
     
+    // Configures the given cell to have mark incomplete and
+    // delete cell slide actions
     func addMarkIncompleteAndDeleteSlideActionsToCell(cell: UITableViewCell) {
         self.removeKnownGestureRecognizersFromCell(cell)
         
         let gestureRecognizer = DRCellSlideGestureRecognizer()
         gestureRecognizer.addActions([self.markIncompleteAction, self.deleteAction])
         
-        self.addGestureRecognizerToCell(cell, gestureRecognizer: gestureRecognizer)
+        cell.addGestureRecognizer(gestureRecognizer)
     }
-    
+
+    // Configures the given cell to have only the
+    // mark complete cell slide action
     func addMarkCompleteSlideActionToCell(cell: UITableViewCell) {
         self.removeKnownGestureRecognizersFromCell(cell)
         
         let gestureRecognizer = DRCellSlideGestureRecognizer()
         gestureRecognizer.addActions([self.markCompleteAction])
         
-        self.addGestureRecognizerToCell(cell, gestureRecognizer: gestureRecognizer)
+        cell.addGestureRecognizer(gestureRecognizer)
     }
     
+    // Configures the given cell to have only the
+    // mark incomplete cell slide action
     func addMarkIncompleteSlideActionToCell(cell: UITableViewCell) {
         self.removeKnownGestureRecognizersFromCell(cell)
         
         let gestureRecognizer = DRCellSlideGestureRecognizer()
         gestureRecognizer.addActions([self.markIncompleteAction])
-        
-        self.addGestureRecognizerToCell(cell, gestureRecognizer: gestureRecognizer)
+
+        cell.addGestureRecognizer(gestureRecognizer)
     }
     
+    // Removes all DRCellSlideGestureRecognizers from the given cell
     private func removeKnownGestureRecognizersFromCell(cell: UITableViewCell) {
         if let cellGestureRecognizers = cell.gestureRecognizers {
             for gestureRecognizer in cellGestureRecognizers {
                 if let gestureRecognizer = gestureRecognizer as? DRCellSlideGestureRecognizer {
                     cell.removeGestureRecognizer(gestureRecognizer)
-                    self.knownGestureRecognizers.removeAtIndex(self.knownGestureRecognizers.indexOf(gestureRecognizer)!)
                 }
             }
         }
-    }
-    
-    private func addGestureRecognizerToCell(cell: UITableViewCell, gestureRecognizer: DRCellSlideGestureRecognizer) {
-        self.knownGestureRecognizers.append(gestureRecognizer)
-        cell.addGestureRecognizer(gestureRecognizer)
     }
 }

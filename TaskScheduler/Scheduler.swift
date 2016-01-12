@@ -30,7 +30,10 @@ enum ScheduleStatus: ErrorType {
 // A delegate protocol for controllers to conform
 // to to get updates about a requested scheduling
 protocol SchedulerDelegate {
+    // Called when a scheduling starts
     func scheduleStarted()
+    
+    // Caleld when a scheduling completes
     func scheduleCompleted(status: ScheduleStatus)
 }
 
@@ -69,6 +72,11 @@ class Scheduler {
     // Actually runs the scheduling algorithm
     private func actuallyScheduleTasks() throws {
         let tasksToSchedule = self.prepareUserAndGetTasksToSchedule()
+        if tasksToSchedule.count == 0 {
+            // If there's nothing to do, exit
+            return
+        }
+
         self.dropTasksAsNeededFromList(tasksToSchedule)
         try self.scheduleRemainingTasksInList(tasksToSchedule)
     }
