@@ -12,7 +12,12 @@ enum SetupError: ErrorType {
     case TextFieldValidationError
 }
 
-class SettingsViewController: UITableViewController, UITextFieldDelegate, ScheduleConfirmationDelegate {
+class SettingsViewController: UITableViewController, UITextFieldDelegate, WorkScheduleConfirmationDelegate {
+    
+    // A struct to hold some segue identifiers
+    struct SegueIdentifiers {
+        static let SettingsToConfirmation = "SettingsToConfirmation"
+    }
     
     @IBOutlet weak var sundayTextField: UITextField!
     @IBOutlet weak var mondayTextField: UITextField!
@@ -126,7 +131,7 @@ class SettingsViewController: UITableViewController, UITextFieldDelegate, Schedu
         // a screen to ask about it. Otherwise, just exit.
         
         if shouldAskUserAboutSchedule {
-            self.performSegueWithIdentifier("SettingsToConfirmation", sender: nil)
+            self.performSegueWithIdentifier(SegueIdentifiers.SettingsToConfirmation, sender: nil)
         } else {
             self.saveAndExit()
         }
@@ -152,24 +157,21 @@ class SettingsViewController: UITableViewController, UITextFieldDelegate, Schedu
         
         presentViewController(alert, animated: true, completion:nil)
     }
-    
-    func scheduleConfirmationComplete() {
+
+    func workScheduleConfirmationComplete() {
         self.saveAndExit()
     }
     
     func saveAndExit() {
-        if !self.persistenceController.saveDataAndWait() {
-            print("Couldn't save the data")
-        }
-        
+        try! self.persistenceController.saveDataAndWait()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         let navigationController = segue.destinationViewController as? UINavigationController
 
-        if segue.identifier == "SettingsToConfirmation" {
-            let confirmationViewController = navigationController!.viewControllers.first as! ScheduleConfirmationViewController
+        if segue.identifier == SegueIdentifiers.SettingsToConfirmation {
+            let confirmationViewController = navigationController!.viewControllers.first as! WorkScheduleConfirmationViewController
             confirmationViewController.user = self.user
             confirmationViewController.delegate = self
         }

@@ -10,7 +10,7 @@
 		FB14C1761BB97E8C000A16EE /* TaskScheduler.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FB14C1741BB97E8C000A16EE /* TaskScheduler.xcdatamodeld */; };
 		FB14C1831BB98F84000A16EE /* JSQCoreDataKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB14C1801BB98F61000A16EE /* JSQCoreDataKit.framework */; };
 		FB14C1851BB98FB0000A16EE /* JSQCoreDataKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = FB14C1801BB98F61000A16EE /* JSQCoreDataKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FB5821871C38AFB900DC8980 /* ScheduleConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5821861C38AFB900DC8980 /* ScheduleConfirmationViewController.swift */; };
+		FB5821871C38AFB900DC8980 /* WorkScheduleConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5821861C38AFB900DC8980 /* WorkScheduleConfirmationViewController.swift */; };
 		FB58218F1C39FDC200DC8980 /* DRCellSlideAction.m in Sources */ = {isa = PBXBuildFile; fileRef = FB58218A1C39FDC200DC8980 /* DRCellSlideAction.m */; };
 		FB5821901C39FDC200DC8980 /* DRCellSlideActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = FB58218C1C39FDC200DC8980 /* DRCellSlideActionView.m */; };
 		FB5821911C39FDC200DC8980 /* DRCellSlideGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = FB58218E1C39FDC200DC8980 /* DRCellSlideGestureRecognizer.m */; };
@@ -85,7 +85,7 @@
 /* Begin PBXFileReference section */
 		FB14C1751BB97E8C000A16EE /* TaskScheduler.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskScheduler.xcdatamodel; sourceTree = "<group>"; };
 		FB14C17A1BB98F61000A16EE /* JSQCoreDataKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = JSQCoreDataKit.xcodeproj; path = JSQCoreDataKit/JSQCoreDataKit.xcodeproj; sourceTree = "<group>"; };
-		FB5821861C38AFB900DC8980 /* ScheduleConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScheduleConfirmationViewController.swift; sourceTree = "<group>"; };
+		FB5821861C38AFB900DC8980 /* WorkScheduleConfirmationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorkScheduleConfirmationViewController.swift; sourceTree = "<group>"; };
 		FB5821891C39FDC200DC8980 /* DRCellSlideAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRCellSlideAction.h; sourceTree = "<group>"; };
 		FB58218A1C39FDC200DC8980 /* DRCellSlideAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRCellSlideAction.m; sourceTree = "<group>"; };
 		FB58218B1C39FDC200DC8980 /* DRCellSlideActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRCellSlideActionView.h; sourceTree = "<group>"; };
@@ -299,7 +299,7 @@
 				FBA05C5F1C28EE1B00498424 /* AllTasksViewController.swift */,
 				FBAEE8051BB9C50D00E87679 /* EditTaskViewController.swift */,
 				FB80ABB81BDAB884002C28B2 /* SettingsViewController.swift */,
-				FB5821861C38AFB900DC8980 /* ScheduleConfirmationViewController.swift */,
+				FB5821861C38AFB900DC8980 /* WorkScheduleConfirmationViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -491,7 +491,7 @@
 				FB709EF31BCC3A9F0092B9D8 /* WorkDay.swift in Sources */,
 				FB5821961C3A055300DC8980 /* GenericTaskTableViewCell.swift in Sources */,
 				FB5821A71C3F2E3300DC8980 /* TaskSchedulerColors.swift in Sources */,
-				FB5821871C38AFB900DC8980 /* ScheduleConfirmationViewController.swift in Sources */,
+				FB5821871C38AFB900DC8980 /* WorkScheduleConfirmationViewController.swift in Sources */,
 				FBD1BE371BAC7EF00055ACF2 /* AppDelegate.swift in Sources */,
 				FBA05C651C3389C300498424 /* PersistenceManager.swift in Sources */,
 				FBD1BE391BAC7EF00055ACF2 /* TodaysWorkViewController.swift in Sources */,

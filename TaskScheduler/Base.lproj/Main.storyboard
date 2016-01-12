@@ -154,7 +154,7 @@
         <!--Schedule Confirmation-->
         <scene sceneID="uV5-Uf-aMj">
             <objects>
-                <tableViewController id="K7o-Jv-JWb" customClass="ScheduleConfirmationViewController" customModule="TaskScheduler" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="K7o-Jv-JWb" customClass="WorkScheduleConfirmationViewController" customModule="TaskScheduler" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" id="hWh-lL-vYF">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -899,8 +899,8 @@
         <image name="today_check" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lyD-iM-Nt8"/>
+        <segue reference="2cd-kk-qU1"/>
         <segue reference="kog-J1-mAU"/>
-        <segue reference="xra-a0-KPr"/>
+        <segue reference="riO-sv-9nt"/>
     </inferredMetricsTieBreakers>
 </document>

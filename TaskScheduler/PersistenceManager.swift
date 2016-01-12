@@ -14,7 +14,7 @@ import JSQCoreDataKit
 // updates about data changes from this class
 protocol PersistenceManagerDelegate: class {
     // Called whenever the underlying data changes
-    func persitenceManagerDataChanged()
+    func persistenceManagerDataChanged()
 }
 
 class PersistenceManager: NSObject {
@@ -45,13 +45,7 @@ class PersistenceManager: NSObject {
         updateLatestUser()
         
         for delegate in self.delegates {
-            dispatch_async(dispatch_get_main_queue()) {
-                // Calling this in the main queue to avoid updating the UI on
-                // a different thread, might need to change in the future so that
-                // delegates handle this themselves in a more precise fashion. But
-                // for now, I haven't noticed any performance issues.
-                delegate.persitenceManagerDataChanged()
-            }
+            delegate.persistenceManagerDataChanged()
         }
     }
 
@@ -106,9 +100,11 @@ class PersistenceManager: NSObject {
     
     // Saves the context to disk and waits for completion
     // Returns whether or not the save was successful
-    func saveDataAndWait() -> Bool {
+    func saveDataAndWait() throws {
         let saveResult = saveContextAndWait(self.coreDataStack!.managedObjectContext)
-        return saveResult.success
+        if !saveResult.success {
+            throw saveResult.error!
+        }
     }
     
     // Deletes the given objects from the context

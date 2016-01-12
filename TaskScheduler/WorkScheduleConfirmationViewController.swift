@@ -8,14 +8,16 @@
 
 import UIKit
 
-protocol ScheduleConfirmationDelegate {
-    func scheduleConfirmationComplete()
+protocol WorkScheduleConfirmationDelegate {
+    // Called when the user is done confirming the
+    // changes to their work schedule
+    func workScheduleConfirmationComplete()
 }
 
-class ScheduleConfirmationViewController: UITableViewController {
+class WorkScheduleConfirmationViewController: UITableViewController {
 
     var user: User?
-    var delegate: ScheduleConfirmationDelegate?
+    var delegate: WorkScheduleConfirmationDelegate?
     
     var workDaysToConfirm: [WorkDay] = []
     var workDayConfirmations: [Bool] = []
@@ -32,6 +34,7 @@ class ScheduleConfirmationViewController: UITableViewController {
 
         for workDay in self.user!.workDaysNotInPast {
             let workAvailableInNewSchedule = try! self.user!.totalAvailableWorkOnDate(workDay.date)
+
             if workDay.totalAvailableWork != workAvailableInNewSchedule {
                 self.workDaysToConfirm.append(workDay)
                 self.workDayConfirmations.append(true)
@@ -64,7 +67,7 @@ class ScheduleConfirmationViewController: UITableViewController {
         
         // Then let the delegate know and exit
         
-        self.delegate?.scheduleConfirmationComplete()
+        self.delegate?.workScheduleConfirmationComplete()
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -80,7 +83,7 @@ class ScheduleConfirmationViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("WorkDayConfirmationCell", forIndexPath: indexPath)
 
         let workDay = self.workDaysToConfirm[indexPath.row]
-        let dateString = ScheduleConfirmationViewController.dateFormatter.stringFromDate(workDay.date)
+        let dateString = WorkScheduleConfirmationViewController.dateFormatter.stringFromDate(workDay.date)
         let workAvailableInNewSchedule = try! self.user!.totalAvailableWorkOnDate(workDay.date)
         cell.textLabel!.text = "\(dateString)\t(\(workDay.totalAvailableWork) hours to \(workAvailableInNewSchedule))"
         

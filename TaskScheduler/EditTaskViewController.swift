@@ -126,9 +126,7 @@ class EditTaskViewController: UITableViewController, UITextFieldDelegate {
         
         // Save the context
         
-        if !self.persistenceController.saveDataAndWait() {
-            print("Couldn't save the data")
-        }
+        try! self.persistenceController.saveDataAndWait()
         
         // Peace out (in two different ways)
         

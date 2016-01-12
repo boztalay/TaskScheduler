@@ -56,7 +56,7 @@ class Scheduler {
         self.persistenceController.coreDataStack!.managedObjectContext.performBlock() {
             do {
                 try self.actuallyScheduleTasks()
-                self.persistenceController.saveDataAndWait()
+                try! self.persistenceController.saveDataAndWait()
                 
                 dispatch_async(dispatch_get_main_queue()) {
                     self.delegate?.scheduleCompleted(ScheduleStatus.Succeeded)

@@ -90,23 +90,17 @@ class CellSlideActionManager: NSObject {
     
     // Called whenever the mark complete action is triggered
     private func markCompleteActionTriggered(tableView: UITableView?, indexPath: NSIndexPath?) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.delegate?.cellSlideMarkCompleteActionTriggered(tableView!, indexPath: indexPath!)
-        }
+        self.delegate?.cellSlideMarkCompleteActionTriggered(tableView!, indexPath: indexPath!)
     }
     
     // Called whenever the mark incomplete action is triggered
     private func markIncompleteActionTriggered(tableView: UITableView?, indexPath: NSIndexPath?) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.delegate?.cellSlideMarkIncompleteActionTriggered(tableView!, indexPath: indexPath!)
-        }
+        self.delegate?.cellSlideMarkIncompleteActionTriggered(tableView!, indexPath: indexPath!)
     }
     
     // Called whenever the delete action is triggered
     private func deleteActionTriggered(tableView: UITableView?, indexPath: NSIndexPath?) {
-        dispatch_async(dispatch_get_main_queue()) {
-            self.delegate?.cellSlideDeleteActionTriggered(tableView!, indexPath: indexPath!)
-        }
+        self.delegate?.cellSlideDeleteActionTriggered(tableView!, indexPath: indexPath!)
     }
     
     // Configures the given cell to have mark complete and
