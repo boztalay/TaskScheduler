@@ -9,16 +9,15 @@
 import UIKit
 
 class GenericTaskTableViewCell: UITableViewCell {
-    
+    static let ReuseIdentifier = "GenericTaskTableViewCell"
+    private static let NibName = GenericTaskTableViewCell.ReuseIdentifier
+    static let Nib = UINib(nibName: GenericTaskTableViewCell.NibName, bundle: nil)
+
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var workLabel: UILabel!
     @IBOutlet weak var statusDot: UIView!
     @IBOutlet weak var dueByLabel: UILabel!
     @IBOutlet weak var priorityLabel: UILabel!
-    
-    static let ReuseIdentifier = "GenericTaskTableViewCell"
-    private static let NibName = GenericTaskTableViewCell.ReuseIdentifier
-    static let Nib = UINib(nibName: GenericTaskTableViewCell.NibName, bundle: nil)
     
     private static var dateFormatter: NSDateFormatter = {
         let formatter = NSDateFormatter()
@@ -30,22 +29,16 @@ class GenericTaskTableViewCell: UITableViewCell {
     }()
     
     override func awakeFromNib() {
+        // Make the dot into a circle
         self.statusDot.layer.cornerRadius = self.statusDot.frame.width / 2.0
     }
-    
-    private func setCommonTextLabelsFromTask(task: Task) {
-        self.titleLabel.text = task.title
-        self.dueByLabel.text = "Due " + GenericTaskTableViewCell.dateFormatter.stringFromDate(task.dueDate)
-        self.priorityLabel.text = "\(try! PriorityPrettifier.priorityNameFromLevel(task.priority)) Priortiy"
-    }
+
 
     func setFromTask(task: Task) {
         self.setCommonTextLabelsFromTask(task)
         
         self.workLabel.text = "\(task.workEstimate) hour"
-        if task.workEstimate != 1.0 {
-            self.workLabel.text! += "s"
-        }
+        self.pluralizeWorkLabelForWork(task.workEstimate)
         
         if task.isComplete {
             self.statusDot.backgroundColor = TaskSchedulerColors.TaskComplete
@@ -63,9 +56,7 @@ class GenericTaskTableViewCell: UITableViewCell {
         self.setCommonTextLabelsFromTask(task)
         
         self.workLabel.text = "For \(workSession.amountOfWork) hour"
-        if workSession.amountOfWork != 1.0 {
-            self.workLabel.text! += "s"
-        }
+        self.pluralizeWorkLabelForWork(workSession.amountOfWork)
         
         if workSession.hasBeenCompleted {
             self.statusDot.backgroundColor = TaskSchedulerColors.TaskComplete
@@ -73,6 +64,18 @@ class GenericTaskTableViewCell: UITableViewCell {
             self.statusDot.backgroundColor = TaskSchedulerColors.TaskDropped
         } else {
             self.statusDot.backgroundColor = TaskSchedulerColors.TaskInProgess
+        }
+    }
+    
+    private func setCommonTextLabelsFromTask(task: Task) {
+        self.titleLabel.text = task.title
+        self.dueByLabel.text = "Due " + GenericTaskTableViewCell.dateFormatter.stringFromDate(task.dueDate)
+        self.priorityLabel.text = "\(try! PriorityPrettifier.priorityNameFromLevel(task.priority)) Priortiy"
+    }
+    
+    private func pluralizeWorkLabelForWork(work: Float) {
+        if work != 1.0 {
+            self.workLabel.text! += "s"
         }
     }
     

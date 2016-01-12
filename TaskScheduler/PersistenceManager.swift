@@ -54,9 +54,7 @@ class PersistenceManager: NSObject {
             }
         }
     }
-    
-    // Adds self as an observer for the notification sent out
-    // whenever the managed object context is saved
+
     private func subscribeToDataSaves() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleManagedObjectContextDidSave:"), name: NSManagedObjectContextDidSaveNotification, object: self.coreDataStack!.managedObjectContext)
     }
@@ -85,8 +83,7 @@ class PersistenceManager: NSObject {
         // was a stored User, then it disappeared)
         self.latestUser = nil
     }
-    
-    // Returns the latest user object
+
     func getLatestUserData() -> User? {
         return self.latestUser
     }
